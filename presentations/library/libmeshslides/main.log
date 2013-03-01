@@ -1,0 +1,593 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2010.10.7)  13 OCT 2010 09:40
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**main
+(./main.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
+ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
+9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
+skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
+orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
+, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
+rtuguese, spanish, galician, catalan, swedish, ukenglish, loaded.
+(./foils.cls
+Document Class: foils 1998/08/15 v2.1.3 FoilTeX Class File, Copyright IBM 1995,
+1997,1998
+(./fltfonts.def
+File: fltfonts.def 1998/08/15 v2.1.3 FoilTeX font definition file, Copyright IB
+M 1995,1997,1998
+\symflasy=\mathgroup4
+LaTeX Info: Redefining \em on input line 243.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/fcmr/m/n on input line 245.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/fcmm/m/it on input line 246.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/fcmsy/m/n on input line 247.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/fcmex/m/n on input line 248.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/fcmr/bx/n on input line 249.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/fcmm/b/it on input line 250.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/fcmsy/b/n on input line 251.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/fcmex/m/n on input line 252.
+LaTeX Font Info:    Redeclaring math alphabet \mathrm on input line 253.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 254.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/fcmr/bx/n on input line 254.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/fcmr/bx/n on input line 254.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 255.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/fcmss/m/n on input line 255.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/fcmss/m/n on input line 255.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 256.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/fcmr/m/it on input line 256.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/fcmr/m/it on input line 256.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 257.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/fcmtt/m/n on input line 257.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/fcmtt/m/n on input line 257.
+) (./foil20.clo
+File: foil20.clo 1998/08/15 v2.1.3 FoilTeX file (size option), Copyright IBM 19
+95,1997,1998
+)
+\head@footskip=\dimen102
+\@foilheight=\dimen103
+\@foilwidth=\dimen104
+\abovetitleskip=\skip41
+\titleauthorskip=\skip42
+\authorauthorskip=\skip43
+\authordateskip=\skip44
+\dateabstractskip=\skip45
+\@tempfootbox=\box26
+\@tempfootht=\dimen105
+\bibindent=\dimen106
+\abovecaptionskip=\skip46
+\belowcaptionskip=\skip47
+\@captionwidth=\skip48
+\captionwidth=\skip49
+\abovefloatskip=\skip50
+\c@table=\count79
+\c@figure=\count80
+\foilheadskip=\skip51
+\c@Theorem=\count81
+\c@Lemma=\count82
+\c@Corollary=\count83
+\c@Proposition=\count84
+\c@Definition=\count85
+)
+(/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2009/10/09 v6.79a Hypertext links for LaTeX
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/share/texmf-texlive/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2009/01/23 v0.5 Provides ifxetex conditional
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/hycolor.sty
+Package: hycolor 2009/10/02 v1.5 Code for color options of hyperref/bookmark (H
+O)
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/xcolor-patch.sty
+Package: xcolor-patch 2009/10/02 xcolor patch
+))
+\@linkdim=\dimen107
+\Hy@linkcounter=\count86
+\Hy@pagecounter=\count87
+
+(/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2009/10/09 v6.79a Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2007/09/09 v1.2 Providing info/warning/message (HO)
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)
+(/usr/share/texmf-texlive/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2009/07/30 v1.5 Key value parser with default handler suppor
+t (HO)
+))
+Package hyperref Info: Option `bookmarks' set `true' on input line 2864.
+Package hyperref Info: Option `colorlinks' set `true' on input line 2864.
+
+
+Package hyperref Warning: Option `pagecolor' is not available anymore.
+
+Package hyperref Info: Hyper figures OFF on input line 2975.
+Package hyperref Info: Link nesting OFF on input line 2980.
+Package hyperref Info: Hyper index ON on input line 2983.
+Package hyperref Info: Plain pages OFF on input line 2990.
+Package hyperref Info: Backreferencing OFF on input line 2995.
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 3191.
+(/usr/share/texmf-texlive/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 3428.
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/bitset.sty
+Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/intcalc.sty
+Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/bigintcalc.sty
+Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2009/09/23 v0.6 LuaTeX support for pdfTeX utility functions
+ (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2009/04/17 v1.2 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2009/08/05 v1.0 Some LaTeX kernel commands for general use (HO
+)
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+)))
+\Fld@menulength=\count88
+\Field@Width=\dimen108
+\Fld@charsize=\dimen109
+\Field@toks=\toks15
+Package hyperref Info: Hyper figures OFF on input line 4377.
+Package hyperref Info: Link nesting OFF on input line 4382.
+Package hyperref Info: Hyper index ON on input line 4385.
+Package hyperref Info: backreferencing OFF on input line 4392.
+Package hyperref Info: Link coloring ON on input line 4395.
+Package hyperref Info: Link coloring with OCG OFF on input line 4402.
+Package hyperref Info: PDF/A mode OFF on input line 4407.
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
+)
+\Hy@abspage=\count89
+\c@Item=\count90
+\c@Hfootnote=\count91
+)
+*hyperref using driver hpdftex*
+(/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2009/10/09 v6.79a Hyperref driver for pdfTeX
+\Fld@listcount=\count92
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip52
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks16
+\ex@=\dimen110
+))
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen111
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count93
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count94
+\leftroot@=\count95
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count96
+\DOTSCASE@=\count97
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box27
+\strutbox@=\box28
+\big@size=\dimen112
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count98
+\c@MaxMatrixCols=\count99
+\dotsspace@=\muskip11
+\c@parentequation=\count100
+\dspbrk@lvl=\count101
+\tag@help=\toks17
+\row@=\count102
+\column@=\count103
+\maxfields@=\count104
+\andhelp@=\toks18
+\eqnshift@=\dimen113
+\alignsep@=\dimen114
+\tagshift@=\dimen115
+\tagwidth@=\dimen116
+\totwidth@=\dimen117
+\lineht@=\dimen118
+\@envbody=\toks19
+\multlinegap=\skip53
+\multlinetaggap=\skip54
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2009/06/22 v3.00
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\symAMSa=\mathgroup5
+\symAMSb=\mathgroup6
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+))
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2009/08/25 v0.04m Graphics/color for pdfTeX
+\Gread@gobject=\count105
+))
+\Gin@req@height=\dimen119
+\Gin@req@width=\dimen120
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/etc/texmf/tex/latex/config/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+) (./billfoiltex.sty
+File: billfoiltex.sty 
+) (./soul.sty
+Package: soul 2002/05/29 v2.3 letterspacing/underlining (mf)
+\SOUL@word=\toks21
+\SOUL@lasttoken=\toks22
+\SOUL@cmds=\toks23
+\SOUL@buffer=\toks24
+\SOUL@token=\toks25
+\SOUL@spaceskip=\skip55
+\SOUL@ttwidth=\dimen121
+\SOUL@uldp=\dimen122
+\SOUL@ulht=\dimen123
+)
+(/usr/share/texmf/tex/latex/texpower/texpower.sty
+Package: texpower 2005/04/08 v0.2 Create Dynamic Presentations with LaTeX.
+
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texmf-texlive/tex/latex/tools/calc.sty
+Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count106
+\calc@Bcount=\count107
+\calc@Adimen=\dimen124
+\calc@Bdimen=\dimen125
+\calc@Askip=\skip56
+\calc@Bskip=\skip57
+LaTeX Info: Redefining \setlength on input line 76.
+LaTeX Info: Redefining \addtolength on input line 77.
+\calc@Ccount=\count108
+\calc@Cskip=\skip58
+)
+(/etc/texmf/tex/latex/texpower/tpoptions.cfg)
+Package texpower Info: Producing display version. Dynamic features activated. o
+n input line 76.
+\c@tmpcnta@TP=\count109
+\c@tmpcntb@TP=\count110
+\tempdima@TP=\skip59
+\tempdimb@TP=\skip60
+\tempbox@TP=\box29
+Package color Info: Redefining color black on input line 340.
+Package color Info: Redefining color white on input line 340.
+Package color Info: Redefining color red on input line 340.
+Package color Info: Redefining color green on input line 340.
+Package color Info: Redefining color blue on input line 340.
+Package color Info: Redefining color cyan on input line 340.
+Package color Info: Redefining color magenta on input line 340.
+Package color Info: Redefining color yellow on input line 340.
+
+(/etc/texmf/tex/latex/texpower/tpcolors.cfg)
+LaTeX Info: Redefining \em on input line 561.
+\pbox@TP=\box30
+\c@stripe@TP=\count111
+\c@stripes@TP=\count112
+\c@gradprogression@TP=\count113
+\c@dgradhslope@TP=\count114
+\c@dgradvslope@TP=\count115
+\bgndbox@TP=\box31
+\mempageconts@TP=\box32
+\memfootins@TP=\insert233
+\memoutput@TP=\toks26
+\c@totalsteps=\count116
+\c@firststep=\count117
+\c@step=\count118
+\c@stepcommand=\count119
+\c@stepsperformed=\count120
+\highlightboxsep=\skip61
+\c@substep=\count121
+\c@o@fs@TP=\count122
+\ep@TP=\toks27
+\texpower@verbatimfileout=\write3
+
+(/etc/texmf/tex/latex/texpower/tpsettings.cfg))
+\GPT@outputbox=\box33
+
+(/usr/share/texmf-texlive/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks28
+\verbatim@line=\toks29
+\verbatim@in@stream=\read1
+)
+(/usr/share/texmf-texlive/tex/latex/tools/layout.sty
+Package: layout 2000/09/25 v1.2c Show layout parameters
+\oneinch=\count123
+\cnt@paperwidth=\count124
+\cnt@paperheight=\count125
+\cnt@hoffset=\count126
+\cnt@voffset=\count127
+\cnt@textheight=\count128
+\cnt@textwidth=\count129
+\cnt@topmargin=\count130
+\cnt@oddsidemargin=\count131
+\cnt@evensidemargin=\count132
+\cnt@headheight=\count133
+\cnt@headsep=\count134
+\cnt@marginparsep=\count135
+\cnt@marginparwidth=\count136
+\cnt@marginparpush=\count137
+\cnt@footskip=\count138
+\fheight=\count139
+\ref@top=\count140
+\ref@hoffset=\count141
+\ref@voffset=\count142
+\ref@head=\count143
+\ref@body=\count144
+\ref@foot=\count145
+\ref@margin=\count146
+\ref@marginwidth=\count147
+\ref@marginpar=\count148
+\Interval=\count149
+\ExtraYPos=\count150
+\PositionX=\count151
+\PositionY=\count152
+\ArrowLength=\count153
+)
+\sizewidelen=\skip62
+ (./format5.tex)
+No file main.aux.
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+Package hyperref Info: Link coloring ON on input line 65.
+(/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
+Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
+Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
+)
+\c@section@level=\count154
+)
+LaTeX Info: Redefining \ref on input line 65.
+LaTeX Info: Redefining \pageref on input line 65.
+\@outlinefile=\write4
+\openout4 = `main.out'.
+
+\AtBeginShipoutBox=\box34
+
+(/usr/share/texmf/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count155
+\scratchdimen=\dimen126
+\scratchbox=\box35
+\nofMPsegments=\count156
+\nofMParguments=\count157
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count158
+\MPscratchDim=\dimen127
+\MPnumerator=\count159
+\everyMPtoPDFconversion=\toks31
+) (./fourth_slides.tex
+LaTeX Font Info:    Try loading font information for U+msa on input line 3.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 3.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+) [0
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+<figs/Re500Eta10AdaptiveVorticity.png, id=13, 496.85625pt x 498.86375pt>
+File: figs/Re500Eta10AdaptiveVorticity.png Graphic file (type png)
+
+<use figs/Re500Eta10AdaptiveVorticity.png>
+<figures/word3.png, id=15, 513.92pt x 256.96pt>
+File: figures/word3.png Graphic file (type png)
+ <use figures/word3.png>
+[1 <./figures/word3.png> <./figs/Re500Eta10AdaptiveVorticity.png (PNG copy)>]
+File: figures/word3.png Graphic file (type png)
+
+<use figures/word3.png> [2]
+<figs/Re500Eta10AdaptiveAll.png, id=40, 903.375pt x 702.625pt>
+File: figs/Re500Eta10AdaptiveAll.png Graphic file (type png)
+
+<use figs/Re500Eta10AdaptiveAll.png>
+File: figures/word3.png Graphic file (type png)
+ <use figures/word3.png> [3 <./figs/Re500Eta10AdaptiveAll.png (PNG copy)>]
+<figs/cavityerror.pdf, id=51, 499.8675pt x 407.5225pt>
+File: figs/cavityerror.pdf Graphic file (type pdf)
+
+<use figs/cavityerror.pdf>
+File: figures/word3.png Graphic file (type png)
+ <use figures/word3.png> [4 <./figs/cavityerror.pdf>] <figs/hierarchic.pdf, id=
+92, 930.47626pt x 224.84pt>
+File: figs/hierarchic.pdf Graphic file (type pdf)
+
+<use figs/hierarchic.pdf>
+File: figures/word3.png Graphic file (type png)
+ <use figures/word3.png> [5 <./figs/hierarchic.pdf>]
+File: figures/word3.png Graphic file (type png)
+
+<use figures/word3.png> [6]
+<figs/triangles.pdf, id=115, 898.35625pt x 329.23pt>
+File: figs/triangles.pdf Graphic file (type pdf)
+ <use figs/triangles.pdf>
+File: figures/word3.png Graphic file (type png)
+
+<use figures/word3.png> [7 <./figs/triangles.pdf>]
+<figs/Basis_psrt.pdf, id=127, 470.75874pt x 379.4175pt>
+File: figs/Basis_psrt.pdf Graphic file (type pdf)
+
+<use figs/Basis_psrt.pdf>
+File: figures/word3.png Graphic file (type png)
+ <use figures/word3.png> [8 <./figs/Basis_psrt.pdf>]
+<figs/Basis_hrt.pdf, id=146, 470.75874pt x 379.4175pt>
+File: figs/Basis_hrt.pdf Graphic file (type pdf)
+
+<use figs/Basis_hrt.pdf>
+File: figures/word3.png Graphic file (type png)
+ <use figures/word3.png> [9 <./figs/Basis_hrt.pdf>]
+<figs/Basis_ctrt.pdf, id=165, 482.80376pt x 393.47pt>
+File: figs/Basis_ctrt.pdf Graphic file (type pdf)
+
+<use figs/Basis_ctrt.pdf>
+File: figures/word3.png Graphic file (type png)
+ <use figures/word3.png> [10 <./figs/Basis_ctrt.pdf>]
+<figs/adaptive_psh12.pdf, id=184, 373.395pt x 261.97874pt>
+File: figs/adaptive_psh12.pdf Graphic file (type pdf)
+
+<use figs/adaptive_psh12.pdf>
+<figs/hanging_node.pdf, id=185, 301.125pt x 231.86626pt>
+File: figs/hanging_node.pdf Graphic file (type pdf)
+
+<use figs/hanging_node.pdf>
+File: figures/word3.png Graphic file (type png)
+ <use figures/word3.png> [11 <./figs/adaptive_psh12.pdf> <./figs/hanging_node.p
+df>]
+<figs/adaptive.pdf, id=199, 347.2975pt x 348.30125pt>
+File: figs/adaptive.pdf Graphic file (type pdf)
+ <use figs/adaptive.pdf>
+File: figures/word3.png Graphic file (type png)
+
+<use figures/word3.png> [12 <./figs/adaptive.pdf>]
+File: figures/word3.png Graphic file (type png)
+ <use figures/word3.png>
+[13]pdfTeX warning (ext4): destination with the same identifier (name{Solution\
+040Projections.0}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.230 \begin{foil}{Solution Projections}
+                                        
+File: figs/adaptive.pdf Graphic file (type pdf)
+ <use figs/adaptive.pdf>
+File: figures/word3.png Graphic file (type png)
+
+<use figures/word3.png> [14])
+File: figures/word3.png Graphic file (type png)
+ <use figures/word3.png> [15] (./main.aux) ) 
+Here is how much of TeX's memory you used:
+ 7112 strings out of 493857
+ 104296 string characters out of 1153305
+ 180607 words of memory out of 3000000
+ 10231 multiletter control sequences out of 15000+50000
+ 11370 words of font info for 45 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 38i,9n,29p,280b,332s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/public/a
+msfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/
+cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/tex
+mf-texlive/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texmf-texlive/
+fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/a
+msfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+mtt10.pfb>
+Output written on main.pdf (16 pages, 596171 bytes).
+PDF statistics:
+ 282 PDF objects out of 1000 (max. 8388607)
+ 47 named destinations out of 1000 (max. 500000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+

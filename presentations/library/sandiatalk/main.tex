@@ -1,0 +1,48 @@
+\input{usebeamer}
+%\input{usebillfoil}
+
+
+\include{macros}
+
+\title{libMesh Finite Element Library}
+%\maketitle
+
+\begin{frame}
+  \titlepage
+  \begin{picture}(100,100)
+    \put(0,150){\includegraphics[viewport=0 0 470 400,clip=true,width=.3\textwidth]{figs/Benkirk_orbiter_reentry_side_view}}
+    \put(220,150){\includegraphics[viewport=0 0 350 300,clip=true,width=.3\textwidth]{figs/Hypersonic_cow_mach}}
+  \end{picture}
+\end{frame}
+
+\include{intro}
+\include{semi_intro}
+\include{oop}
+\include{dofs}
+\include{parallel}
+\include{software}
+\include{poisson}
+\include{other}
+\include{bcs}
+%\include{extensions} 
+\section{Examples}
+\subsection{Fluid Dynamics}
+\include{ly}
+\include{hsp}
+\include{rayleigh}
+\include{marangoni}
+\include{solute}
+\subsection{Biology}
+\include{tumor}
+%\include{macroelement}
+%\include{adaptivity}
+\subsection{Material Science}
+\include{cahn}
+\include{cahnexamples}
+\include{summary}
+
+\end{document}
+
+
+
+

@@ -1,0 +1,26 @@
+
+Degree of Freedom handling
+
+  Lagrange vs. topological grid points
+
+  Examples: hierarchical, Clough-Tocher elements
+
+Hanging node constraints
+
+  Hanging degrees of freedom
+
+  Constraint matrix calculations
+  
+C1 elements
+
+  Macroelements
+
+Projection operators
+
+Multigrid?
+
+HP adaptivity?
+
+Anisotropic adaptivity?
+
+

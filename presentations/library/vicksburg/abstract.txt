@@ -1,0 +1,14 @@
+Title: AMR Infrastructure expansion, adding complexity, examples
+
+Abstract:
+In this talk I will continue to discuss expansion of the
+infrastructure for parallel adaptive HPC simulations introduced in the
+preceeding lectures and again use libmesh as a case study to
+illustrate the approaches. Some particular aaspects to be covered
+include:Numerical Jacobians for calculation and software
+validation;Object Oriented decomposition of transient boundary value
+problem solvers;Adaptive Refinement / Coarsening strategies;C1
+elements and macroelements;Techniques for hanging node constraints and
+refinement/coarsening projections on general elements. Application
+studies will be employed to demonstrate the schemes and algorithm
+extensions.

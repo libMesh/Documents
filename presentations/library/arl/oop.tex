@@ -1,0 +1,86 @@
+
+\section{Object Models}
+      
+\begin{frame}[<+->]
+\frametitle{Object Oriented Programming}
+
+  \royitemizebegin{OOP Fundamentals}
+    \item Abstract Base Classes define user interfaces
+    \item Concrete Subclasses implement functionality
+    \item Interface user can choose any implementation
+  \royitemizeend
+\end{frame}
+
+\subsection{Core Classes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Geometric Element Classes}
+
+\begin{minipage}[h]{.45\textwidth}
+\begin{center}
+\includegraphics[width=.9\textwidth]{figs/DofObjects}
+\end{center}
+\end{minipage}
+\begin{minipage}[h]{.45\textwidth}
+\royitemizebegin{}
+\item Abstract interface gives mesh topology
+\item Concrete instantiations of mesh geometry
+\item Hides element type from most applications
+\royitemizeend
+\end{minipage}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Finite Element Classes}
+
+\begin{minipage}[h]{.45\textwidth}
+\begin{center}
+\includegraphics[width=.9\textwidth]{figs/FE}
+\end{center}
+\end{minipage}
+\begin{minipage}[h]{.45\textwidth}
+\royitemizebegin{}
+\item Finite Element object builds data for each geometric Elem object
+\item User only deals with shape function, quadrature data
+\royitemizeend
+\end{minipage}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Quadrature Rule Classes}
+
+\begin{minipage}[h]{.45\textwidth}
+\begin{center}
+\includegraphics[width=.9\textwidth]{figs/Quadrature}
+\end{center}
+\end{minipage}
+\begin{minipage}[h]{.45\textwidth}
+\royitemizebegin{}
+\item Takes p refinement level from FE, geometric Elem objects
+\item Builds requested quadrature rule for FE object
+\item Caching for repeated use
+\royitemizeend
+\end{minipage}
+
+\end{frame}
+
+\commentout{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Core Features}
+
+\royitemizebegin{}
+\item Mixed element geometries in unstructured grids
+\item Adaptive mesh h refinement with hanging nodes, p refinement
+\item Integration w/ PETSc, LASPack, METIS, ParMETIS, Triangle, TetGen
+\item Support for UNV, ExodusII, Tecplot, GMV, UCD files
+\item Mesh creation, modification utilities
+\royitemizeend
+
+\end{frame}
+}

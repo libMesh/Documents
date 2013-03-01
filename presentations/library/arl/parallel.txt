@@ -1,0 +1,30 @@
+%FEM steps
+%  mesh generation
+%  I/O
+%  constraint calculations
+%  sparsity pattern computations
+%  assemblies
+%  solves
+%  refinement flagging
+%  AMR/C
+%  projections
+%  mesh movement
+%  repartitioning
+%Parallelism opportunities (simulation (e.g. Monte Carlo),
+%  element/partition, quadrature point, index...)
+MeshBase API, UnstructuredMesh branch node
+Mesh iterators
+Node, neighbor, etc pointers
+remote_elem
+_/ What container for Elem/Elem*?
+_/  mapvector details
+_/ SerialMesh vs ParallelMesh
+Benchmarks?
+Parallel debugging
+Brief mention of I/O?
+_/ Parallel:: encapsulation
+Problems with MPI communications:
+  Separate send/receive buffers
+  No "locks"
+_/ Round-robin send/receive loops
+_/ Global indexing calculations

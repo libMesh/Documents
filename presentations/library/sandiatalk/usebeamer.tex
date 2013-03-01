@@ -1,0 +1,44 @@
+\documentclass[
+  compress
+  %,handout
+  ,12pt
+]{beamer}
+%\usepackage[bookmarks=true,colorlinks=true,linkcolor=black,filecolor=blue,pagecolor=black,urlcolor=black]{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{mathrsfs}
+
+\usetheme{Darmstadt}
+\usecolortheme{sidebartab}
+%\usecolortheme{rose}
+\usepackage{times}
+\usepackage{units}
+
+\usepackage{mathrsfs}
+\usepackage{diss}
+
+\usepackage{subfigure}
+
+\usefonttheme[onlymath]{serif}
+
+\author{Roy Stogner \\ \texttt{\tiny roystgnr@cfdlab.ae.utexas.edu}\\ \and Derek Gaston \\ \texttt{\tiny drgasto@sandia.gov}}
+\institute[UT/Sandia]
+{
+  \inst{1}Univ.\ of Texas at Austin
+  \and
+  \inst{2}Sandia National Laboratories\\ Albuquerque,NM
+}
+
+%{Computational Fluid Dynamics Lab
+%\\ Institute for Computational Engineering and Sciences
+%\\ University of Texas at Austin}
+\date{August 22, 2007}
+
+\logo{\includegraphics[width=.5in]{figs/cfdlab}}
+
+\begin{document}
+
+\newcommand{\royslide}[2]{\frame{ \frametitle{#1} #2 }}
+\newcommand{\royitemizebegin}[1]{\begin{block}{#1} \begin{itemize}}
+\newcommand{\royitemizeend}{\end{itemize} \end{block}}

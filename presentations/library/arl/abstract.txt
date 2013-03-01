@@ -1,0 +1,27 @@
+Title: Object Oriented Boundary Value Problem Abstractions
+
+Abstract:
+This talk will discuss abstract representations of systems of
+equations, nonlinear solvers, finite element spaces and time
+discretization algorithms, adaptivity strategies, and other components
+of a code to solve a typical transient boundary value problem.  The
+use of object oriented programming to help modularize these components
+will be explained, with example class inheritance diagrams based on
+libMesh.  The implications for software validation, rapid prototyping, 
+and research experimentation will be demonstrated with example
+application studies.
+
+
+Title: Parallelism on Adaptive Unstructured Meshes
+
+Abstract:
+As parallel computing becomes a fixture in even the desktop
+environment, supercomputers are growing from thousands to tens of
+thousands of nodes.  Serial algorithms and serialized data structures
+which are effective on a few or a few dozen nodes can become
+bottlenecks as the number of processors scales up.  This talk will
+describe some of the parallel algorithms and distributed data
+structures under recent development in libMesh.  The interaction of
+parallel mesh distribution with adaptive mesh refinement and
+coarsening, degree of freedom ordering, and application-level code
+will be discussed.

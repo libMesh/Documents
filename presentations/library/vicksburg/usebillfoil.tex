@@ -1,0 +1,72 @@
+\documentclass[landscape,pdftex,headrule,footrule]{foils}
+\usepackage[bookmarks=true,colorlinks=true,linkcolor=black,filecolor=blue,pagecolor=black,urlcolor=black]{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[pdftex]{graphicx}
+\usepackage{color}
+\usepackage{url}
+%\usepackage{citesort}
+\usepackage{billfoiltex}
+\usepackage{soul}
+\usepackage[display,coloremph,colormath]{texpower}
+\usepackage{verbatim}
+\usepackage{layout}
+
+
+\setlength\textheight{7.25in}
+\setlength\textwidth{9.5in}
+\setlength\oddsidemargin{-.25in}
+\setlength\marginparwidth{.5in}
+\setlength\topmargin{-.75in}
+\setlength\headheight{.75in}
+\setlength\headsep{-.4in}
+\setlength\footskip{.4in}
+\setlength\foilheadskip{0in}
+
+
+
+%\renewcommand{\labelitemii}{\color{red}{$\rightarrow$}}
+%\renewcommand{\labelitemiii}{\color{black}{$\boldsymbol{\cdot}$}}
+
+\newlength{\sizewidelen}
+% This makes the normal text version spaced equivalently to the bold face
+% version.. Needed for highlighting to work nicely.
+\newcommand{\sizewide}[1]{\settowidth{\sizewidelen}{{\bf #1}}\makebox[\sizewidelen][l]{#1}}
+% Only display on the first step. 
+\newcommand{\FirstOnly}[2]{\switch{#1}{\ifthenelse{\boolean{firstactivation}}{#2}{#1}}}
+% Provides a List with descriptions \Firstonly{Header}{Description} that
+% will be cycled through.
+\newcommand{\ProgressItem}[2]{\FirstOnly{\textcolor[rgb]{0.5,0.5,0.5}{\sizewide{#1}}}{{\color{red}{#1}}\\{\color{black}#2}}}
+% Simpler to \ProgressItem but ensures the "correct" amount of space
+% after each item so that nothing moves between steps
+% ( This command used to use phantom but it never worked correctly... )
+\newcommand{\PIWPhant}[2]{\FirstOnly{\textcolor[rgb]{0.5,0.5,0.5}{\sizewide{#1}}\\\textcolor{pagecolor}{#2}}{{\color{red}{\bf #1}}\\{\color{black}#2}}}
+\DeclareRobustCommand{\Cpp}{\hbox{\textsf{C\kern-.1em}\raise.3ex\hbox{\tiny{+}}\raise.3ex\hbox{\tiny{+}}}}
+
+
+\author{\vspace{0.25in} \\ Roy Stogner
+\vspace{0.25in} \\ Computational Fluid Dynamics Lab
+\vspace{0.25in} \\ Institute for Computational Engineering and Sciences
+\vspace{0.25in} \\ University of Texas at Austin}
+\date{\vspace{.75in} December, 2006}
+\hyperbaseurl{http://cfdlab.ae.utexas.edu/~roystgnr}
+\MyLogo{\href{http://cfdlab.ae.utexas.edu/~roystgnr}{\texttt{roystgnr@cfdlab.ae.utexas.edu}}}
+
+\leftheader{\href{http://cfdlab.ae.utexas.edu}{\includegraphics[height=\headheight]{figs/cfdlab}}}
+%\rightheader{\large{FEF05}}
+%\rightheader{\includegraphics[height=\headheight]{figs/box_v}}
+\rightheader{}
+\rightfooter{\thepage}
+
+\newcommand{\tightlist}{\itemsep=-1pt }
+
+
+\input format5
+
+\begin{document}
+\raggedright
+%\layout
+
+\newcommand{\royslide}[2]{\begin{foil}{#1} #2 \end{foil}}
+\newcommand{\royitemizebegin}{\begin{itemize}}
+\newcommand{\royitemizeend}{\end{itemize}}

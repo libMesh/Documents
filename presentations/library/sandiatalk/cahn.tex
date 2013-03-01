@@ -1,0 +1,21 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{Free Energy Formulation}{
+
+Cahn-Hilliard systems model phase separation and interface
+evolution
+
+\begin{eqnarray*}
+f(c, \nabla c) & \equiv & f_0(c) + f_\gamma(\nabla c) \\
+f_\gamma(\nabla c) & \equiv & \frac{\epsilon_c^2}{2} \nabla c \cdot \nabla c \\
+%f_{0m}(c) & \equiv & \frac{1}{4} \left( c^2 - 1 \right)^2 \\
+f_0(c) & \equiv & N k T \left( c \ln{(c)} + 
+(1-c) \ln{(1-c)} \right) + 
+N \omega c (1-c)
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\dt{c} & = & \nabla \cdot M_c \nabla
+  \left( f_0'(c) - \epsilon_c^2 \Laplacian c \right)
+\end{eqnarray*}
+}
+

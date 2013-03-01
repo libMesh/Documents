@@ -1,0 +1,41 @@
+      
+\begin{frame}[<+->]
+\frametitle{libMesh Parallelization}
+
+  \begin{block}{Parallel code}
+  \begin{itemize}
+    \item{PetscVector, DistributedVector classes for Linear Algebra}
+    \item{Parallel assembly, error indicators, etc.}
+    \item{Mesh partitioning with ParMETIS, etc.}
+  \end{itemize}
+  \end{block}
+
+  \begin{block}{Serial code}
+  \begin{itemize}
+    \item{Mesh storage on every node}
+    \item{DoF renumbering, constraint calculations}
+    \item{Refinement/Coarsening flagging}
+    \item{Mesh, solution I/O}
+  \end{itemize}
+  \end{block}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{ParallelMesh}
+
+  \begin{block}{Parallel subclassing of MeshBase}
+  \begin{itemize}
+    \item{Start from unstructured Mesh class}
+    \item{Add methods to delete, reconstruct non-semilocal Elem and Node objects}
+    \item{Parallelize DofMap methods}
+    \item{Parallelize MeshRefinement methods}
+    \item{Add parallel or chunked I/O support}
+    \item{Add load balancing support}
+  \end{itemize}
+  \end{block}
+
+Also want parallel BoundaryInfo, BoundaryMesh, Data, Function, Generation,
+Modification, Smoother, and Tools classes
+
+\end{frame}

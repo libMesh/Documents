@@ -1,0 +1,11 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesFile{billfoiltex.sty}
+
+\newenvironment{foil}[2][\foilheadskip]
+{
+  \foilhead[#1]{\Large{#2}}
+%  \addcontentsline{toc}{section}{#2}
+  \pdfbookmark[0]{#2}{#2}
+}{}
+
+

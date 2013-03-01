@@ -1,0 +1,113 @@
+\documentclass[
+  compress
+  ,12pt
+  %,draft
+  %,handout % I don't see how this could ever work for my presentation!
+]{beamer}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LaTeX package inclusion %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{times}
+\usepackage{units}
+\usepackage{mathrsfs}
+\usepackage{diss} % defines \bv and some other stuff
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multimedia}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+\usepackage{hyperref}
+\usepackage{multimedia}
+
+
+
+
+ \usefonttheme[
+   onlymath
+ ]{serif} %onlymath option doesn't look too bad, eqns are more readable this way.
+
+
+\usetheme{Darmstadt}
+\usecolortheme{orchid} % white on dark block titles.  use w/ whale.
+\usecolortheme{whale} % darkest top titles, usually used by CFDLab presenters
+\setbeamertemplate{itemize items}[circle]% Force any theme (eg Antibes) to use circle bullets
+%\useinnertheme[shadow]{rounded} % Causes itemize blocks to have rounded corners & drop shadows
+\logo{\includegraphics[width=.5in]{figures/word3}}
+%\setbeamercolor{title}{fg=red!80!black,bg=red!20!white} %pink title!
+
+\title{LibMesh Experience and Usage}
+\author[JW Peterson, RH Stogner]{John W.\ Peterson \\ \texttt{\tiny
+peterson@cfdlab.ae.utexas.edu} \\ and Roy H.\ Stogner \\ \texttt{\tiny roystgnr@cfdlab.ae.utexas.edu}}
+\institute[UT-Austin]{Univ.\ of Texas at Austin}
+\date{September 9, 2008}
+
+%\AtBeginSection[]{\frame{\tableofcontents[current]}}
+
+% Dr. Carey's Notes:
+% I had in mind some of the material we have in the Libmesh papers well 
+% as  from the perspective of:(1) a very knowlegable  developer,(2) 
+% installing an application with experience (3)  applying an 
+% application for parametric runs  with some examples. perhaps some of 
+% the issues encounter, as in all such codes like stopping criteria for 
+% adaptive refinement, selection of error indicators, flexibility in 
+% model adaption, ( adding terms, modifying constitutive models etc). 
+% perhaps something on the coarsening /refining ; one level exceptions 
+% etc. it would be helpful if you, Ben and Roy coordinated this. 
+% Someone should talk about PETSc, partitioning etc. Someone about 
+% memory restrictions etc. Strengths and limitations.  examples, couple 
+% of movies etc etc
+
+
+% Abstract:
+% This talk will focus on several of the practical aspects involved in
+% using the LibMesh library for finite element analysis.  The topics
+% covered will include: the steps in going from a mathematical model
+% (PDE) to a working implementation (code), stopping criteria for
+% adaptive refinement, the selection of error indicators, and model
+% adaptation (adding terms, changing constitutive laws, etc).  The
+% strengths, weaknesses, and current limitations of the library will
+% be discussed in the same practical context.  Finally, some additional
+% examples giving a flavor of the types of applications which have
+% already been developed around the library will be given.
+\setbeamercovered{transparent}
+
+
+\newcommand{\R}{\mathscr{R}}
+\newcommand{\LibMesh}{\texttt{Lib\-Mesh}}
+
+\begin{document}
+
+
+  
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\input{intro}
+\input{applications}
+\input{rayleigh}
+\input{marangoni}
+\input{solute}
+\input{tumor}
+\input{cahn}
+\input{hsp}
+\input{wrs}
+\input{poisson}
+\input{other}
+\input{bcs}
+\input{extensions}
+\input{references}
+
+\end{document}
+
+
+
+
+
+
+% LocalWords:  rcl fv Nonlinearity

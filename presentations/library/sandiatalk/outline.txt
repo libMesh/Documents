@@ -1,0 +1,36 @@
+On 8/10/07, Roy Stogner <roystgnr@ices.utexas.edu> wrote:
+> On Fri, 10 Aug 2007, Derek Gaston wrote:
+>
+> > Ok... how about this outline then:
+> >
+> > 1. General Overview
+>
+> There ought to be something on the development model; the open source
+> thing has been helpful for a few key features.
+>
+> > 2. Object Model
+> >  - Mesh (Node, Point, etc)
+> >  - Elements (both geometric and FE)
+> >  - Systems and EquationSystems
+> >  - TimeSolver objects
+> > 3. Finite Element Capabilities
+> >  - Degree of Freedom Handling
+>
+>     - Adaptive Mesh Refinement/Coarsening
+>
+> >  - Projections for hanging nodes
+> >  - Parallel Operation
+> >  - Infinite Elements (Including discussion of plans to fully parallelize it)
+>
+> Don't advertise too much about infinite elements.  We'll mention them,
+> and mention the parallelism, sure.  They're a relatively unique
+> libMesh capability, but I don't know if any current users use them,
+> and there may have been regressions in the code.
+>
+> >  - Performance Logging
+> > 4. Examples
+> >  - Simple example showing actually showing the assembly loop
+> >  - 2D Compressible Flow with shocks
+> >  - Laplace Young
+> >  - One of your 4th order problems
+> >  - Other stuff

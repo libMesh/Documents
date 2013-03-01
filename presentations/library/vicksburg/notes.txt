@@ -1,0 +1,9 @@
+
+General finite element types
+Topological degree of freedom handling
+Hierarchic bases
+Adaptive p refinement
+Projection-based hanging node constraints
+General projection operators
+
+
