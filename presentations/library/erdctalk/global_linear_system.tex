@@ -1,0 +1,35 @@
+\subsection*{Global Linear System}
+\begin{frame}%[<+->]
+  %  \frametitle{Poisson Equation}
+  \begin{itemize}
+    \visible<1->{
+    \item{
+      The entries of the element stiffness matrix are the integrals
+      \begin{equation}
+	\nonumber
+	\bv{K}^e_{ij} := 
+	\int_{\Omega_e}
+	\nabla \phi_j \cdot \nabla \phi_i \;dx
+      \end{equation}
+    }
+    }
+    \visible<2->{
+    \item{ While for the element right-hand side we have 
+      \begin{equation}
+	\nonumber
+	\bv{F}^e_{i} := 
+	\int_{\Omega_e} f \phi_i \;dx
+      \end{equation}
+    }
+    }
+    \visible<3>{
+    \item{ The element stiffness matrices and right-hand sides can be ``assembled'' to 
+      obtain the global system of equations
+      \begin{equation}
+	\nonumber
+	\bv{K} \bv{U} = \bv{F}
+      \end{equation}    
+    }
+    }
+  \end{itemize}
+\end{frame}

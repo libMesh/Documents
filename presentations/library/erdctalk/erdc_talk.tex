@@ -1,0 +1,178 @@
+\documentclass[
+  compress
+  ,12pt
+  %,draft
+  %,handout % I don't see how this could ever work for my presentation!
+]{beamer}
+
+%%% Unknown packages
+%\usepackage{beamerthemesplit}
+%\usepackage{times}
+
+% Provides script capital letters for math
+\usepackage{mathrsfs}
+%\usepackage{diss}
+%\usepackage{verbatim}
+
+\newcommand{\bv}[1]{{\boldsymbol{#1}}}
+
+%%% Fonts. Default font is computer modern
+%\usefonttheme{default}
+%\usefonttheme{professionalfonts} %allows you to use an external font w/o beamer replacements
+
+
+%\usefonttheme[onlylarge]{serif}
+
+%%  \usefonttheme[
+%%    %onlysmall,
+%%    onlylarge
+%%    ] {structureitalicserif} %typesets structural text in italics with serifs
+
+%% \usefonttheme[
+%%   %onlysmall,
+%%   onlylarge
+%%   ] {structuresmallcapsserif} %Doesn't look too bad with onlylarge set
+
+ \usefonttheme[
+   % stillsansserifmath,
+   % stillsansserifsmall,
+   % stillsansseriftext,
+   onlymath
+ ]{serif} %onlymath option doesn't look too bad, eqns are more readable this way.
+
+
+%%% Font families
+%\usepackage{mathptmx} % not avail?
+%\usepackage{helvet} % Helvetica is the standard sansserif font if you do not use the serif theme
+%\usepackage{avant}   % fat, bubble-like sans serif letters
+%\usepackage{chancery} % not available?
+%\usepackage{utopia}  % not available?
+%\usepackage{charter} % n/a
+%\usepackage{times}
+
+% A computer modern font available in T1 encoding.  As far as I
+% can tell it doesn't look much different.
+%\usepackage{lmodern}
+%\usepackage[T1]{fontenc}
+
+
+
+%%% Control the position of progress bars, titles, subtitles, etc. 
+%\usetheme{default} % No navigation bars!
+%\usetheme{boxes} % puts a box a in the head and footline, looks like default unless
+                 % you also use \addheadbox and \addfootbox
+%\usetheme{Bergen} % huge left-hand column. informal feel
+%\usetheme{Boadilla} % shows page count at bottom.  requires institute
+%\usetheme{Madrid} % Like Boadilla, but more color contrast
+%\usetheme{Pittsburgh} % right-flushed titles, otherwise very sparse
+%\usetheme{Rochester}  % Huge title bars dominating the slide. square corners, no drop shadows
+%\usetheme{Antibes}     % Large, Tree-based navigation at the top with sharp corners. Not bad
+%\usetheme{JuanLesPins}  % Smooth version of Antibes, no lines in nav tree.
+%\usetheme{Montpellier}  % To me, it looks like Antibes.  No box backgrounds.
+%\usetheme{Darmstadt} %fuzzy top title bars, drop shadows, circle bullets,
+                     % no side column. The top title is very busy
+%\usetheme{Frankfurt}  % fuzzy title bars running across
+                      % the top only, circular bullets, drop shadows,
+                      % colored blocks with rounded corners, pretty nice
+%\usetheme{Warsaw}  % Centrally divided top menu, no progress bullets, top
+                   % of the screen is a bit busy but otherwise nice
+%\usetheme{Berlin} % Square edges and bullets, no drop shadows, no rounded blocks
+%\usetheme{Ilmenau} % Similar to Berlin, mini-nav frame, no drop shadows, rounded corners
+%\usetheme{Dresden} % Like Berlin, but no block outlines. minimal context, lots of nav, but not bad
+\usetheme{Darmstadt} % Berlin with no bottom nav and rounded blocks, pretty nice, a bit too much at top though
+%\usetheme{Frankfurt} % Very nice! Like Darmstadt but with less nav at the top
+%\usetheme{Singapore} % top title bar has a faded appearance, centered title names, minimal bullets.
+%\usetheme{Szeged} % Lots of horizontal lines. Pretty nice but too cluttered at the top
+
+% \usetheme{Berkeley} %side-bar menu screws up the spacing of slides somewhat, use with sidebartab
+% \usecolortheme{sidebartab} % You really can't have long section names for this one
+
+%\usetheme{Copenhagen} % tabular navigation, flat look (no shadows) too much top clutter
+%\usetheme{Malmoe} % top cluttered
+%\usetheme{Luebeck} % top cluttered
+%\usetheme{Warsaw} % top is cluttered and even has a drop shadow
+
+
+% \usetheme{Goettingen} % Looks like Berkely, but less obtrusive nav bar is on the right
+% \usecolortheme{sidebartab} % Used with sidebartab, it's really not bad
+
+%\usetheme{Marburg} % A more dominant Goettingen, harder to read sidebar
+
+%\usetheme{Hannover} % right flush titles, left-side nav, top looks a little empty
+
+% This color theme works with all themes that show a table of contents in the sidebar.
+\usecolortheme{sidebartab} 
+
+%%% Color Themes: Make your colors bolder or more muted
+%\usecolortheme{seahorse} % outer color theme, muted grey, a really nice one!, use with rose
+                          % or lilly inner color themes
+%\usecolortheme{rose}      % dark blue with relatively stark constrast levels
+%\usecolortheme{lily}       % as above, but blocks do not have backround color
+\usepackage{times}
+\usepackage{units}
+
+\setbeamercovered{invisible}
+\logo{\includegraphics[width=.5in]{figures/word3}}
+%\setbeamercolor{title}{fg=red!80!black,bg=red!20!white}
+
+\title{LibMesh Experience and Usage}
+\author{John W.\ Peterson \\ \texttt{\tiny peterson@cfdlab.ae.utexas.edu}}
+\institute[UT-Austin]{Univ.\ of Texas at Austin}
+\date{January 12, 2007}
+
+%\AtBeginSection[]{\frame{\tableofcontents[current]}}
+
+% Dr. Carey's Notes:
+% I had in mind some of the material we have in the Libmesh papers well 
+% as  from the perspective of:(1) a very knowlegable  developer,(2) 
+% installing an application with experience (3)  applying an 
+% application for parametric runs  with some examples. perhaps some of 
+% the issues encounter, as in all such codes like stopping criteria for 
+% adaptive refinement, selection of error indicators, flexibility in 
+% model adaption, ( adding terms, modifying constitutive models etc). 
+% perhaps something on the coarsening /refining ; one level exceptions 
+% etc. it would be helpful if you, Ben and Roy coordinated this. 
+% Someone should talk about PETSc, partitioning etc. Someone about 
+% memory restrictions etc. Strengths and limitations.  examples, couple 
+% of movies etc etc
+
+
+% Abstract:
+% This talk will focus on several of the practical aspects involved in
+% using the LibMesh library for finite element analysis.  The topics
+% covered will include: the steps in going from a mathematical model
+% (PDE) to a working implementation (code), stopping criteria for
+% adaptive refinement, the selection of error indicators, and model
+% adaptation (adding terms, changing constitutive laws, etc).  The
+% strengths, weaknesses, and current limitations of the library will
+% be discussed in the same practical context.  Finally, some additional
+% examples giving a flavor of the types of applications which have
+% already been developed around the library will be given.
+\setbeamercovered{transparent}
+
+
+\newcommand{\R}{\mathscr{R}}
+\newcommand{\LibMesh}{\texttt{Lib\-Mesh}}
+
+\begin{document}
+
+
+  
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\include{intro}
+\include{wrs}
+\include{poisson}
+\include{other}
+\include{bcs}
+\include{extensions}
+\include{rayleigh}
+\include{marangoni}
+\include{solute}    
+\include{tumor}    
+\include{references}
+\end{document}
+
+% LocalWords:  rcl fv Nonlinearity
