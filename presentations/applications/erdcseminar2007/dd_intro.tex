@@ -1,0 +1,142 @@
+\begin{frame}
+  \frametitle{Physical Model}
+      \begin{itemize}
+      \item{``Double'' diffusion $\Rightarrow$ both heat and chemical (solute) species are diffusing}
+      \item{Heat and solute have competing affects on background fluid density}
+      \item{Ex: Heated Salt Water
+	\begin{itemize}
+	\item{Warm water is slightly less dense (rises)}
+	\item{Salty water is slightly more dense (falls)}
+	\item{Natural convection ``cells'' can develop }
+	\end{itemize}
+      }
+      \end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Governing Equations}
+  \begin{eqnarray}
+    \label{eqn:p_strong}
+    \nabla \cdot \alert<2>{\bv{b}} - \nabla^2 p &=& 0 \\
+    \label{eqn:T_strong}
+    \frac{\partial T}{\partial t} +
+    \left( \alert<2>{\bv{b}}-\nabla p\right) \cdot \nabla T - \nabla^2{T} &=&0 \\
+    \label{eqn:S_strong}
+    \frac{\phi}{\sigma} \frac{\partial S}{\partial t} +
+    \left( \alert<2>{\bv{b}}-\nabla p\right) \cdot \nabla S -  \alert<3>{\kappa} \nabla^2{S}&=&0 
+  \end{eqnarray}
+
+  \only<2>
+  {
+    \begin{equation}
+      \nonumber
+      \bv{b} = ( \kappa R_S S - R_T T ) \hat{e}_{g}
+    \end{equation}
+  }
+
+  \only<3>
+  {
+    \begin{eqnarray}
+      \nonumber
+      \kappa &=& \frac{\text{Solute Diffusivity}}{\text{Thermal Diffusivity}} \ll 1 \\
+      \nonumber
+      &=& Le^{-1}
+    \end{eqnarray}
+  }
+\end{frame}
+
+
+\begin{frame}[t]
+  \frametitle{Stabilization}
+  \begin{itemize}
+  \item<1->
+    {
+      For small $\kappa$ on coarse grids, the Galerkin method is known to perform poorly.
+    }
+  \item<2->
+    {
+      We can add an additional stabilizing term:
+    }
+  \end{itemize}
+  \visible<1->
+  {
+    \begin{equation}
+      \nonumber
+      \int_{\Omega} \left(  \frac{\phi}{\sigma}\frac{\partial S^h}{\partial t} +
+      \left( \bv{b}^h -\nabla p^h \right) \cdot \nabla S^h  \right) v^h
+      + \kappa \nabla S^h \cdot \nabla v^h \;dx
+      \end{equation}
+      \visible<2->
+      {
+	\begin{equation}
+	  \small
+      \nonumber
+      + \underbrace{\int_{\Omega'} \tau \left( \left(\bv{b}^h - \nabla p^h\right) \cdot \nabla v^h \right) \left[
+	\frac{\phi}{\sigma} \frac{\partial S^h}{\partial t} +
+	\left( \bv{b}^h-\nabla p^h\right) \cdot \nabla S^h - \kappa \nabla^2 S^h \right]dx
+      }_{\text{Stabilization Term}}
+      \end{equation}
+      }
+      \begin{equation}
+      \nonumber
+      %\label{eqn:S_stabilized}
+      =\int_{\partial \Omega} \kappa \left( \nabla S \cdot \hat{n} \right) v^h \; ds
+    \end{equation}
+  }
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Solute and Temperature Contours}
+  \vspace{-.25in}
+  \begin{center}
+    \begin{tabular}{cc} \\
+      %\includegraphics[viewport=80 105 580 665,clip=true,angle=-90,width=0.45\textwidth]{figures/s_150x150_kappa_0_03}&
+      %\includegraphics[viewport=80 105 580 665,clip=true,angle=-90,width=0.45\textwidth]{figures/t_150x150_kappa_0_03}\\
+    \includegraphics[viewport=80 105 580 665,clip=true,angle=-90,width=0.45\textwidth]%
+		    {figures/s_150x150_kappa_0_03_PRESENTATION}&
+    \includegraphics[viewport=80 105 580 665,clip=true,angle=-90,width=0.45\textwidth]%
+		    {figures/t_150x150_kappa_0_03_PRESENTATION}\\
+    Solute Contours & Temperature Contours
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+%% \begin{frame}
+%%   \frametitle{Representative Adapted Grid}
+%%   \vspace{-.25in}
+%%   \begin{center}
+%%       \includegraphics[viewport=80 105 580 665,clip=true,angle=-90,width=0.75\textwidth]{figures/grid_adaptive_kappa_0_03}
+%%   \end{center}
+%% \end{frame}
+
+\begin{frame}[t]
+  \frametitle{Sherwood Number}
+  \begin{itemize}
+  \item {The total solute (or heat) flux to a wall is an important engineering quantity of interest.}
+  \item {The Sherwood number is defined as:
+    \begin{equation}
+      \nonumber
+      N_S := -\int_{\partial \Omega_D} \!\!\!\!\!\!\! \nabla S \cdot n \;dx 
+    \end{equation}
+    }
+  \item{For large $R_T, Le,$ it is known that 
+    \begin{equation}
+      \nonumber
+      N_S \approx \sqrt{R_T Le} = \sqrt{\frac{R_T}{\kappa}}
+    \end{equation}
+  }
+  \end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}
+  \frametitle{Sherwood Number Computations}
+  \vspace{-.25in}
+  \begin{center}
+      \includegraphics[viewport=10 10 560 725 ,clip=true,angle=-90,width=0.8\textwidth]{figures/Nu_vs_Le}
+  \end{center}
+\end{frame}

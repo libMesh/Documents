@@ -1,0 +1,85 @@
+\begin{frame}[t]
+  \frametitle{Physical Setup}
+  \begin{center}
+  \includegraphics[width=.4\textwidth,angle=-90]{figures/sw_define}
+  \end{center}
+      \begin{itemize}
+      \item
+	{
+	 Total Elevation $h=H+\eta$ 
+	}
+      \item
+	{
+	  $\eta \ll H$
+	}
+      \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Governing Equations}
+  \begin{eqnarray}
+    %\label{eqn:nlmomentum}
+    \nonumber
+    \frac{\partial \bv{u}}{\partial t}
+    \only<1-2>
+    {
+      + \alert<2>{(\bv{u} \cdot \nabla) \bv{u}}
+    }
+    + f \bv{k}\times \bv{u} + g \nabla \eta &=& 0 \\
+    %\label{eqn:nlelevation}
+    \nonumber
+    \frac{\partial \eta}{\partial t} +
+    \nabla \cdot \left[
+      \only<1-4>
+      {
+	(\alert<4>{H + \eta}) \bv{u}
+      }
+      \only<5-6>
+      {
+	\alert<5>{H} \bv{u}
+      }
+      \right]  &=& 0
+  \end{eqnarray}
+  \begin{itemize}
+    \item {$f=2\varOmega\sin\varPhi$ is the Coriolis parameter}
+    \item {$g$ is gravity}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}%[t]
+  \frametitle{Relation to 2nd-order Wave Equation}
+  \begin{itemize}
+    \item{Let $f=0$ and assume 1D flow, $H=H(x)$}
+    \item{
+      Letting $w := Hu$, we obtain
+      \begin{equation}
+	\nonumber
+	w_{tt} - gH w_{xx} = 0
+      \end{equation}
+    }
+    \item{So $gH$ is like a (spatially-varying) wave speed}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}%[t]
+  \frametitle{Variational Statement}
+  \begin{itemize}
+    \item{Find $\{\bv{u}, \eta\}$ such that}
+  \end{itemize}
+  \begin{eqnarray}
+    \nonumber
+    %\label{eqn:momentum_weak}
+    \int_{\Omega}
+    \left(
+    \frac{\partial \bv{u}}{\partial t} + f \bv{k}\times \bv{u} + g \nabla \eta
+    \right) \cdot \bv{\phi} \;dx &=& 0 \\
+    \nonumber
+    %\label{eqn:elevation_weak}
+    \int_{\Omega}
+    \frac{\partial \eta}{\partial t}\psi - H \left( \bv{u} \cdot \nabla \psi \right)\;dx
+    + \int_{\partial \Omega} H \left( \bv{u} \cdot \bv{n} \right) \psi \;ds &=& 0
+  \end{eqnarray}
+  holds for every admissible $\{\bv{\phi}, \psi\}$
+\end{frame}

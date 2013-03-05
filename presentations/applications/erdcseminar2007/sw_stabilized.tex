@@ -1,0 +1,236 @@
+
+\begin{frame}[t]
+  \frametitle{Stabilized Formulation}
+  \begin{itemize}[<+->]
+  \item{We can write the linearized SW equations in the standard notation
+    for systems
+    \begin{equation}
+  \nonumber
+  \frac{\partial \bv{U}}{\partial t}
+  + \bv{A}_i\frac{\partial \bv{U}}{\partial x_i}
+  + \bv{C} \bv{U}
+  = 0
+  \end{equation}
+  }
+
+    \item{Where
+\begin{equation}
+  \nonumber
+  \hspace{-.5in}
+  \bv{A}_1 = \begin{bmatrix}
+    \begin{array}{ccc}
+      \alert<3>{0} & 0 & g  \\
+      0 & \alert<3>{0} & 0  \\
+      H & 0 & \alert<3>{0} 
+    \end{array}
+  \end{bmatrix}
+  \hspace{.1in}
+  \bv{A}_2 = \begin{bmatrix}
+    \begin{array}{ccc}
+      \alert<3>{0} & 0 & 0  \\
+      0 & \alert<3>{0} & g  \\
+      0 & H & \alert<3>{0} 
+    \end{array}
+  \end{bmatrix}
+  \hspace{.1in}
+  \bv{C} = \begin{bmatrix}
+    \begin{array}{ccc}
+      0 & -f & 0  \\
+      f & 0 & 0  \\
+      \partial_x H & \partial_y H & 0 
+    \end{array}
+  \end{bmatrix}
+\end{equation}
+      }
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]
+  \frametitle{Stabilized Formulation -- Var.\ Stmt.}
+  \begin{itemize}
+    \item{Using system notation, the variational statement is:
+      Find $\bv{U}\only<2>{\alert{^h}}$ s.t.
+      \begin{equation}
+	\nonumber
+	\int_{\Omega} \left( \frac{\partial \bv{U}\only<2>{\alert{^h}}}{\partial t}
+	+ \bv{A}_i\frac{\partial \bv{U}\only<2>{\alert{^h}}}{\partial x_i}
+	+ \bv{C} \bv{U}\only<2>{\alert{^h}} \right) \cdot \bv{W}\only<2>{\alert{^h}} \;dx
+	= 0
+      \end{equation}
+      holds for every admissible $\bv{W}\only<2>{\alert{^h}}$.
+    }
+      \only<2>
+	  {
+	    \item{
+	    The approximate problem is obtained by replacing the continuous
+	    variables with their FE approximations,
+	    $\bv{U}^{\alert{h}}$ and $\bv{W}^{\alert{h}}$.}
+	  }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Stabilized Formulation -- Var.\ Stmt.}
+  \begin{itemize}[<+->]
+    \item{The stabilized FE formulation then becomes:
+      Find $\bv{U}^h$ s.t.
+      \begin{eqnarray}
+  \nonumber
+  \int_{\Omega} \left( \frac{\partial \bv{U}^h}{\partial t}
+  + \bv{A}_i\frac{\partial \bv{U}^h}{\partial x_i}
+  + \bv{C} \bv{U}^h \right) \cdot \bv{W}^h \;dx &+&
+  \\
+  \nonumber
+  \int_{\Omega'} \bv{A}_i\frac{\partial \bv{W}^h}{\partial x_i}
+  \cdot \bv{\tau} \left( \frac{\partial \bv{U}^h}{\partial t}
+  + \bv{A}_i\frac{\partial \bv{U}^h}{\partial x_i}
+  + \bv{C} \bv{U}^h \right)dx 
+  &=& 0
+\end{eqnarray}
+      holds for every admissible $\bv{W}^h$.
+    }
+    \item{This is a standard SUPG-type stabilization scheme}
+    \item{$\bv{\tau}$ is a matrix of stabilization parameters}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{SUPG Operator}
+  \begin{itemize}%[<+->]
+    \item{The SUPG operator is: 
+      \begin{equation}
+	\nonumber
+   \bv{A}_i\frac{\partial \bv{W}^h}{\partial x_i} =
+   \begin{bmatrix}
+     \renewcommand{\arraystretch}{1.3}
+     \begin{array}{c}
+       g \frac{\partial \psi^h}{\partial x} \\
+       g \frac{\partial \psi^h}{\partial y} \\
+       H \left( \nabla \cdot \bv{\phi}^h \right) \\
+     \end{array}
+   \end{bmatrix}
+\end{equation}
+      }
+
+    \item{
+      We employ a particularly simple form of $\bv{\tau}$:
+\begin{equation}
+  \nonumber
+\bv{\tau} = diag(\tau_{11}, \tau_{22}, \tau_{33})
+\end{equation}
+    }
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]
+  \frametitle{Stabilization Parameters}
+  \begin{itemize}%[<+->]
+    \item{The stabilization parameters are chosen based on
+      the work of Shakib et al.
+      \begin{equation}
+	\nonumber
+  \bv{\tau} = \left(
+  \frac{\partial \xi_i}{\partial x_j}
+  \frac{\partial \xi_i}{\partial x_k}
+  \bv{A}_j\bv{A}_k 
+\right)^{-1/2}
+      \end{equation}
+      }
+      \item{Where
+	\begin{equation}
+	  \nonumber
+	  \frac{\partial \xi_i}{\partial x_j} \propto \frac{1}{h}
+	\end{equation}
+	is the $(i,j)^{th}$ entry of the element
+Jacobian matrix.}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Stabilized Equations}
+  \begin{itemize}%[<+->]
+  \item{The stabilized momentum equations are then:
+    \begin{eqnarray}
+      \nonumber
+      \int_{\Omega}
+      \left(
+      \frac{\partial \bv{u}^h}{\partial t} + f \bv{k}\times \bv{u}^h + g \nabla \eta^h
+      \right) \cdot \bv{\phi}^h \;dx
+      &+& \\
+      \nonumber
+      \int_{\Omega'}
+      \alert<2>{\tau_{33}
+	}
+      \alert<3>{
+      H \left(\nabla \cdot \bv{\phi}^h\right)
+      }
+      \left( \alert<4>{
+	\frac{\partial \eta^h}{\partial t} +
+	\nabla \cdot (H \bv{u}^h)
+	}
+      \right) \;dx
+      &=& 0 
+  \end{eqnarray}
+    }
+    
+    \only<2>
+    {
+      \item{Stabilization parameter}
+    }
+    \only<3>
+    {
+      \item{SUPG operator}
+    }
+
+    \only<4>
+    {
+      \item{Elevation equation ``residual''}
+    }
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]
+  \frametitle{Stabilized Equations}
+  \begin{itemize}%[<+->]
+  \item{While the stabilized elevation equation is:
+    \begin{eqnarray}
+    \nonumber
+    \int_{\Omega}
+    \frac{\partial \eta^h}{\partial t}\psi^h -
+    H \left( \bv{u}^h \cdot \nabla \psi^h \right)\;dx
+    + \int_{\partial \Omega} H \left( \bv{u}^h \cdot \bv{n} \right) \psi^h \;ds &+& \\
+    \nonumber
+    \int_{\Omega'} \alert<3>{g}
+    \left[\alert<2>{\tau_{11}}
+      \alert<3>{\frac{\partial \psi^h}{\partial x}},
+      \alert<2>{\tau_{22}}
+      \alert<3>{\frac{\partial \psi^h}{\partial y}}
+      \right]^t \cdot 
+    \left(
+      \alert<4>{\frac{\partial \bv{u}^h}{\partial t} +
+      f \bv{k}\times \bv{u}^h + g \nabla \eta^h
+      }
+    \right)
+    \;dx &=& 0
+  \end{eqnarray}
+    }
+    
+    \only<2>
+    {
+      \item{Stabilization parameters}
+    }
+    \only<3>
+    {
+      \item{SUPG operator}
+    }
+
+    \only<4>
+    {
+      \item{Momentum equation ``residual''}
+    }
+  \end{itemize}
+\end{frame}
+

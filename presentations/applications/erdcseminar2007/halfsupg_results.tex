@@ -1,0 +1,113 @@
+\begin{frame}[t]
+  \frametitle{``Half-SUPG'' Method}
+  \begin{itemize}[<+->]
+    \item{
+      One successful attempt to reduce the amount of artifical diffusion
+      present was to set $\tau_{11}=\tau_{22}=0$
+    }
+    \item{This means only the momentum equations are stabilized, the
+      elevation equation is solved using standard Galerkin}
+    \item{The results appear to be better, but they are still preliminary
+      (we cannot explain why yet)}
+    \item{Similar to the so-called GLS scheme sometimes employed to
+      allow equal-order approximation spaces for the Stokes equations}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]
+  \frametitle{Half-SUPG results}
+%%   \begin{itemize}
+%%     \item{Initial results are stable, but much too diffusive}
+%%     \item{Peak $|\bv{u}|$ is roughly 40\% of the $P_0-P_1$ result}
+%%   \end{itemize}
+%%   \vspace{-.2in}
+  \begin{center}
+    \includegraphics[width=.8\textwidth]{figures/P0P1_P1P1_half_cutlines}
+  \end{center}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Adaptive Half-SUPG results}
+%%   \begin{itemize}
+%%     \item{Initial results are stable, but much too diffusive}
+%%     \item{Peak $|\bv{u}|$ is roughly 40\% of the $P_0-P_1$ result}
+%%   \end{itemize}
+%%   \vspace{-.2in}
+  \begin{itemize}
+    \item{The method also appears promising with AMR}
+  \end{itemize}
+  \vspace{-.2in}
+  \begin{center}
+    \includegraphics[width=.8\textwidth]{figures/P0P1_P1P1_half_AMR_cutlines}
+  \end{center}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Adaptive Half-SUPG results}
+\vspace{-0.2in}
+  \begin{center}
+    \only<1>
+    {
+      \includegraphics[width=.9\textwidth]{figures/P1P1_tau11_tau22_zero_adaptive_velocity_0020}
+    }
+    \only<2>
+    {
+      \includegraphics[width=.9\textwidth]{figures/P1P1_tau11_tau22_zero_adaptive_elevation_0020}
+    }
+    \only<3>
+    {
+      \includegraphics[width=.9\textwidth]{figures/P1P1_tau11_tau22_zero_adaptive_mesh_0020}
+    }
+  \end{center}
+\end{frame}
+
+
+\begin{frame}[t]
+  \frametitle{\ldots And Higher-Order $\left(P_2-P_2\right)$ Elements}
+\vspace{-0.2in}
+  \begin{center}
+    \only<1>
+    {
+      \includegraphics[width=.9\textwidth]{figures/P2P2_tau11_tau22_zero_adaptive_velocity_0020}
+    }
+    \only<2>
+    {
+      \includegraphics[width=.9\textwidth]{figures/P2P2_tau11_tau22_zero_adaptive_elevation_0020}
+    }
+    \only<3>
+    {
+      \includegraphics[width=.9\textwidth]{figures/P2P2_tau11_tau22_zero_adaptive_mesh_0020}
+    }
+  \end{center}
+\end{frame}
+
+
+
+\begin{frame}[t]
+  \frametitle{Computational Expense}
+  \begin{center}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{|c|r|r|r|} \hline
+                     &  N.~nodes & N.~cells &  N.~DOFs \\ \hline
+    Uniform  $P_0-P_1$  &  9,386    & 18,450   &  46,286  \\ \hline
+    Uniform  $P_1-P_1$  &  9,386    & 18,450   &  28,158  \\ \hline
+    Adaptive $P_1-P_1$  &  17,151   & 29,946   &  51,453  \\ \hline
+    Adaptive $P_2-P_2$  &  18,453   & 8,878    &  55,359 \\ \hline
+  \end{tabular}
+  \end{center}
+  \begin{itemize}
+    \item{Comparison of problem size at a representative timestep}
+    \item{AMR is also more expensive because you have to compute error indicators, etc.}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Future Work}
+  \begin{itemize}
+  \item{Analytical dispersion analysis of the proposed ``half''-SUPG scheme}
+  \item{Additional simulations of non-constant bathymetry problems}
+  \item{Tweaked selection of stabilization parameters}
+  \end{itemize}
+\end{frame}
+

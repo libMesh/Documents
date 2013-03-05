@@ -1,0 +1,67 @@
+\begin{frame}%[t]
+  \frametitle{Rossby Wave Propagation}
+  \begin{itemize}[<+->]
+  \item{Rossby waves are large-scale motions in the ocean or atmosphere}
+  \item{Caused by e.g.\ meanders of the jet (or gulf) stream}
+  \item{Cold fronts}
+  \item{In the ocean, waves can take months or years to cross the Pacific ocean}
+  \item{Long-time simulations must avoid adding too much artificial dissipation}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}%[t]
+  \frametitle{Rossby Wave Propagation}
+  \begin{itemize}%[<+->]
+  \item{We can model Rossby waves with the linearized SW equations.}
+  \item{The Coriolis term is linearized around a particular latitude value as
+  \begin{equation}
+    \nonumber
+    f = f_0 + \beta y
+  \end{equation}
+  }
+  \item{$f_0=6.16 \times 10^{-5}$ 1/s}
+  \item{$\beta = 2.07 \times 10^{-11}$ m/s}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}%[t]
+  \frametitle{Rossby Wave Propagation}
+  \begin{itemize}%[<+->]
+  \item{The initial condition is a Gaussian that satisfies the linear
+    SW equations with $\beta=0$.
+    }
+  \end{itemize}
+  \begin{eqnarray}
+    \nonumber
+    \bv{u}_0 &=&  2 \frac{g}{f_0} a b  e^{-b \left(x^2+y^2\right)}\left(y,-x\right) \\
+    \nonumber
+    \eta_0   &=&  a e^{-b \left(x^2+y^2\right)}
+  \end{eqnarray}
+  \begin{itemize}
+    \item{Problem is posed in a rectangular domain of physical
+      size 2000 km $\times$ 1200 km.
+%%       domain size:
+%%       \begin{equation}
+%% 	\nonumber
+%% 	(x,y) \in [-1000,1000]\times[-600,600] \text{ km}
+%%       \end{equation}
+    }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Initial Condition, $|\bv{u}_0|$}
+\vspace{-0.2in}
+  \begin{center}
+    \includegraphics[width=.9\textwidth]{figures/P0P1_velocity_0000}
+  \end{center}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Initial Condition, $\eta_0$}
+\vspace{-0.2in}
+  \begin{center}
+    \includegraphics[width=.9\textwidth]{figures/P0P1_elevation_0000}
+  \end{center}
+\end{frame}

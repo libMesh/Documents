@@ -1,0 +1,186 @@
+\begin{frame}
+      \begin{itemize}
+      \item{
+	The problem of determining the Sherwood number can be thought of generically.}
+
+      \item{
+	We consider the integrated flux $I$ of some variable $u$ through
+	a boundary $\Gamma \subseteq \partial \Omega$
+
+	\begin{equation}
+	  \nonumber
+	  I := \int_{\Gamma} k \nabla u \cdot n \;ds = -\int_{\Gamma} \sigma \cdot n \;ds 
+	\end{equation}
+      }
+        
+      \item{For example, $I$ could be total mass/thermal flux, Lift, Drag, etc.}
+
+      \item{Differentiating the FE solution
+	%to obtain $\sigma\cdot n$ is only
+	%$\mathcal{O}(h^p)$ accurate.
+	generally yields 
+	\begin{equation}
+	  \nonumber
+	  \| \sigma - \sigma_h \|_{L_2(\Gamma)} \approx \mathcal{O}(h^p)
+	\end{equation}
+      } 
+	
+      \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{S.~C.~Boundary Flux Literature}
+      \begin{itemize}
+      \item
+	{
+          Many schemes for computing superconvergent boundary fluxes have been investigated:
+
+	  \begin{itemize}
+	  \item{J.~Douglas, T.~Dupont, and M.~Wheeler (1974)}
+	  \item{M.~Wheeler (1979)}
+	  \item{Carey et al. (1982, 2002)}
+	  \item{Hughes, Larson, Cochburn, Wahlbin, Babu{\v{s}}ka, \ldots}
+	  \end{itemize}
+	}
+	
+      \item{Under some restrictions
+	\begin{equation}
+	  \nonumber
+	  \| \sigma - \sigma_h \|_{L_2(\Gamma)} \approx \mathcal{O}(h^{p+1})
+	\end{equation}
+
+	is generally possible, see e.g.\ Douglas.}
+	
+      \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Model Problem: Poisson}
+	\begin{equation}
+	  \nonumber
+	  -\nabla \cdot \left( k \nabla u \right)=f
+	\end{equation}
+      \begin{itemize}
+      \item<1->{For all $\phi_i \neq 0$ on $\partial \Omega$
+      \begin{equation}
+	\nonumber
+	-\int_{\partial \Omega} \left( \sigma\only<2->{\alert<2>{_h}} \cdot n\right)\phi_i \;ds =
+	\int_{\Omega} k\nabla u\only<2->{\alert<2>{_h}} \cdot \nabla \phi_i - f\phi_i \;dx 
+	\end{equation}
+
+      }
+	
+      \item<3->{Can use this relation to solve for improved flux approximation.}
+
+      \item<4->{Difficulties \ldots
+	\begin{itemize}
+	  \item {$\sigma \cdot n$ discontinuous at a node}
+	  \item {$n$ not well-defined at nodes}
+	  \item {3D extension}
+	\end{itemize}
+      }
+      \end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}
+      \begin{itemize}
+      \item{
+        It's simpler if we don't care about pointwise values of $\sigma \cdot n$,
+	i.e.\ only the integrated flux is
+	important.}
+
+      \item{Carey (2002) uses partition of unity method: on $\partial \Omega$,
+	\begin{equation}
+	  \nonumber
+	  \sum_{i=1}^N \phi_i = 1
+	\end{equation}
+	where $N$ is the number of nodes on $\partial \Omega$, to show that
+	\begin{eqnarray}
+	  \nonumber
+	  -\int_{\partial \Omega} \left(\sigma_h \cdot n\right)
+	   \underbrace{\left(\sum_{i=1}^N \phi_i \right)}_{=1} ds &=&
+	\sum_{i=1}^N \int_{\Omega} k\nabla u_h \cdot \nabla \phi_i - f\phi_i \;dx
+	%\\
+	%I &=& \sum_{i=1}^N \int_{\Omega} k\nabla u_h \cdot \nabla \phi_i - f\phi_i \;dx 
+	\end{eqnarray}
+      }
+      \end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}
+      \begin{itemize}
+      \item{
+        We can do something similar on $\Gamma \subset \partial \Omega$: let $S$ be the set of elements
+	which have a node on $\Gamma$, and let
+	\begin{equation}
+	  \nonumber
+	  \sum_{i=1}^M \phi_i = 1 
+	\end{equation}
+	on $\Gamma$ where $M$ is the number of nodes on $\Gamma$.
+	%, and $\Gamma_{+}$ is a slightly
+	%larger domain.
+      }
+	
+      \item{
+	Then we have
+	\begin{eqnarray}
+	  \nonumber
+	  \sum_{i=1}^M \int_{\Gamma_{+}}-\left(\sigma_h\cdot n\right)  \phi_i \;ds =
+	  \sum_{i=1}^M \int_{S} k\nabla u_h \cdot \nabla \phi_i - f\phi_i \;dx 
+	\end{eqnarray}
+      }
+      \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \begin{center}
+    \includegraphics[width=.4\textwidth,angle=-90]{figures/square}    
+  \end{center}
+
+      \begin{itemize}
+      \item{
+        Example: $\Gamma$ is the bottom side, $\Gamma_{+}$ extends into the first element
+	of the two adjacent sides.
+	}
+      \end{itemize}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+      \begin{itemize}
+      \item{We can rewrite this as, let $ q_h  := -\left(\sigma_h \cdot n\right)$
+	\begin{eqnarray}
+	  \nonumber
+	  \sum_{i=1}^M \int_{\Gamma} q_h \phi_i ds +
+	  \int_{\Gamma_{+} \setminus \Gamma} \!\!\!\!\!\!\! q_h \phi_1 ds +
+	  \int_{\Gamma_{+} \setminus \Gamma} \!\!\!\!\!\!\! q_h \phi_M ds 
+	  &=&\\
+	  \nonumber
+	  \sum_{i=1}^M \int_{S} k\nabla u_h \cdot \nabla \phi_i - f\phi_i \;dx 
+	\end{eqnarray}
+	or,
+	\begin{eqnarray}
+	  \nonumber
+	  I_h  &=&
+	  \sum_{i=1}^M \int_{S} k\nabla u_h \cdot \nabla \phi_i - f\phi_i \;dx -
+	  \int_{\Gamma_{+} \setminus \Gamma} \!\!\!\!\!\!\! q_h \phi_1 ds -
+	  \int_{\Gamma_{+} \setminus \Gamma} \!\!\!\!\!\!\! q_h \phi_M ds 
+	\end{eqnarray}
+	}
+
+      \item{If $\Gamma_{+} \setminus \Gamma$ is a Neumann boundary, the extra terms on the r.h.s.\
+	are known.  In general the extra terms aren't known.}
+      \end{itemize}
+\end{frame}
