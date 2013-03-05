@@ -1,0 +1,13 @@
+*.nav
+*.snm
+*.toc
+*.aux
+*.log
+*.out
+.nfs*
+talk.pdf
+*.plt
+*.lay
+*.phy
+final.pdf
+*~
