@@ -23,6 +23,7 @@
 %\usepackage{algorithmic}
 \usepackage{hyperref}
 \usepackage{multimedia}
+\graphicspath{{figs/}}
 
 
 
@@ -32,15 +33,15 @@
  ]{serif} %onlymath option doesn't look too bad, eqns are more readable this way.
 
 
-\usetheme{Darmstadt}
-\usecolortheme{orchid} % white on dark block titles.  use w/ whale.
-\usecolortheme{whale} % darkest top titles, usually used by CFDLab presenters
+\usetheme{nasatalk}
+%\usecolortheme{orchid} % white on dark block titles.  use w/ whale.
+%\usecolortheme{whale} % darkest top titles, usually used by CFDLab presenters
 \setbeamertemplate{itemize items}[circle]% Force any theme (eg Antibes) to use circle bullets
 %\useinnertheme[shadow]{rounded} % Causes itemize blocks to have rounded corners & drop shadows
-\logo{\includegraphics[width=.5in]{figures/word3}}
+\logo{\includegraphics[width=.5in]{common/rawfigs/word3}}
 %\setbeamercolor{title}{fg=red!80!black,bg=red!20!white} %pink title!
 
-\title{LibMesh Experience and Usage}
+\title{The \texttt{libMesh} Finite Element Library}
 \author[Kirk, Peterson, Stogner]{Benjamin S.\ Kirk \\ \texttt{\scriptsize benjamin.kirk@nasa.gov} \\
   John W.\ Peterson \\ \texttt{\scriptsize peterson@cfdlab.ae.utexas.edu} \\
   Roy H.\ Stogner \\ \texttt{\scriptsize roystgnr@cfdlab.ae.utexas.edu}}
