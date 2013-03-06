@@ -1,0 +1,105 @@
+\subsection*{Some Examples}    
+\begin{frame}[t]
+  %\frametitle{Some Examples}
+    \begin{block}{
+	\only<1-2>{Poisson Equation}
+	\only<3-4>{Linear Convection-Diffusion}
+	\only<5-6>{Stokes Flow}
+      }
+
+      \only<1-2>
+      {
+	\begin{equation}
+	      \nonumber
+	      -\Delta u  = f
+	      \hspace{.25in} \in \hspace{.1in} \Omega  
+	    \end{equation}
+      }
+      
+      \only<3-4>
+	  {
+	    \begin{equation}
+	      \nonumber
+	      %\frac{\partial u}{\partial t}
+	      -k\Delta u + \bv{b} \cdot \nabla u = f
+	      \hspace{.25in} \in \hspace{.1in} \Omega  
+	    \end{equation}
+	  }
+
+      \only<5-6>
+      {
+	\begin{equation}
+	    \begin{array}{rcl}
+	      \nonumber
+	      %\frac{\partial \bv{u}}{\partial t} +
+	      %\left(\bv{u} \cdot \nabla\right) \bv{u} +
+	      \nabla p - \nu \Delta \bv{u}  &=& \bv{f}
+	        \\
+	      \nonumber
+	      \nabla \cdot \bv{u} &=& 0
+	    \end{array}  \hspace{.25in}  \in \hspace{.1in} \Omega
+	\end{equation}
+      }
+
+      
+\end{block}
+    %\pause
+
+    \only<2,4,6>
+    {
+    \begin{block}{Weighted Residual Statement}
+    }
+      \only<2>
+      {
+      \begin{eqnarray}
+	\nonumber
+	(F( u ), v) := %\hspace{3in} \\  \nonumber
+	\int_{\Omega}  \left[ \nabla u \cdot \nabla v - fv \right] dx \\ \nonumber
+	+ \int_{\partial \Omega_N} \left(\nabla u \cdot \bv{n}\right) v \;ds
+      \end{eqnarray}
+%%       $^{\ast}$ We have employed the divergence theorem to obtain the weighted residual statement.
+%%       In general this procedure gives rise to boundary terms which for simplicity we do not discuss
+%%       in detail.
+      }
+      
+    \only<4>
+    {
+      \begin{eqnarray}
+	\nonumber
+	(F( u ), v) := 
+	\int_{\Omega} \left[
+	  %\tfrac{\partial u}{\partial t}v  +
+	  k\nabla u \cdot \nabla v + (\bv{b} \cdot \nabla u) v - fv \right] dx \\ \nonumber
+	+ \int_{\partial \Omega_N} k\left(\nabla u \cdot \bv{n}\right) v \;ds
+      \end{eqnarray}
+    }
+
+    \only<6>
+    {
+      \vspace{-.2in}
+      \begin{eqnarray}
+	\nonumber
+	u := \left[\bv{u}, p\right]
+	\hspace{.1in},\hspace{.1in}
+	v := \left[\bv{v}, q\right]
+      \end{eqnarray}
+      \vspace{-.25in}
+	\begin{eqnarray}
+	  \nonumber
+	(F( u ), v) := %\hspace{3in} \\ \nonumber
+	\int_{\Omega} \left[
+	  %\left( \tfrac{\partial \bv{u}}{\partial t}	  +
+	  %\left( \bv{u} \cdot \nabla  \right)\bv{u}
+	  %\right)
+	  %\cdot \bv{v}
+	- p\left(\nabla \cdot \bv{v}\right) 
+	+ \nu \nabla \bv{u} \colon\!\! \nabla \bv{v} - \bv{f}\cdot \bv{v} \; \right. \\ \nonumber
+	+ \left.\left( \nabla \cdot \bv{u} \right) q \right] dx
+	+ \int_{\partial \Omega_N} \left(\nu \nabla \bv{u} -p\bv{I}\right)  \bv{n} \cdot \bv{v} \;ds %\hspace{1in}	
+      \end{eqnarray}
+    }
+\only<2,4,6>
+{
+    \end{block}
+ }     
+\end{frame} 
