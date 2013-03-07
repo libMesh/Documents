@@ -12,9 +12,10 @@ texroot := $(patsubst %.tex, %, $(texsource))
 dirname  := $(shell pwd)
 texfinal := $(shell basename $(dirname)).pdf
 
-bibfiles := $(wildcard *.bib)
-styfiles := $(wildcard *.sty ./common/*.sty)
-clsfiles := $(wildcard *.cls ./common/*.cls)
+bibfiles  := $(wildcard *.bib)
+styfiles  := $(wildcard *.sty ./common/*.sty)
+clsfiles  := $(wildcard *.cls ./common/*.cls)
+codefiles := $(wildcard snippets/*.cxx snippets/*.out)
 
 PDFLATEX = TEXINPUTS=./common:$$TEXINPUTS pdflatex -halt-on-error
 LATEX = TEXINPUTS=./common:$$TEXINPUTS latex -halt-on-error
@@ -25,7 +26,7 @@ all: $(texfinal)
 
 figures: $(figures)
 
-$(texfinal): *.tex $(bibfiles) $(figures) $(clsfiles) $(styfiles)
+$(texfinal): *.tex $(bibfiles) $(figures) $(clsfiles) $(styfiles) $(codefiles)
 	if (test -f *.bib); then $(PDFLATEX) $(texroot) && bibtex $(texroot); fi
 	$(PDFLATEX) $(texroot) && $(PDFLATEX) $(texroot) && $(PDFLATEX) $(texroot)
 	if [ $(texroot).pdf != "$(texfinal)" ]; then cp $(texroot).pdf "$(texfinal)" && rm -f $(texroot).pdf; fi

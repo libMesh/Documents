@@ -1,9 +1,9 @@
 *.nav
-*.out
+talk.out
 *.pdf
 *.snm
 *.aux
 *.log
 *.toc
 *.vrb
-
+*~
