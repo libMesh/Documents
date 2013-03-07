@@ -23,8 +23,8 @@
 %\usepackage{algorithmic}
 \usepackage{hyperref}
 \usepackage{multimedia}
+\usepackage{listings}
 \graphicspath{{figs/}}
-
 
 
 
@@ -42,10 +42,10 @@
 %\setbeamercolor{title}{fg=red!80!black,bg=red!20!white} %pink title!
 
 \title[The \texttt{libMesh} Finite Element Library]{The \texttt{libMesh} Finite Element Library \\ \vspace{.5em} \emph{\large a case for Object-Oriented High-Performance Computing}}
-\author[Kirk, Peterson, Stogner]{Benjamin S.\ Kirk \\ \texttt{\scriptsize benjamin.kirk@nasa.gov} \\
-  John W.\ Peterson \\ \texttt{\scriptsize peterson@cfdlab.ae.utexas.edu} \\
-  Roy H.\ Stogner \\ \texttt{\scriptsize roystgnr@cfdlab.ae.utexas.edu}}
-\institute[NASA, INL, UT]{NASA Lyndon B. Johnson Space Center \\ Idaho National Labs \\ The University of Texas at Austin}
+\author[Kirk, Peterson, Stogner]{Benjamin S.\ Kirk$^\dagger$ \\ \texttt{\scriptsize benjamin.kirk@nasa.gov} \\
+  John W.\ Peterson$^\ddagger$ \\ \texttt{\scriptsize peterson@cfdlab.ae.utexas.edu} \\
+  Roy H.\ Stogner$^\star$ \\ \texttt{\scriptsize roystgnr@cfdlab.ae.utexas.edu}}
+\institute[NASA, INL, UT]{$^\dagger$NASA Lyndon B. Johnson Space Center \\ $^\ddagger$Idaho National Labs \\ $^\star$The University of Texas at Austin}
 \date{\today}
 
 %\AtBeginSection[]{\frame{\tableofcontents[current]}}
@@ -81,9 +81,15 @@
 
 \newcommand{\R}{\mathscr{R}}
 \newcommand{\LibMesh}{\texttt{Lib\-Mesh}}
+\newcommand{\libmesh}{\texttt{libMesh}}
 
 \begin{document}
 
+\lstset{
+  language=C++,
+  commentstyle=\color{gray},
+  basicstyle=\footnotesize\ttfamily
+}
 
   
 \begin{frame}

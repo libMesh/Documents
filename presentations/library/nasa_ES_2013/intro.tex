@@ -13,10 +13,123 @@
   \frametitle{Background}                 
 
   \begin{itemize}
-    \item 
+  \item Modern simulation software is \textcolor{nasablue}{complex}:
+    \begin{itemize}
+    \item Implicit numerical methods
+    \item Massively parallel computers
+    \item Adaptive methods
+    \item Multiple, coupled physical processes
+    \end{itemize}
+    %\pause
+  \item There are a host of existing software libraries that excel at treating various aspects of this complexity.
+  \item Leveraging existing software whenever possible is the most efficient way to manage this complexity.
+
   \end{itemize}
 }
 
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\frame
+{
+  \frametitle{Background}                 
+
+  \begin{itemize}
+  \item Modern simulation software is \textcolor{nasablue}{multidisciplinary}:
+    \begin{itemize}
+    \item Physical Sciences
+    \item Engineering
+    \item Computer Science
+    \item Applied Mathematics
+    \item \ldots
+    \end{itemize}
+  \item It is not reasonable to expect a single person to have all the necessary skills for developing \& implementing high-performance numerical algorithms on modern computing architectures.
+  \item Teaming is a prerequisite for success.
+  \end{itemize}
+}
+
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\frame
+{
+  \frametitle{Background}                 
+  \begin{itemize}
+    \item A large class of problems are amenable to \textcolor{nasablue}{mesh based} simulation techniques.
+      %% \begin{columns}[t]
+      %%   \column{.5\textwidth}        
+      %%   \fbox{\includegraphics[viewport=140 420 400 685,clip=true,height=1in]{domain2/domain2_input}}
+      %%   \column{.5\textwidth}
+      %%   \fbox{\includegraphics[height=1in,angle=-90]{discretized_domain}}
+      %% \end{columns}
+    \item Consider some of the major components such a simulation:
+      \pause
+      \begin{enumerate}
+        \item Read the mesh from file
+        \item Initialize data structures
+        \item Construct a discrete representation of the governing equations
+        \item Solve the discrete system
+        \item Write out results
+        \item Optionally estimate error, refine the mesh, and repeat
+      \end{enumerate}
+
+    \pause
+    \item With the exception of step 3, the rest is \emph{independent} of the class of problems being solved.
+    \pause
+    \item This allows the major components of such a simulation to be abstracted \& implemented in a reusable software library.
+  \end{itemize}
+}
+
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\frame
+{
+  \frametitle{The \libmesh{} Software Library}
+  \begin{itemize}
+    \item In 2002, the \libmesh{} library began with these ideas in mind.
+    \item Primary goal is to provide data structures and algorithms that can be shared by disparate physical applications, that may need some combination of
+      \begin{itemize}
+      \item Implicit numerical methods
+      \item Adaptive mesh refinement techniques
+      \item Parallel computing
+      \end{itemize}
+    \item Unifying theme: \textcolor{nasablue}{mesh-based simulation of partial differential equations}.
+  \end{itemize}
+}
+
+
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\frame
+{
+  \frametitle{The \libmesh{} Software Library}
+
+  \begin{block}{Key Point}
+    \begin{itemize}
+      \item The \libmesh{} library is designed to be used by researchers, scientists, and engineers \textcolor{nasablue}{as a tool for developing simulation codes}.
+      \item \libMesh{} is not an application code.
+      \item It does not ``solve problem XYZ.''
+        \begin{itemize}
+          \item It can be used to help you develop an application to solve problem XYZ, and to do so quickly with advanced numerical algorithms on high-performance computing platforms.
+        \end{itemize}
+      %\item It was initially targeted for finite element based simulations, but has been used for finite volume discretizations as well.
+    \end{itemize}    
+  \end{block}
+} 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\frame
+{
+  \frametitle{Software Reusability}
+}
 
  
 \input{libmesh_tree}
@@ -24,3 +137,5 @@
 \input{discretized_domain}
 
 
+
+% LocalWords:  nasablue
