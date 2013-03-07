@@ -1,0 +1,8 @@
+libmesh_cse13_talk-talk.pdf
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
