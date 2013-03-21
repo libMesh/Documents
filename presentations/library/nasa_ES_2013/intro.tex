@@ -7,13 +7,15 @@
 \section{Introduction}
 \input{outline_currentsection}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+\subsection{Background}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame
 {
   \frametitle{Background}                 
 
   \begin{itemize}
-  \item Modern simulation software is \textcolor{nasablue}{complex}:
+  \item Modern simulation software is \emphcolor{complex}:
     \begin{itemize}
     \item Implicit numerical methods
     \item Massively parallel computers
@@ -30,13 +32,13 @@
 
  
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame
 {
   \frametitle{Background}                 
 
   \begin{itemize}
-  \item Modern simulation software is \textcolor{nasablue}{multidisciplinary}:
+  \item Modern simulation software is \emphcolor{multidisciplinary}:
     \begin{itemize}
     \item Physical Sciences
     \item Engineering
@@ -52,12 +54,12 @@
 
  
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame
 {
   \frametitle{Background}                 
   \begin{itemize}
-    \item A large class of problems are amenable to \textcolor{nasablue}{mesh based} simulation techniques.
+    \item A large class of problems are amenable to \emphcolor{mesh based} simulation techniques.
       %% \begin{columns}[t]
       %%   \column{.5\textwidth}        
       %%   \fbox{\includegraphics[viewport=140 420 400 685,clip=true,height=1in]{domain2/domain2_input}}
@@ -85,7 +87,8 @@
 
  
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\subsection{The \libmesh{} Software Library}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame
 {
   \frametitle{The \libmesh{} Software Library}
@@ -97,7 +100,7 @@
       \item Adaptive mesh refinement techniques
       \item Parallel computing
       \end{itemize}
-    \item Unifying theme: \textcolor{nasablue}{mesh-based simulation of partial differential equations}.
+    \item Unifying theme: \emphcolor{mesh-based simulation of partial differential equations (PDEs)}.
   \end{itemize}
 }
 
@@ -105,14 +108,15 @@
 
  
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\subsection{Software Reusability}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame
 {
   \frametitle{The \libmesh{} Software Library}
 
   \begin{block}{Key Point}
     \begin{itemize}
-      \item The \libmesh{} library is designed to be used by researchers, scientists, and engineers \textcolor{nasablue}{as a tool for developing simulation codes}.
+      \item The \libmesh{} library is designed to be used by studendts, researchers, scientists, and engineers as a tool for \emphcolor{developing simulation codes} or as a tool for \emphcolor{rapidily implementing a numerical method}.
       \item \libMesh{} is not an application code.
       \item It does not ``solve problem XYZ.''
         \begin{itemize}
@@ -125,14 +129,126 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame
 {
   \frametitle{Software Reusability}
+  \begin{itemize}
+    \item At the inception of \libMesh{} in 2002, there were many high-quality software libraries that implemented some aspect of the end-to-end PDE simulation process:
+      \begin{itemize}
+        \item Parallel linear algebra
+        \item Partitioning algorithms for domain decomposition
+        \item Visualization formats
+        \item \ldots
+      \end{itemize}
+    \item A design goal of \libMesh{} has always been to provide flexibile \& extensible interfaces to existing software whenever possible.
+    \item We implement the ``glue'' to these pieces, as well as what we viewed as the missing infrastructure:
+      \begin{itemize}
+        \item \emphcolor{Flexibile data structures for the discretization of spatial domains and systems of PDEs posed on these domains.}
+      \end{itemize}          
+  \end{itemize}  
 }
 
- 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{libmesh_tree}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{The ``Glue''}
+  \begin{itemize}
+    \item The \cpp{} programming language provides a powerful abstraction mechanism for separating a software interface from its implementation.
+    \item The notion of \emphcolor{Base Classes} defining an abstract interface and \emphcolor{Derived Classes} implementing the interface is key to this programming model.
+      \pause
+    \item The classic \cpp{} example: Shapes.
+  \end{itemize}
+  \lstinputlisting{snippets/shapes/main.cxx}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Abstract Shape}
+  \lstinputlisting{snippets/shapes/shape.cxx}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Specific Shape: Rectangle}
+  \lstinputlisting{snippets/shapes/rectangle.cxx}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Specific Shape: Circle}
+  \lstinputlisting{snippets/shapes/circle.cxx}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Object Polymorphism}
+  \lstinputlisting{snippets/shapes/main2.cxx}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{The ``Glue:'' Linear Algebra}
+  \begin{center}
+    \includegraphics[width=\textwidth,trim=7.56in 0 0 0,clip]{libmesh_docs/classlibMesh_1_1SparseMatrix__inherit__graph}
+  \end{center}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{The ``Glue:'' I/O formats}
+  \begin{center}
+    \includegraphics[height=0.9\textheight]{libmesh_docs/mesh_io}
+  \end{center}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Disretization: The Mesh}
+  \begin{center}
+    \includegraphics[width=\textwidth]{libmesh_docs/mesh_base}
+  \end{center}
+}      
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Disretization: The Elements}
+  \begin{center}
+    \includegraphics[width=\textwidth]{libmesh_docs/mesh_base}
+  \end{center}
+}      
+
 \input{generic_bvp}
 \input{discretized_domain}
 

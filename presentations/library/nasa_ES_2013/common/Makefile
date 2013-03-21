@@ -15,7 +15,7 @@ texfinal := $(shell basename $(dirname)).pdf
 bibfiles  := $(wildcard *.bib)
 styfiles  := $(wildcard *.sty ./common/*.sty)
 clsfiles  := $(wildcard *.cls ./common/*.cls)
-codefiles := $(wildcard snippets/*.cxx snippets/*.out)
+codefiles := $(shell find snippets/ -name '*.cxx' -o -name '*.out')
 
 PDFLATEX = TEXINPUTS=./common:$$TEXINPUTS pdflatex -halt-on-error
 LATEX = TEXINPUTS=./common:$$TEXINPUTS latex -halt-on-error
