@@ -1,0 +1,329 @@
+\section{C++ and Scientific Software}
+\input{outline_currentsection}
+
+\begin{frame}[t]
+  \begin{itemize}
+    \itemsep=.75cm
+  \item {Wait, this is supposed to be ``Scientific Software.'' Isn't OO code `slow'?
+  \only<2->
+  {
+    \begin{center}
+      \large\alert{Yes!}
+    \end{center}
+  }
+}
+  \item<3-> {But, this is like asking if driving a car is `dangerous'.}
+  \item<4-> {It is dangerous, but it is also a very convenient and effective means of transportation.}
+  \item<5-> {As long as everyone plays by the rules, nobody gets hurt!}
+  \end{itemize}
+\end{frame}
+
+\subsection*{Example 1: Raw vector vs.\ object }
+\begin{frame}[fragile]% Must use fragile with semiverbatim!!
+  \begin{itemize}
+  \item {Consider a simple example using a vector to implement row-major storage.}
+  \end{itemize}
+\small
+\begin{semiverbatim}
+long matrix_size = 10000;
+std::vector<double> v(matrix_size*matrix_size);
+
+long cnt=0;
+for (int i=0; i<matrix_size; ++i)
+  for (int j=0; j<matrix_size; ++j)
+    v[\alert<2>{i*matrix_size+j}] = cnt++;
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[fragile]% Must use fragile with semiverbatim!!
+  \begin{itemize}
+  \item {We can instead hide the index calculation in a user-defined Matrix type.}
+  \end{itemize}
+\small
+\begin{semiverbatim}
+class Matrix
+\{
+public:
+  Matrix(int mm, int nn);
+  double\& operator()(int i, int j);
+private:
+  int m, n;
+  std::vector<double> vals;
+\};
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[fragile]% Must use fragile with semiverbatim!!
+  \begin{itemize}
+  \item {The user code is now:}
+  \end{itemize}
+\small
+\begin{semiverbatim}
+long matrix_size = 10000;
+Matrix m(matrix_size,matrix_size);
+
+long cnt=0;
+for (int i=0; i<matrix_size; ++i)
+  for (int j=0; j<matrix_size; ++j)
+    m(i,j) = cnt++;
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}
+  \begin{itemize}
+  \item Timing results (in seconds, averaged over 5 runs) for the two different versions
+    with different optimization levels.
+  \end{itemize}
+  \begin{center}
+  \begin{tabular}{lll} \toprule
+                     & \textbf{None} & \textbf{--O3} \\ \midrule
+    \textbf{std::vector}  & 5.44 & 1.72  \\ 
+    \textbf{Matrix}       & 6.10 & 1.70  \\ \bottomrule
+  \end{tabular}
+  \end{center}
+\end{frame}
+
+
+
+\begin{frame}
+  \begin{itemize}
+    \itemsep=1cm
+  \item {With a decent compiler (in this case, \texttt{g++}) there is
+      almost no difference in performance between the two.}
+  \item{Does not require much advanced optimization knowledge on
+      the part of the user (e.g.\ expression templates).}
+  \item{The ``object'' code is arguably cleaner, and provides better
+    reuse possibilities.}
+  \end{itemize}
+\end{frame}
+
+
+
+\subsection*{Example 2: Virtual functions}
+
+\begin{frame}[fragile]
+  \begin{itemize}
+  \item {Virtual functions are another OO feature frequently cited as ``slow.''}
+  \item {Consider our previous Matrix class modified to allow subclassing:}
+  \end{itemize}
+\small
+\begin{semiverbatim}
+class MatrixBase
+\{
+public:
+  MatrixBase(int mm, int nn);
+  virtual ~MatrixBase() \{\}
+  \alert{virtual} double& operator()(int i, int j) = 0;
+protected:
+  int m, n;
+  std::vector<double> vals;
+\};
+\end{semiverbatim}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \begin{itemize}
+  \item {Define the MatrixRowMajor subclass to implement row-major storage:}
+    % Might also want to include virtual dtor...?
+    % virtual ~MatrixRowMajor() \{\}
+  \end{itemize}
+  \begin{semiverbatim}
+\small
+class MatrixRowMajor : public MatrixBase
+\{
+public:
+  MatrixRowMajor(int mm, int nn);
+  virtual double\& operator()(int i, int j);
+\};
+
+double\& MatrixRowMajor::operator()(int i, int j)
+\{
+  return vals[i*n + j]; \alert{// row major}
+\}
+  \end{semiverbatim}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \begin{itemize}
+  \item {Define the MatrixColMajor subclass for column-major storage:}
+  \end{itemize}
+\small
+\begin{semiverbatim}
+class MatrixColMajor : public MatrixBase
+\{
+public:
+  MatrixColMajor(int mm, int nn);
+  virtual double\& operator()(int i, int j);
+\};
+
+double\& MatrixColMajor::operator()(int i, int j)
+\{
+  return vals[i + m*j]; \alert{// col major}
+\}
+  \end{semiverbatim}
+\end{frame}
+
+
+
+%// ... Or, create col-major matrix
+%MatrixBase\& m = *(new MatrixColMajor(matrix_size,matrix_size));
+
+\begin{frame}[fragile]
+  \begin{itemize}
+  \item {(Essentially) the same matrix-fill code can be re-used...}
+  \end{itemize}
+\small
+  \begin{semiverbatim}
+// Create row-major (or col) matrix...
+MatrixBase\& m = 
+  *(new MatrixRowMajor(matrix_size,matrix_size));
+
+long cnt=0;
+for (int i=0; i<matrix_size; ++i)
+  for (int j=0; j<matrix_size; ++j)
+    m(i,j) = cnt++;
+  \end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}
+  \begin{itemize}
+  \item Average timing results (in seconds) for the original and
+    polymorphic Matrix classes.
+  \end{itemize}
+  \begin{center}
+  \begin{tabular}{lll} \toprule
+                     & \textbf{None} & \textbf{--O3} \\ \midrule
+    \textbf{Matrix}                 & 6.10 & 1.70  \\ 
+    \textbf{Matrix (virtual, row-major) }       & 6.08 & 1.98  \\ 
+    \textbf{Matrix (virtual, col-major) }       & 8.06 & 3.77  \\ \bottomrule
+
+  \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+    \itemsep=1cm
+  \item {The additional flexibility obtained by decoupling the storage
+      layout from the algorithm cost us about 15\% in the row-major case.}
+
+  \item {Also, the ``generic'' algorithm (which is inherently 
+      row-major) did not perform nearly as well on the column-major
+      layout.}
+
+%  \item {There are several possible solutions to this problem.}
+%       \begin{enumerate}
+%       \item Rework the design so that virtual functions do not appear inside
+%         inner loops.
+% \item Work with objects of known type (defeats purpose of polymorphism)
+%       \end{enumerate}
+
+    \item {We can address both these issues by becoming virtual at a ``higher level.''}
+  \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \begin{itemize}
+    \itemsep=1cm
+  \item {Recognizing that the algorithm is not efficiently decoupled from
+      the storage layout, we can make the \emph{algorithm itself} virtual instead.}
+  \end{itemize}
+\small
+  \begin{semiverbatim}
+class MatrixBase
+\{
+public:
+  MatrixBase(int mm, int nn);
+  virtual ~MatrixBase() \{\}
+  \alert{virtual void fill() = 0;}
+protected:
+  int m, n;
+  std::vector<double> vals;
+\};
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \begin{itemize}
+  \item {Implemented for the row-major case (col-major case
+      is analogous):}
+  \end{itemize}
+\small
+\begin{semiverbatim}
+void MatrixRowMajor::fill()
+\{
+  long cnt=0;
+  for (int i=0; i<m; ++i)
+    for (int j=0; j<n; ++j)
+      vals[i*n + j] = cnt++;
+\}
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \begin{itemize}
+  \item {And finally, called generically from user code:}
+  \end{itemize}
+\small
+  \begin{semiverbatim}
+MatrixBase* m = 
+  new MatrixRowMajor(matrix_size,matrix_size);
+m->fill();
+  \end{semiverbatim}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+  \begin{itemize}
+  \item {Combined results for the original, non-virtual objects and the
+      virtual \texttt{fill()} function.}
+  \end{itemize}
+  \begin{center}
+  \begin{tabular}{lll} \toprule
+                     & \textbf{None} & \textbf{--O3} \\ \midrule
+    \textbf{std::vector}            & 5.44 & 1.72  \\ 
+    \textbf{Matrix}                 & 6.10 & 1.70  \\ 
+    \textbf{fill(), row-major }     & 5.70 & 1.68  \\ 
+    \textbf{fill(), col-major }     & 5.71 & 1.69  \\ \bottomrule
+  \end{tabular}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}
+  \begin{itemize}
+    \itemsep=.65cm
+  \item {Proper use of virtual functions (i.e.\ not too many) leads to
+    more flexible code with the same performance as less flexible code.}
+
+  \item {The \texttt{fill()} method in this example can be made more sophisticated
+      if we also pass a ``\texttt{Filler}'' function object to it. }
+
+  \item {This example was trivial: there are libraries
+      (boost/blitz/eigen) which are much more realistic.}
+
+  \item{The guidelines developed here for using virtual functions should
+    apply in other situations as well.}
+
+  \end{itemize}
+\end{frame}
+
+% LocalWords:  LibMesh LGPL multi CFDLab TACC Stogner advisor Dreyer TUHH INL
+% LocalWords:  Knezevic ger Universit Coutinho Certik thi Ruijter Mahadevan OO
+% LocalWords:  Garg libmesh cnt nn vals lll subclassing MatrixBase
+% LocalWords:  MatrixRowMajor MatrixColMajor

@@ -1,0 +1,42 @@
+\begin{frame}[fragile,t]  
+%  \frametitle{Poisson Equation}
+%	\begin{block}{}
+	  \begin{itemize}    
+	  \item{ The LibMesh representation of the matrix and
+	    rhs assembly is similar to the mathematical statements.
+	  }
+	  \end{itemize}
+%	\end{block}
+\small
+\begin{semiverbatim}
+for (q=0; q<Nq; ++q) 
+  for (i=0; i<Ns; ++i) \{
+    \alert<2>{Fe(i)   += JxW[q]*f(xyz[q])*phi[i][q];}
+    
+    for (j=0; j<Ns; ++j)
+      \alert<3>{Ke(i,j) += JxW[q]*(dphi[j][q]*dphi[i][q]);}
+  \}
+\end{semiverbatim}
+\only<2>
+{
+  \begin{equation}
+    \nonumber
+    \bv{F}^e_{i} = 
+    \sum_{q=1}^{N_q}
+    f(x(\xi_q))
+    \phi_i(\xi_q)
+    |J(\xi_q)| w_q
+  \end{equation}
+}
+\only<3->
+{
+  \begin{equation}
+  \nonumber
+  \bv{K}^e_{ij} =
+  \sum_{q=1}^{N_q}
+    \nabla \phi_j(\xi_q) \cdot
+    \nabla \phi_i(\xi_q)
+    |J(\xi_q)| w_q
+  \end{equation}
+}
+\end{frame}
