@@ -1,0 +1,32 @@
+%% Commands for math shortcuts
+\newcommand{\bv}[1]{{\boldsymbol{#1}}}
+\newcommand{\bt}[1]{{\boldsymbol{#1}}}
+\newcommand{\pdv}[2]{{\frac{\partial{#1}}{\partial{#2}}}}
+\newcommand{\lap}[1]{{\nabla}^2 {#1}}
+\newcommand{\laphat}[1]{{\hat{\nabla}}^2 {#1}}
+\newcommand{\grad}[1]{\bv{\nabla} {#1}}
+\newcommand{\tgrad}[1]{\bv{\nabla}^T {#1}}
+\newcommand{\tgradhat}[1]{\bv{\hat{\nabla}}^T {#1}}
+\newcommand{\dvg} [1]{\bv{\nabla} \cdot {#1}}
+\newcommand{\dvghat} [1]{\bv{\hat{\nabla}} \cdot {#1}}
+\newcommand{\gradtan}[1]{\bv{\nabla}_{\tau} {#1}}
+\newcommand{\dx} {\; dx}
+\newcommand{\dxhat} {\; d\hat{x}}
+\newcommand{\ds} {\; ds}
+\newcommand{\dshat} {\; d\hat{s}}
+
+%% Commands for named entities
+\newcommand{\Beowulf}{{\it Beowulf\/\ }}
+\newcommand{\noweb}{\textsc{Noweb}}
+\newcommand{\ticam}{\textsc{Ticam}}
+\newcommand{\cfdlab}{CFDLab}
+\newcommand{\mgf}{MGF}
+
+%%
+\makeatletter
+\newcommand{\undraft}{\Gin@draftfalse}
+\newcommand{\redraft}{\Gin@draftfalse}
+\makeatother
+
+%% My own marginpar
+\newcommand{\fixme}[1]{\marginpar{{\scriptsize #1}}}

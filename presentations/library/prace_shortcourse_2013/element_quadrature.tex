@@ -1,0 +1,60 @@
+\subsection*{Element Quadrature}
+    
+\begin{frame}[t]
+%	\frametitle{Poisson Equation}
+	\begin{block}{}
+	\begin{itemize}    
+	\item{
+	  The integrals on the ``reference'' element are approximated via numerical
+	  quadrature.
+	}
+	  \visible<2->
+	      {
+	      \item{The quadrature rule has $\alert{N_q}$ points
+		``$\alert{\xi_q}$'' and weights ``$\alert{w_q}$''.}
+	      }
+	\end{itemize}
+	\end{block}
+\only<3>
+{
+	\begin{eqnarray}
+	  \nonumber
+%	  \only<3-4>
+%	      {
+		\bv{F}^e_{i} &=&
+		\int_{\hat{\Omega}_e} f \phi_i |J| d\xi
+		\\ \nonumber
+%	      }
+%	      \only<4>
+%		  {
+		    &\approx&
+		    \alert{\sum_{q=1}^{N_q}}
+		    f(x(\alert{\xi_q})) \phi_i(\alert{\xi_q})
+		    |J(\alert{\xi_q})| \alert{w_q}
+%		  }
+	\end{eqnarray}
+}
+
+\only<4>
+{
+	\begin{eqnarray}
+	  \nonumber
+%	  \only<5-6>
+%	      {
+		\bv{K}^e_{ij} &=&
+		\int_{\hat{\Omega}_e}
+		\hat{\nabla}_{\!\xi}\phi_j \cdot
+		\hat{\nabla}_{\!\xi}\phi_i \;|J| d\xi
+		\\ \nonumber
+%	      }
+%	      \only<6>
+%		  {
+		    &\approx&
+		    \alert{\sum_{q=1}^{N_q}}
+		    \hat{\nabla}_{\!\xi} \phi_j(\alert{\xi_q}) \cdot
+		    \hat{\nabla}_{\!\xi} \phi_i(\alert{\xi_q})
+		    |J(\alert{\xi_q})| \alert{w_q}
+%		  }
+	\end{eqnarray}
+}
+\end{frame}
