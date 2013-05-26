@@ -88,6 +88,9 @@
 \newcommand{\LibMesh}{\texttt{libMesh}}
 \newcommand{\libmesh}{\texttt{libMesh}}
 \newcommand{\emphcolor}[1]{\textcolor{nasablue}{#1}}
+\newcommand{\royslide}[2]{\begin{frame} \frametitle{#1} #2 \end{frame}}
+\newcommand{\royitemizebegin}[1]{\begin{block}{#1} \begin{itemize}}
+\newcommand{\royitemizeend}{\end{itemize} \end{block}}
 
 \begin{document}
 
@@ -131,6 +134,7 @@
 %\input{bcs}
 \input{extensions}
 \input{amr}
+\input{parallelism}
 \input{references}
 
 \end{document}

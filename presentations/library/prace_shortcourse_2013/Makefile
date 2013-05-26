@@ -34,8 +34,8 @@ $(texfinal): *.tex $(bibfiles) $(figures) $(clsfiles) $(styfiles) $(codefiles)
 clean: cleanlatex cleanfigs
 
 cleanlatex:
-	rm -f $(patsubst %.tex, %.aux, $(wildcard *.tex)) 
-	rm -f $(texroot).bbl $(texroot).blg $(texroot).log $(texroot).dvi $(texroot).nav $(texroot).out $(texroot).pdf $(texroot).snm $(texroot).toc $(texroot).vrb 
+	rm -f $(patsubst %.tex, %.aux, $(wildcard *.tex))
+	rm -f $(texroot).bbl $(texroot).blg $(texroot).log $(texroot).dvi $(texroot).nav $(texroot).out $(texroot).pdf $(texroot).snm $(texroot).toc $(texroot).vrb
 
 cleanfigs:
 	rm -f $(figures)
@@ -94,7 +94,7 @@ figs/%.pdf: ./common/rawfigs/%.pdf
 
 figs/%.pdf: ./common/rawfigs/%.eps
 	@mkdir -p $(dir $@)
-	epstopdf $? -o=$@                
+	epstopdf $? -o=$@
 
 figs/%.pdf: ./common/rawfigs/%.ps
 	@mkdir -p $(dir $@)
