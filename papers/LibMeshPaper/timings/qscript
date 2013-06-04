@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N pm_jwp
+#PBS -l walltime=4:00:00
+#PBS -j oe
+#PBS -W group_list=g27122@columbia5,g27122@columbia9,g27122@columbia10,g27122@columbia11,g28108@columbia1,g28108@columbia7
+
+
+cd $PBS_O_WORKDIR
+
+case=$PBS_JOBNAME
+np=$NCPUS
+log=$case.$np.log
+
+rm $log
+
+echo >> $log
+echo " -----------------------------------------------" >> $log
+echo "| Master Host:   $PBS_O_HOST"                     >> $log
+echo "| Working Dir:   $PBS_O_WORKDIR"                  >> $log
+echo "| # of Procs:    $np"                             >> $log
+echo "| Case name::    $case"                           >> $log
+echo " -----------------------------------------------" >> $log
+echo >> $log
+
+
+#
+# Run the job
+tstart=`date +%s`
+mpirun -np $np ./pm -i $case.in -ksp_type tfqmr -log_summary >> $log 2>&1 
+    
+ 
+#
+# Record elapsed time
+echo " -------------------------------------------------------------------------------" >> $log
+echo   >> $log                                                 >> $log
+echo " Run completed in $((`date +%s`-tstart)) seconds" >> $log
+
+
+# Local Variables:
+# mode: shell-script
+# End:

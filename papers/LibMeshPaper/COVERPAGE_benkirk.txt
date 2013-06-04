@@ -1,0 +1,47 @@
+Cover page for submission to Engineering with Computers
+
+Authors:
+	Benjamin S. Kirk
+	John W. Peterson
+	Roy H. Stogner
+	Graham F. Carey
+	
+Title: 
+  libMesh: A C++ Library for Parallel Adaptive Mesh Refinement/Coarsening Simulations
+
+Affiliation and address:
+  CFDLab
+  The University of Texas at Austin
+  Dept.~of Aerospace Eng.~and Eng.~Mechanics
+  1 University Station C0600
+  Austin, TX 78712
+  
+Additional contact information:
+	EMAIL: benkirk@cfdlab.ae.utexas.edu
+	TEL:   1-281-483-9491
+	FAX:   1-281-244-5256
+
+
+Abstract:
+
+In this paper we describe the libMesh framework for parallel
+adaptive finite element applications.  libMesh is an open-source
+software library that has been developed to facilitate serial and
+parallel simulation of multiscale, multiphysics applications using
+adaptive mesh refinement and coarsening strategies.  The main software
+development is being carried out in the CFDLab at the University of
+Texas, but as with other open-source software projects; contributions
+are being made elsewhere in the U.S. and abroad.  The main goals of
+this article are: (1) to provide a basic reference source that
+describes libMesh and the underlying philosophy and software design
+approach; (2) to give sufficient detail and references on the adaptive
+mesh refinement and coarsening (AMR/C) scheme for applications
+analysts and developers; and (3) to describe the parallel
+implementation and data structures with supporting discussion of
+domain decomposition, message passing, and details related to dynamic
+repartitioning for parallel AMR/C.  Other aspects related to C++
+programming paradigms, reusability for diverse applications, adaptive
+modeling, and similar concepts are briefly discussed. Finally, results
+from some applications using the library are presented and areas of
+future research are discussed.
+

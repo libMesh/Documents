@@ -1,0 +1,8 @@
+*.bbl
+*.blg
+*~
+*.log
+*.aux
+*.out
+paper.pdf
+ignore

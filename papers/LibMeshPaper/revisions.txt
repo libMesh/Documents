@@ -1,0 +1,505 @@
+==================================================================
+= This is a file to keep track of the revisions suggested by the =
+= reviewers and our specific changes to answer their revisions.  =
+= Responses are in the usual email quoting format.               =
+==================================================================
+
+
+
+----------------------------------------------------------------------
+REVIEWER 1:
+
+This paper is clearly written and fulfills its main goals set out in
+the abstract.  The research detailed here has added credibility
+because the source code and documentation for libMesh is freely
+available on the Internet.  The complexity of the bookkeeping with
+adaptive mesh refinement (AMR) in parallel finite element applications
+makes a library such as libMesh a valuable tool for the application
+developer.  libMesh is applicable for many application areas, in part,
+because of the error indicators used that are independent of the
+physics of the problem to be solved.  I see the innovativeness of
+libMesh to be the use of error indicators that are independent of
+physics for AMR, the open source availability, and the reusability of
+this library.
+
+
+Recommendation:
+Accepted in current form 
+
+
+----------------------------------------------------------------------
+REVIEWER 2:
+
+
+    Section 2: To my opinion this section could be shortened
+considerably. The details of the error estimator (whether residual
+based, recovery or duality-based) are only relevant with respect to
+the information that is needed to evaluate the estimator and what is
+the output of the estimator (e.g. a flag for each element that has to
+be refined). For the aims of the paper pointers to the relevant
+literature on error estimators is sufficient. Moreover, jargon like
+"the level-1 rule" should be omitted.    
+
+>> While we are retaining the short discussion of physics-dependent
+>> error estimators, text explaining the limited interface available
+>> to physics-independent error indicators has been added.
+
+>> Potentially confusing terms like "level-0 mesh", "the level-1
+>> rule", and "isolated coarse elements" have been removed or
+>> replaced with short descriptions of what those terms mean.
+
+
+    Section 3: The section starts with the remark that libmesh is not
+the first framework for adaptive and even parallel adaptive finite
+element computations, which is true. So the authors should comment on
+in what respect their approach goes beyond previous approaches. In
+essence this is the question why the authors started a new
+framework. The reasons given on page 1, however, do not really
+represent convincing technical arguments. I would expect a more
+technical discussion here.
+
+>> A discussion of this type quickly devovles into a "project-bashing"
+>> paragraph which lists the limitations of other codes while skimming
+>> over limitations in the present implementation.  We wished to avoid
+>> this sort of discussion, but we have discussed some of the limitations
+>> of other libraries in the response to Reviewer 3.  We instead prefer
+>> to focus on which libraries inspired us and why, and several of these
+>> libraries are mentioned.
+>>
+>> A subsidiary reason for developing ibmesh was that it provided a
+>> means toward understanding "large-scale" finite element programming
+>> and in its early stages it did indeed serve as a learning tool for
+>> students of our research group; not expressly as a revolutionary
+>> research software framework.  If there is an outside community of
+>> researchers who finds the work useful, then that is an added
+>> benefit.  The auxiliary question of whether or not this was the
+>> best possible use of the LibMesh developers' time is left
+>> unanswered.
+
+
+
+
+
+    Sections 3.2 and 3.3: These sections could also be shortend or
+should be written in such a way that they give substantial
+information. The philosophy why to use C++ is not really important and
+version control (e. g. using CVS) is also standard for any larger
+software project, as is in code documentation.
+
+>> Some material has been trimmed from these sections, and additional
+>> text answering the next question has taken its place.
+
+
+    Section 3.4 (last paragraph): It is mentioned at several places in
+the paper that the base class / derived class paradigm is used. This
+is somewhat trivial because inheritance is the central mechanism of
+object-orientedness. It would be interesting to get more details on
+that. E. g. does this imply dynamic polymorphism (abstract base
+classes)? If so, how do you handle "small" methods (i. e. methods
+which are implemented by one (or few) machine instructions)? For
+example how does the interface of NumericVector look like? Does it
+allow access to individual entries? Or, do you use static
+polymorphism? If so, ist that done with engines or the Barton- Nackman
+trick?
+
+>> For the examples given in the paper, dynamic polymorphism is used.
+>> Where possible, small methods are combined into larger functions to
+>> reduce the efficiency penalty of virtual function calls, and we
+>> have added the example of global matrix entry access to the
+>> paper.
+
+
+
+
+    Section 3.5 (second paragraph): You write that whether real or
+complex systems are solved is determined at configuration time. I
+would have expected that the user selects in his code an appropriate
+vector type containing real or complex-valued numbers.
+
+>> This is indeed a limitation of libMesh; it is a limitation we
+>> inherit from PETSc, where all objects are built around the
+>> PetscScalar type which must be selected as real or complex at
+>> compile time.
+
+>> Because of this inconvenience some application code is written to
+>> solve complex-valued PDEs by treating the real and imaginary parts
+>> as two separate real-valued fields rather than a single
+>> complex-valued field.
+
+
+
+Again, I think the use of autoconf can be mentioned but is pretty
+standard in many software packages.
+
+>> The discussion of autoconf has been shortened slightly
+
+
+
+    Section 5.1: The mesh class is designed to be extensible and
+defines an abstract interface.  Again the question: is this dynamic or
+static polymorphism? Could you be more specific about what methods
+this interface consists of. Is the interface dimension independent
+(see also the remark below)?
+
+>> This is dynamic (runtime polymorphism) but in practice there is
+>> only a single concrete instantiation of the Mesh class which is
+>> currently used.  An example of a method in the public interface
+>> of the abstract Mesh base class is
+>> 
+>> virtual unsigned int n_elem () const = 0; 
+>> 
+>> Part of the Mesh's interface is to return the number of
+>> elements it currently contains.  The implementation could be
+>> to return the length of a std::vector, or to return a pre-computed
+>> value, or even to count up the total number of elements (stored in
+>> a std::set or some other custom data structure).
+>> The interface is not dimension-independent in the sense of the
+>> deal.II library (the Mesh is not templated on the number of
+>> space dimensions).
+>> 
+>> While this does restrict somewhat the use of the Mesh in a general
+>> code which works in multiple dimensions (at runtime, the Mesh
+>> constructor takes an argument which defines its number of dimensions)
+>> this lack (in our opinion) is more than made up for in the development
+>> cycle by the reduced compilation requirements which are possible when
+>> 1,2, and 3-dimensional versions of each class need not be compiled
+>> separately.  In addtion, it gets around the issue of cases in which
+>> templating on multiple parameters (e.g.  when the number of space
+>> dimensions differs from the dimension of the geometric elements) which
+>> we found to be cumbersome during development.
+>>
+>> In practice, geometric entities such as Points are default compiled
+>> in 3 dimensions.  For 2D problems, we carry around an additional
+>> floating point value for these cases and thus pay the additional
+>> price in terms of unnecessary floating point operations and
+>> storage.  Profiling standard applications suggests that this does
+>> not have as large an impact on the overall runtime as does for
+>> example, choosing the proper preconditioner.
+
+
+
+    Section 5.2 (last two paragraphs): The library implies a certain
+consistency model on how the same degree of freedom stored in several
+processors is handled. Would it not be more flexible to have this
+model under user control?
+
+>> Allowing users to decide which processors control individual
+>> degrees of freedom rather than individual elements would only make
+>> load balancing slightly more fine-grained, and it is unclear
+>> whether the additional complexity would be worth the gain.
+
+>> We are also reluctant to give users control of degree of freedom
+>> handling (beyond the reordering capabilities they already have
+>> through PETSc), because giving the users more flexibility can imply
+>> giving the library less.  The DofObject and DofMap implementations
+>> have each been recently changed, once to reduce memory use and
+>> once to add hp refinement support, in each case without breaking
+>> compatibility with older application-level code.  The more control
+>> application code has over library internals, the harder it becomes
+>> to change those internals safely.
+
+
+
+
+    Section 5.4: The text and also the inheritance diagram in Fig. 5
+do not reveal to me how you can write dimension-independent code. Say
+you want to implement a (low order) mixed finite element method where
+degrees of freedom are located in the faces in 3D, edges in 2D and
+nodes in 1D. How do you do that? The notion of "codimension" from
+topology offers the right concept to do this. This applies also to the
+definition of "face neighbor" which means elements that have a common
+codimension 1 intersection.
+
+>> As mentioned previously, we do not currently support the same type of
+>> dimension-independent programming that is present in the deal.II
+>> library, but this is not seen as a major limitation.  It is indeed
+>> possible to implement families of finite elements of the type you have
+>> described (see for example the Clough-Tocher family of C1 elements
+>> which were developed initially in 2D and are currently being extended
+>> to 3D.  While codimension form topology likely provides a clean (the
+>> cleanest?) solution, none of the library authors were originally aware
+>> of this theory.  Furthermore, although this concept of
+>> codimension-form topology may be intended for use as an implementation
+>> detail, in our experience abstract set theory and topological
+>> "language" eventually reach into the user experience and can
+>> discourage the more "engineering"-focused community from taking a
+>> critical look at the library.
+>>
+>> It is true that in a general code, one ends up with statements such as
+>>
+>> mesh.add_elem( new (dim==2 ? QUAD4 : HEX8) );
+>>
+>> when adding a geometric element to a mesh during mesh generation.
+>> This is clearly not aesthetically pleasing, and it even involves an
+>> if-statement, whereas a code templated on DIM could specify simply
+>>
+>> mesh.add_elem( new Cell<DIM> );
+>>
+>> and be covered for all possible dimensions (even 1D, which is not
+>> considered in the first example!).  But, this is assuming that
+>> only a single type of geometric element (QUAD/HEX) is supported.
+>> In case the code also supports tet/tri type elements, as LibMesh
+>> does, the first call becomes even longer:
+>>
+>> if (use_simplex)
+>>   mesh.add_elem( new (dim==2 ? TRI3 : TET4) );
+>>
+>> else
+>>   mesh.add_elem( new (dim==2 ? QUAD4 : HEX8) );
+>>
+>> 
+>> while in the second case we just add another template parameter:
+>>
+>> mesh.add_elem ( new Cell<DIM,ElemType> );
+>>
+>> Clearly, the second case is more attractive from the standpoint of
+>> user code requirements.  What is hidden in this example, however,
+>> is the additional compilation time which is required in the second
+>> case.  Since we are building a library, explicit instantiations of
+>> every possible <DIM,ElemType> combination must be present somewhere
+>> in a .C source file, and if any line in that .C file changes, the code
+>> must recompiled once for each possible instantiation.  This is an
+>> example of a benefit which dynamic polymorphism has over static.
+>> The tradeoff is in complexity of user code, and this is a decision
+>> that any library developer is forced to make.
+
+
+
+
+    Section 5.4.2, 5.4.3: The fact that a NULL pointer indicates
+boundary faces or leaf elements is an implementation detail that is
+not really relevant.
+
+>> This has been removed.
+
+
+
+
+    Section 6.1: It is said that the way the constraints are
+implemented introduces "more floating point error". Can you quantify
+this or at least give some numerical experience that this is a
+negligible error?
+
+>> It is theoretically possible for our projection-based constraint
+>> implementation to introduce more floating point error than a custom
+>> constraint implementation, but the small matrices being factored 
+>> have low condition number and so we haven't seen a real difference.
+>> The only side-by-side comparisons we have run are for elements with
+>> (bi)linear and (bi)quadratic sides, for which the errors we
+>> witnessed were a small multiple of machine precision.
+
+>> The claim of "more floating point error" may be overstating
+>> what isn't a practical problem, so we have removed it.
+
+
+
+
+
+    Section 7: I think that the fact that the finite element mesh is
+not partitioned among the processors is a severe limitation of a
+parallel adaptive code. I know that distributing the mesh in a
+scalable way together with truly parallel adaptive
+refinement/coarsening and the necessary load balancing and migration
+adds an enormous complexity to the code. So this limitation should be
+stated clearly at an earlier place in the paper, e. g. in the
+introduction because it gives a misleading expectation
+otherwise. Moreover, the reader should be able to judge what this
+limitation means. E. g. you could state the amount of memory required
+to store the mesh (per node?) and the amount of memory required to
+store the linear algebra data structures (e.g.  for a scalar model
+problem and a system). It should become clear how many processors what
+kind of application could efficiently make use of.
+
+
+>> Agreed. This is a goal for the library, but honestly we have been
+>> surprised with the amount of practical (transient, nonlinear, 3D)
+>> problems which can be solved with the present structure.  Still,
+>> this should be mentioned eariler, and now is (see the Introduction).
+
+
+
+
+
+    Section 8: Can you give more quantitative information about the
+examples, like fixed size and/or scaled size speedups, time spent in
+various parts of the code (like solution, assembly, error estimation,
+mesh refinement).
+
+>> The intention of this section was to provide a "flavor" of the
+>> varied types of applications which can be tackled with LibMesh.
+>> While detailed profiling information is too specific to provide for
+>> each of the examples listed, we have noted the performance
+>> characteristics for a few common (compressible & incompressible
+>> Navier-Stokes) applications.  The parallel scalability of LibMesh
+>> is essentially that of PETSc, since the rest of the library
+>> requires much less communication.  Therefore, if your particular
+>> application spends approximately equal time in the matrix assembly
+>> and linear solve stages, its scalability will be better (in
+>> general) than an application which is heavily dominated by linear
+>> solves.  The issue raised in another section regarding the
+>> scalability of storing an entire copy of the mesh on each processor
+>> is also relevant in this discussion.  Duplicating the mesh in this
+>> way requires additional memory, with the tradeoff being that little
+>> or no additional communication is required.  For small to
+>> moderate-size problems, we generally feel that this tradeoff of
+>> memory for communication overhead is justified.
+
+
+
+
+
+
+Typos
+Section 5.6 (second paragraph): Should'nt it be Q2 P1 quadrilateral element?
+
+>> I think this is OK, we are referring here to the LBB-stable
+>> discontinuous pressure element, which is usually referred to with a -1.
+>> The reference to Gresho&Sani should make that clear.
+
+
+
+Recommendation
+I recommend to accept the paper for publication after it has been
+revised. More detailed information about the class design and
+quantitative information about the applications should be given.
+
+
+
+----------------------------------------------------------------------
+REVIEWER 3:
+
+The paper does not appear to present innovations with respect to
+finite element library / framework technology. The authors have
+initiated development of a new unstructured mesh library but have not
+provided a technical motivation for its development, as opposed to
+using one of the handful of existing public-domain packages (UG,
+ParFUM, Trellis/FMDB, Cactus, etc.).
+
+>> >> In response, we have briefly examined the listed packages:
+>>
+>> >> 1.) UG (cox.iwr.uni-heidelberg.de/~ug/) website was unavailable,
+>>        but it appears to be "a flexible toolbox for the adaptive
+>> 	  multigrid solution of partial differential equations."
+>> 	  It appears to be older (first reference: Bastian et al 1997,
+>>        Computing and Visualization in Science vol. 1, pp. 27-40.) and possibly
+>> 	  no longer under active development.
+>> 
+>> >> 2.) ParFUM/Charm++ (http://charm.cs.uiuc.edu/research/ParFUM/) is 
+>>        a huge piece of software from the computer science dept.
+>>        of UIUC.  ParFUM allows you to write parallel programs that
+>>        use unstructured meshes.  Its use in turn depends on charm++.
+>>	  In similarity with libmesh, it uses Metis for domain decomposition
+>>	  parallelization.  It has almost no support for implicit codes,
+>>	  (conjugate gradient method is the only iterative solver supported)
+>>	  targeting instead explicit solvers almost exclusively.  This
+>>	  is clearly a show-stopping lack of feature for solving nonlinear,
+>>	  time-adaptive problems, as the libmesh developers frequently do.
+>> 
+>> >> 3.) Trellis (http://www.scorec.rpi.edu/Trellis/) is a Geometry-Based
+>>        Adaptive Analysis Framework from RPI.  The object model used in
+>>        Trellis is based around:
+>>          "identifying independent objects of numerical methods rather
+>>           than just defining FE-elements or nodes as objects as it is
+>>           done in many object oriented FE-codes."
+>> 
+>>        A geometric model input file is *required*, and must be created
+>>        via one of the 3 supported (commercial) geometric modelling
+>>        packages.  This seems to be both a major feature (and
+>>        deterrent) to use of Trellis, especially for academic problems
+>>        that do not have complex geometries.
+>>        
+>>        Trellis is written by Mark W. Beall in conjunction with Mark
+>>        Shephard.  Similarly to libmesh, it interfaces with PETSc for
+>>        numerical linear algebra.  In general, its reliance on a
+>>        geometry-based problem description makes it ideal for some
+>>        classes of problems, but represents unnecessary addtional
+>>        complexity for the libmesh authors.  It is also more generalized
+>>        in the sense that it can be used to support finite element,
+>>        finite volume, finite difference, and other techniques, whereas
+>>        with libmesh we wanted to concentrate on the finite element
+>>        method and its varying levels of complexity.  Another detriment
+>>        to its use is that THE SOURCE CODE IS NOT AVAILABLE TO THE PUBLIC.
+>> 
+>> 
+>> >> 4.) deal.II does not support tets/triangles (i.e. only tensor-product
+>>        elements are supported), and thus it cannot be used       
+>>        for the C1 Clough-Tocher type elements.  Also, deal.II's degree
+>>        of freedom handling system was more difficult to generalize for
+>>        edge-based and derivative degrees of freedom than LibMesh's.
+>>        Although, this does not form the basis for initially starting the
+>>        library, it did attract additional developers.  Additionally, when
+>>        libmesh was started, support for parallel numerical linear algebra
+>>        in deal.II was limited (no PETSc interface) to multi-threading,
+>>        which was a serious drawback for its use on PC clusters.
+>> 
+>> 
+>> >> 5.) Cactus (http://www.cactuscode.org/) is "an open source
+>>        problem solving environment designed for scientists and engineers."
+>>        In other words, it is another framework which purports to be the
+>>        be-all, end-all analysis tool for any discipline.  Cactus is GPL'd
+>>        and has a well-designed web site with mailing lists, etc.  Cactus
+>>        allows application development in F77/F90/C/C++, and is ported to
+>>        many architectures.  Development is based at the max Planck
+>>        Institute and LSU, the code dates back to around 1995 and before.
+>>        Cactus 4.0 has been under development since 1999.  Several funding
+>>        grants have supported its development.  Cactus is not specifically
+>>        for finite elements, and relies on users to contribute what it
+>>        calls "thorns" which are essentially application modules that
+>>        implement custom scientific applications.  The main competition for
+>>        a package of this type is probably the SIERRA framework.  We do not
+>>        claim that libmesh is a framework of anywhere near this sort of
+>>        generality.  The main usage community for cactus is apparently the
+>>        finite difference community which simulates numerical relativity.
+>>        It seems that implementing custom h-adaptive finite element methods
+>>        with multiple element types in cactus would constitute a large
+>>        amount of work and time investment.
+>> 
+>> Further motivation for the project was also added to Section 3.
+
+
+
+
+              
+Formatting: The journal specifies references be listed in the order in
+which they appear, and have a particular format. This must be revised.
+
+>> The references are now numbered in the order in which they
+>> appear, rather than alphabetical order.
+
+
+
+
+
+Some references to code implementation details are extraneous and
+distracting, e.g.  pointer with NULL value.
+
+>> All such uses of the word "NULL" have been elided.
+
+
+
+
+Section 2 contains a significant discussion of physics-independent
+error indicators; however, this topic was not mentioned in the
+abstract. Are these an inherent part of the library and the
+innovation?
+
+>> Phys.-indep. error indicators are mentioned in the abstract.
+
+
+
+
+
+Section 5.4.2: (NULL pointer reference unnecessary & distracting.)
+"Locating the elements coincident with the boundary is equivalent to
+finding all of the elements without a neighbor."
+
+>> Fixed to remove NULL pointer wording.
+
+
+
+
+
+Section 5.4.3, 3rdP, last sentence: "If an active element neighbor is
+a refined ..."
+
+>> Typo fixed.

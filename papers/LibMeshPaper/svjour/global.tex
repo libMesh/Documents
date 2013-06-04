@@ -1,0 +1,69 @@
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\documentclass[draft]{ltxguide}[1995/11/28]
+%\usepackage{draftcopy}
+  \usepackage[logonly]{trace}
+
+\newcommand{\SJour}{\textsc{SVJour}}
+
+\title{The \SJour\ document class users guide\\supplement
+for\\\textit{global use}}
+
+\author{\copyright~1998, Springer Verlag Heidelberg\\
+   All rights reserved.}
+
+\date{29 October 2003}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+This document describes the \textit{global} option for the \SJour\
+\LaTeXe\ document class. It is meant for journals (of one- or two-column
+style) that have not yet been supported via a particular class option.
+
+For details on manuscript handling and the review process we refer to
+the \emph{Instructions for authors} in the printed journal you are
+writing your article for. For style matters please consult also previous
+issues of ``your'' journal.
+
+\section{Initializing the Class}
+\label{sec:opt}
+
+Please check the home page of your very journal via\\[3pt]
+\null\hspace{5mm}\hbox{\vtop{\hbox{\verb|http://www.springeronline.com|}
+\hbox{do a ``Springer Search" for the journal name}
+\hbox{or a ``Springer Search -- By ISBN/ISSN"}}}
+
+\medskip
+If the journal's home page does not offer a particular \LaTeX\
+package (i.e. a special class option for the SVJour document class)
+begin your document with
+\begin{verbatim}
+   \documentclass[global]{svjour}
+\end{verbatim}
+This holds for a \emph{one-column} journal -- for a \emph{two-column}
+journal just add the option \verb|twocolumn| so that the documentclass
+command now reads
+\begin{verbatim}
+   \documentclass[global,twocolumn]{svjour}
+\end{verbatim}
+All other options are also described
+in the main \emph{Users guide}.
+
+\section{Things to Note}
+
+There may be a slightly different layout for the journal you plan to
+create an article for and which is not taken care for by the
+\emph{global} option. This is not a great problem since all the articles
+are reprocessed anyway to include final page numbers, bibliographic
+information, and so on. The final layout is applied to your article
+during this process thus deriving benefit from the general use of
+\LaTeXe\ and the \SJour\ document class altogether.
+
+Since Springer-Verlag publishes over 400 different journals -- over 50
+thereof with \TeX\ -- it may take a while to produce a specific \TeX\
+macro package just for the one you are writing for at the moment. Please
+keep an eye on the web page mentioned above.
+\end{document}

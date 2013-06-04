@@ -1,0 +1,273 @@
+# The input file for the Porous Media Application
+
+#
+# Computational parameters (step sizes, number of steps, etc.)
+#
+# Mesh dimension
+dim = 2
+
+# Mesh filename.  If you specify a restart solution file below,
+# be sure to also specify the restart mesh_filname!
+mesh_filename = internal
+
+# Restart mesh and solution.  If you don't want to restart,
+# be sure to comment these lines out!
+# mesh_filename = out_mesh.027.xda
+# restart_solution = out.027.xda
+# mesh_filename = out_mesh.002.xda
+# restart_solution = out.002.xda
+
+
+
+# Time at which to restart the solution.  The code
+# will assume this time instead of 0.0 when it starts.
+# If you are not restarting, set this to zero!
+restart_time = 0.
+
+# Step at which to restart the solution.  This number
+# is only used when writing data files as a constant offset.
+# If you are not restarting, set this to zero!
+restart_step = 0
+
+
+####################
+# Mesh Information
+####################
+# Number of elements in x-dir (for internal mesh only)
+n_el_x = 150
+
+# Number of elements in y-dir (for internal mesh only)
+n_el_y = 150
+
+# Number of elements in z-dir (for internal mesh only)
+n_el_z = 150
+
+# Mesh size in x-direction (for internal mesh only)
+x_min = 0.0
+x_max = 1.0
+
+# Mesh size in y-direction (for internal mesh only)
+y_min = 0.0
+y_max = 1.0
+
+# Mesh size in z-direction (for internal mesh only)
+z_min = 0.0
+z_max = 1.0
+
+# Timestep
+dt = 0.01
+# dt = 0.0 # steady solve!
+
+# yes/no option flag to use ABTR (Adams-Bashforth Trapezoidal Rule)
+# predictor/corrector scheme.  If set to "no", then none of the abtr_xxx
+# flags below will be used for anything.
+use_abtr = no
+
+# The "epsilon_t" factor for the ABTR scheme.
+# Set to 1.0 to get uniform timesteps.  The smaller you make this
+# number, the more timesteps ABTR will force you to take.  If you
+# make it too large, the nonlinear iterations may fail to converge.
+# To increase time accuracy, you will have to decrease this value.
+abtr_epsilon_t = 0.01
+
+# You can limit the amount by which the ABTR scheme scales the
+# timestep using this value.  This can be helpful when the scheme
+# detects an artificial steady state and starts to run away with
+# itself.
+abtr_max_scale_factor = 2.0
+
+# When using ABTR, you can also set a minimum acceptable dt level.
+# This can help prevent the calculation from getting bogged down
+# with a really small timestep.
+abtr_min_dt = 0.01
+
+# Number of timesteps
+n_timesteps = 300
+
+# Maximum time level to run to.  With adaptive timestepping, you can
+# set a maximum time which you would like to run to.  If you set this
+# to 0 or leave it unset, the solution will run for n_timesteps regardless
+# of the time.
+t_max = 0.0
+
+# Solution write interval
+write_interval = 10
+
+# Max number of linear iterations
+n_linear_iterations = 661 # 1281
+
+# Linear tolerance (relative to the initial linear residual)
+linear_tolerance = 1.e-8
+
+# Max number of nonlinear steps
+n_nonlinear_steps = 15
+
+# Nonlinear tolerance
+nonlinear_tolerance = 1.e-5
+
+# Theta for the theta-method
+theta = 1.0
+
+# penalty value for penalty BCs
+penalty = 1.e10
+
+# Pin a specific value of the pressure (attempt to avoid
+# non-trivial null space in matrix). Value can be yes/no.
+pin_pressure = no
+
+# Approximation order:
+# 1 for (bi)linear elements
+# 2 for (bi)quadratic elements
+approximation_order = 1
+
+
+
+# File type to use for graphical output of data.
+# Note that you can specify multiple output types with single quotes:
+# 'gmv plt xda'
+output_types = 'plt xda'
+
+
+# This flag controls whether or not the code should
+# use 3rd-order Richardson extrapolation as a predictor
+# for the next timestep.  Value can be yes/no.  As
+# a rule of thumb when using adaptivity, do not use
+# the predictor.  Since it comes from two meshes ago,
+# it is typically not very useful.
+use_predictor = no
+
+
+# Flag which controls the use of the custom convergence
+# test.  If you set this to "on", then the linear solver
+# tolerance you supply will be ignored, and an adaptive
+# linear tolerance will be used for the inexact Newton
+# method.  Possible values are on/off.
+adaptive_linear_tolerance = off
+
+# Data file for writing temp. and solute fluxes.
+# Set to "none" (no quotes) if you don't want to
+# do this calculation.
+flux_data_file = flux.m
+
+# Data file for writing kinetic energy values.
+# Set to "none" (no quotes) if you don't want to
+# write this file.
+ke_data_file = ke.m
+
+# Data file for writing error estimator mean and std.
+# Set to "none" (no quotes) if you don't want to
+# write this file.
+# ee_data_file = ee.m
+ee_data_file = none
+
+
+
+
+#
+# Mesh refinement parameters
+#
+# The maximum number of refinement steps per timestep.
+# Set to 0 for no adaptivity.
+max_r_steps = 0
+
+# Set this to "yes" if you would like to estimate the error even
+# when max_r_steps==0.  The default value is "no".
+always_estimate_error = no
+
+# The maximum refinement level for a given element.
+max_r_level = 2
+
+# Percentage of elements to refine at each step
+refine_percentage = 0.90
+
+# Percentage of elements to (attempt to) coarsen at each step
+coarsen_percentage = 0.25
+
+# Number of uniform refinements to perform at the beginning.
+# (Start with an extremely coarse grid if you use this.)
+n_uniform_refinements = 0
+
+
+
+
+
+#
+# Stabilization parameters
+#
+# Boolean for writing information about cell Peclet
+# and reaction parameters, as well as tau terms, and
+# other terms related to stabilized methods.
+# Value can be yes/no.
+write_stab_data = no
+
+# Flag to turn on/off stabilization, value can be on/off.
+stabilization = on
+
+
+
+#
+# Physical parameters
+#
+# Diffusivity ratio, (solute diff)/(thermal diff)
+kappa = 0.1
+
+# Porosity of the medium
+eps = 0.33
+
+# Heat capacity ratio
+M = 1.
+
+# Solute Rayleigh number (always positive!)
+Rs = 160.0
+
+# Thermal Rayleigh number (always positive!)
+Rt = 200.0
+
+
+
+
+
+#
+# Simulation parameters (BCs, etc.)
+#
+# Temperature Dirichlet BCs,   DeltaT := t_bot - t_top
+
+# STABLE:    (DeltaT < 0)
+#t_bot = 0.
+#t_top = 1.
+
+# UNSTABLE:  (DeltaT > 0)
+t_bot = 1.
+t_top = 0.
+
+
+# Solute Temperature BCs,    DeltaS := s_top - s_bot
+# Note: DeltaS is defined differently than DeltaT.
+
+# STABLE:   (DeltaS < 0)
+s_bot = 1.
+s_top = 0.
+
+# UNSTABLE: (DeltaS > 0)
+# s_bot = 0.
+# s_top = 1.
+
+
+
+#
+# Solution perturbation parameters
+#
+
+# A perturbation to the solute field (at time t=0) of
+# the form s(z) = As*(sin(ws*2*pi*x) + sin(ws*2*pi*y))
+# can be introduced.
+#As = 1.e-9
+#ws = 2
+
+At = 2.5e-4
+wt = 0.5
+
+
+# Local Variables:
+# mode: shell-script
+# End:
