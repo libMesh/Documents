@@ -1,0 +1,24 @@
+\subsection*{Convection-Diffusion Equation}
+\begin{frame}[fragile]  
+  \begin{block}{}
+    \begin{itemize}    
+    \item{The matrix assembly routine for the linear convection-diffusion equation,
+      \begin{equation}
+	\nonumber
+	-\alert<2>{k}\Delta u + \alert<3>{\bv{b} \cdot \nabla u} = f
+      \end{equation}
+    }
+    \end{itemize}
+  \end{block}
+  \small
+  \begin{semiverbatim}
+for (q=0; q<Nq; ++q) 
+  for (i=0; i<Ns; ++i) \{
+    Fe(i)   += JxW[q]*f(xyz[q])*phi[i][q];
+    
+    for (j=0; j<Ns; ++j)
+      Ke(i,j) += JxW[q]*(\alert<2>{k}*(dphi[j][q]*dphi[i][q]) 
+                       +(\alert<3>{b*dphi[j][q]})*phi[i][q]);
+  \}
+  \end{semiverbatim}
+\end{frame}

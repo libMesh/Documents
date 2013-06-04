@@ -1,0 +1,68 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% You must use the Makefile to build this document ... it includes
+% the proper documentclass here.  The available document classes are
+% standard_dc.tex
+% handout_dc.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Abstract
+%% 
+%% LibMesh is an open-source finite element library that was originally
+%% developed to facilitate serial and parallel simulation of multiscale,
+%% multiphysics applications using adaptive mesh refinement and
+%% coarsening strategies.  The library was created in the CFDLab at the
+%% University of Texas's Aerospace Engineering and Engineering Mechanics
+%% Department, but, as with other open-source software projects,
+%% contributions are being made elsewhere in the US and abroad.  In this
+%% talk, which will be geared toward a general audience, we will describe
+%% the underlying philosophy and software design approach used in the
+%% library.  We will give additional details on the adaptive mesh
+%% refinement and coarsening (AMR/C) schemes utilized, and finally,
+%% describe our implementations in the key areas of domain decomposition,
+%% message passing, and parallel mesh data structures.  Other topics
+%% include: discussion of C++ programming paradigms (scientific software
+%% and the STL) software reusability in the face of diverse user
+%% applications, and integration with high-level threading APIs for
+%% making efficient use of hybrid parallel architectures.  Finally,
+%% results from some of the various applications which utilize the
+%% library are presented, and areas of future research are discussed.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Everything before \begin{document}
+\input{preamble}
+
+
+\begin{document}
+
+
+ \begin{frame}
+   \titlepage
+ \end{frame}
+
+\input{outline} 
+\input{what_is_libmesh}
+\input{rayleigh} % Pretty picture
+\input{libmesh_creators}
+\input{libmesh_is_isnot}
+\input{libmesh_tree}
+\input{generic_bvp}
+\input{discretized_domain}
+\input{mesh_uml}
+\input{femsystem_uml}
+\input{poisson_wrs}
+\input{poisson_code}
+\input{examples}
+\input{references}
+\input{libmesh_stats}
+
+\input{cpp_scientific}
+
+
+\end{document}
+
+% LocalWords:  LibMesh LGPL multi CFDLab TACC Stogner advisor Dreyer TUHH INL
+% LocalWords:  Knezevic ger Universit Coutinho Certik thi Ruijter Mahadevan OO
+% LocalWords:  Garg libmesh cnt nn vals lll subclassing MatrixBase rayleigh
+% LocalWords:  MatrixRowMajor MatrixColMajor cpp poisson discretized

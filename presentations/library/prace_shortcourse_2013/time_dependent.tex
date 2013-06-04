@@ -1,0 +1,51 @@
+\subsection*{Time-Dependent Problems}
+\begin{frame}%[t]
+  \only<1>{
+  }
+%%   \begin{block}{}
+%%     The weighted residual statement provides the connection between the mathematical
+%%     statement of the problem and the computer code implementation of the problem:
+%%   \end{block}
+
+  %\begin{block}{}
+  \begin{itemize}
+    \only<1>
+	{
+	\item{For linear problems, we have already seen how
+	  the weighted residual statement
+	  leads directly to a sparse linear system of equations
+	  \begin{equation}
+	    \nonumber
+	    \bv{K} \bv{U} = \bv{F}
+	  \end{equation}
+	  %which can be solved via Krylov subspace iterative methods.
+	}
+	}
+    \only<2>
+	{
+	\item{For time-dependent problems, 
+	  \begin{equation}
+	    \nonumber
+	    \frac{\partial u}{\partial t} = F(u)
+	  \end{equation}
+	}
+	\item{we also need a way to advance the
+	  solution in time, e.g. a $\theta$-method
+	  \begin{eqnarray}
+	    \nonumber
+	    \left( \frac{ u^{n+1} - u^n}{\Delta t}, v^h\right) &=& \left(F(u_{\theta}), v^h\right)
+	    \hspace{.1in} \forall v^h \in \mathcal{V}^h
+	    %+ \mathcal{O}(\Delta t^{p(\theta)})
+	    \\ \nonumber
+	    u_{\theta} &:=& \theta u^{n+1} + (1-\theta)u^n
+	  \end{eqnarray}
+	\item{Leads to $\bv{K} \bv{U} = \bv{F}$ at \emph{each timestep}.}
+	}
+	}
+  \end{itemize}
+%\end{block}
+\end{frame}
+
+
+
+

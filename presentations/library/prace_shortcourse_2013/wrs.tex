@@ -1,0 +1,52 @@
+\section{Weighted Residuals}
+\input{outline_currentsection}
+
+\begin{frame}[<+->]
+      %\frametitle{Weighted Residual Statement}
+  \begin{itemize}
+  \item {The point of departure in any FE analysis which uses \libMesh{} is
+    the weighted residual statement
+    %(sometimes referred to as simply ``the residual'' in
+    %the documentation.)
+    \begin{equation}
+      \nonumber
+      (F( u ), v) = 0 \hspace{.5in} \forall v \in \mathcal{V}
+    \end{equation}
+    }
+
+  \item{ Or, more precisely, the weighted residual statement associated with the
+    finite-dimensional space $\mathcal{V}^h \subset \mathcal{V}$
+    \begin{equation}
+      \nonumber
+      (F( u^{\alert{h}} ), v^{\alert{h}}) = 0 \hspace{.5in} \forall v^{\alert{h}} \in \mathcal{V}^{\alert{h}}
+  \end{equation}}
+
+  \end{itemize}
+\end{frame}
+
+
+\input{wrs_examples}
+
+
+%\subsection*{Approximate Problem}
+\begin{frame}%[<+->]
+  %\frametitle{Weighted Residual Statement}
+  \begin{itemize}
+
+    %%   \item{In each of the examples, the weighted residual statement is obtained by
+    %%     multiplying the PDE by a test function $v$, integrating over the domain $\Omega$,
+    %%     and applying the divergence theorem.}
+
+    %%   \item{Since $v=0$ on $\partial \Omega_D$ (essential data) the boundary integrals
+    %%     are over $\partial \Omega_N$ only.}
+
+    %%   \item{There are simple and efficient techniques (e.g.\ penalty method) for
+    %%     enforcing the Dirichlet conditions.}
+
+  \item{To obtain the approximate problem, we simply
+    replace $u \leftarrow u^h$, $v \leftarrow v^h$, and $\Omega \leftarrow \Omega^h$
+    in the weighted residual
+    statement.}
+    
+  \end{itemize}
+\end{frame}
