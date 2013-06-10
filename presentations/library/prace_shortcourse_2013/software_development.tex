@@ -206,8 +206,7 @@ $ export PKG_CONFIG_PATH=$LIBMESH_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 $ cp -r $LIBMESH_DIR/examples/introduction/ex1 . && cd ex1
 
 # see what we've got
-$ ls *.C *.h
-introduction_ex1.C$ ls
+$ ls
 Makefile introduction_ex1.C run.sh
 
 # compile against the full debug version of libMesh
@@ -231,8 +230,9 @@ $ mpicxx -o introduction_ex1 introduction_ex1.C \
 
   \begin{block}{Compiling Simple Applications with \texttt{libmesh-config}}
     \begin{lstlisting}[language=bash]
-# we support a similar utility, libmesh-config, which predates pkg-config support
-# this is similar, but also can report the compiler
+# we support a similar utility, libmesh-config, which predates
+# pkg-config support. this is similar, but also can report the
+# compiler used.
 $ PATH=$LIBMESH_DIR/bin:$PATH
 
 $ libmesh-config
@@ -249,4 +249,91 @@ $ libmesh-config --cxx
 mpicxx
     \end{lstlisting}
   \end{block}
+\end{frame}
+
+
+
+\begin{frame}[fragile,shrink]
+  \frametitle{The \libMesh{} installation}
+
+  \begin{block}{Compiling Applications with \texttt{make}}
+    \begin{lstlisting}[language=bash]
+# copy the first example program
+$ cp -r $LIBMESH_DIR/examples/introduction/ex1 . && cd ex1
+
+# compile against the default, optimized version of libMesh
+$ make
+Compiling C++ (in optimized mode) introduction_ex1.C...
+Linking example-opt...
+
+# compile against the full debug version of libMesh
+$ make METHOD=dbg
+Compiling C++ (in debug mode) introduction_ex1.C...
+Linking example-dbg...
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+
+
+
+\begin{frame}[fragile,shrink]
+  \frametitle{A first \libMesh{} application}
+  \begin{lstlisting}
+#include <iostream>
+#include "libmesh/libmesh.h"
+#include "libmesh/mesh.h"
+
+using namespace libMesh;
+
+int main (int argc, char** argv)
+{
+  LibMeshInit init (argc, argv);
+
+  if (argc < 4)
+    {
+      if (libMesh::processor_id() == 0)
+        std::cerr << "Usage: " << argv[0] << " -d 2 in.mesh [-o out.mesh]"
+                  << std::endl;
+
+      libmesh_error();
+    }
+
+  Mesh mesh(init.comm());
+
+  mesh.read (argv[3]);
+
+  mesh.print_info();
+
+  if (argc >= 6 && std::string("-o") == argv[4])
+    mesh.write (argv[5]);
+
+  return 0;
+}
+  \end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile,shrink]
+  \frametitle{A first \libMesh{} application}
+  \begin{lstlisting}[language=bash]
+$ make
+Compiling C++ (in optimized mode) introduction_ex1.C...
+Linking example-opt...
+$ ./example-opt -d 3 \
+  $LIBMESH_DIR/share/reference_elements/3D/one_hex27.xda -o out.exo
+ Mesh Information:
+  mesh_dimension()=3
+  spatial_dimension()=3
+  n_nodes()=27
+    n_local_nodes()=27
+  n_elem()=1
+    n_local_elem()=1
+    n_active_elem()=1
+  n_subdomains()=1
+  n_partitions()=1
+  n_processors()=1
+  n_threads()=1
+  processor_id()=0
+  \end{lstlisting}
 \end{frame}
