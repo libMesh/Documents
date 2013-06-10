@@ -317,9 +317,12 @@ int main (int argc, char** argv)
 \begin{frame}[fragile,shrink]
   \frametitle{A first \libMesh{} application}
   \begin{lstlisting}[language=bash]
+# build the example
 $ make
 Compiling C++ (in optimized mode) introduction_ex1.C...
 Linking example-opt...
+
+# run the example, reading a trivial mesh and writing output
 $ ./example-opt -d 3 \
   $LIBMESH_DIR/share/reference_elements/3D/one_hex27.xda -o out.exo
  Mesh Information:
