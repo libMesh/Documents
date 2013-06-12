@@ -1,39 +1,3 @@
-/* The libMesh Finite Element Library. */
-/* Copyright (C) 2003  Benjamin S. Kirk */
-
-/* This library is free software; you can redistribute it and/or */
-/* modify it under the terms of the GNU Lesser General Public */
-/* License as published by the Free Software Foundation; either */
-/* version 2.1 of the License, or (at your option) any later version. */
-
-/* This library is distributed in the hope that it will be useful, */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU */
-/* Lesser General Public License for more details. */
-
-/* You should have received a copy of the GNU Lesser General Public */
-/* License along with this library; if not, write to the Free Software */
-/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
-
-
- // <h1>Introduction Example 4 - Solving a 1D, 2D or 3D Poisson Problem in Parallel</h1>
- //
- // This is the fourth example program.  It builds on
- // the third example program by showing how to formulate
- // the code in a dimension-independent way.  Very minor
- // changes to the example will allow the problem to be
- // solved in one, two or three dimensions.
- //
- // This example will also introduce the PerfLog class
- // as a way to monitor your code's performance.  We will
- // use it to instrument the matrix assembly code and look
- // for bottlenecks where we should focus optimization efforts.
- //
- // This example also shows how to extend example 3 to run in
- // parallel.  Notice how little has changed!
-
-
 // C++ include files that we need
 #include <iostream>
 #include <algorithm>

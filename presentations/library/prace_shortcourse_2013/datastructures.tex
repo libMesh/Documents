@@ -66,7 +66,7 @@
   \frametitle{EquationSystems}
   \lstinputlisting[language=bash]{snippets/es.cxx.out}
 \end{frame}
-
+ 
 
 
 
@@ -87,3 +87,35 @@
   \frametitle{Elements}
   \lstinputlisting{snippets/elem.cxx}
 \end{frame}
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The \texttt{Node} Class}
+\begin{frame}
+  \frametitle{Nodes}
+  \begin{block}{}
+    \begin{itemize}
+      \item \texttt{Node}s define spatial locations in arbitrary dimensions.
+      \item Logically, a \texttt{Node} is a point in \emph{N}-space plus metadata:
+        \begin{itemize}
+          \item Global ID.
+          \item Processor ownership.
+          \item Degree of freedom indexing data.
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Nodes}
+  \begin{center}
+    \includegraphics[width=0.95\textwidth]{libmesh_docs/classlibMesh_1_1Node__inherit__graph}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Nodes}
+  \lstinputlisting{snippets/node.cxx}
+\end{frame}
+
