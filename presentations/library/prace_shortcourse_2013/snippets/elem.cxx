@@ -2,12 +2,13 @@
 for (unsigned int n=0; n<elem->n_nodes(); n++)
   {
     const Node *node = elem->get_node(n);
+
+    // get a user-specified material property, based on
+    // the subdomain the element belongs to
+    const Real k_diff = my_matprop_func (elem->subdomain_id(), *node);
     ...
   }
 
-// get a user-specified material property, based on
-// the subdomain the element belongs to
-const Real k_diff = my_matprop_func (elem->subdomain_id());
 
 // Perform some operation for elements on the boundary
 for (unsigned int side=0; side<elem->n_sides(); side++)
