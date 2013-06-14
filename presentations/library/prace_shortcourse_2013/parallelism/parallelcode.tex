@@ -11,12 +11,12 @@
 
 Example:
 \small
-\begin{semiverbatim}
+\begin{lstlisting}
 std::vector<Real> send, recv;
 ...
-send\_receive(dest\_processor\_id, send,
-             source\_processor\_id, recv);
-\end{semiverbatim}
+send_receive(dest_processor_id, send,
+             source_processor_id, recv);
+\end{lstlisting}
 \end{frame}
 %}
 
@@ -24,38 +24,37 @@ send\_receive(dest\_processor\_id, send,
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\royslide{Parallel:: API}{
-\begin{frame}[fragile]
+\begin{frame}[fragile,shrink]
 \frametitle{Parallel:: API}
 
 Instead of:
-\tiny
-\begin{semiverbatim}
-if (dest\_processor\_id   == libMesh::processor\_id() \&\&
-    source\_processor\_id == libMesh::processor\_id())
+\begin{lstlisting}
+if (dest_processor_id   == libMesh::processor_id() &&
+    source_processor_id == libMesh::processor_id())
   recv = send;
-#ifdef HAVE\_MPI
+#ifdef HAVE_MPI
 else
-  \{
+  {
     unsigned int sendsize = send.size(), recvsize;
-    MPI\_Status status;
-    MPI\_Sendrecv(\&sendsize, 1, datatype<unsigned int>(),
-                 dest\_processor\_id, 0,
-                 \&recvsize, 1, datatype<unsigned int>(),
-                 source\_processor\_id, 0,
-                 libMesh::COMM\_WORLD,
-                 \&status);
+    MPI_Status status;
+    MPI_Sendrecv(&sendsize, 1, datatype<unsigned int>(),
+                 dest_processor_id, 0,
+                 &recvsize, 1, datatype<unsigned int>(),
+                 source_processor_id, 0,
+                 libMesh::COMM_WORLD,
+                 &status);
 
     recv.resize(recvsize);
 
-    MPI\_Sendrecv(sendsize ? \&send[0] : NULL, sendsize, MPI\_DOUBLE,
-                 dest\_processor\_id, 0,
-                 recvsize ? \&recv[0] : NULL, recvsize, MPI\_DOUBLE,
-                 source\_processor\_id, 0,
-                 libMesh::COMM\_WORLD,
-                 \&status);
-  \}
-#endif // HAVE\_MPI
-\end{semiverbatim}
+    MPI_Sendrecv(sendsize ? &send[0] : NULL, sendsize, MPI_DOUBLE,
+                 dest_processor_id, 0,
+                 recvsize ? &recv[0] : NULL, recvsize, MPI_DOUBLE,
+                 source_processor_id, 0,
+                 libMesh::COMM_WORLD,
+                 &status);
+  }
+#endif // HAVE_MPI
+\end{lstlisting}
 \end{frame}
 %}
 
