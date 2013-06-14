@@ -98,7 +98,7 @@ private:
 
 
 \begin{frame}[allowframebreaks]
-  \frametitle{Poisson \texttt{main()}}
+  \frametitle{Poisson \texttt{assembly()}}
   \lstinputlisting[basicstyle=\tiny\ttfamily]{tutorial/poisson_ex1/poisson_problem.C}
 \end{frame}
 
@@ -114,7 +114,7 @@ $ make
 # run the example in 2D with 20 elements in each direction
 $ ./example-opt -d 2 -n 20 
 
-# run the example in 2D with 20 elements in each direction
+# run the example in 3D with 20 elements in each direction
 $ ./example-opt -d 3 -n 20 
     \end{lstlisting}
   \end{block}
@@ -221,7 +221,8 @@ $ make
 # run the example in 2D with 20 elements in each direction
 $ ./example-opt -d 2 -n 20 
 
-# run the example in 2D with 20 elements in each direction
+# run the example in 3D with 20 elements in each direction
+# using various numbers of threads
 $ ./example-opt -d 3 -n 20 --n_threads=1
 $ ./example-opt -d 3 -n 20 --n_threads=2
 $ ./example-opt -d 3 -n 20 --n_threads=4

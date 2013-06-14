@@ -21,11 +21,11 @@
 
   The Laplace-Young equation governs the behavior of films, which seek to form a minimal surface:
   \begin{equation*}
-    \grad{}\cdot\left(\frac{\grad{u}}{\sqrt{1 + \grad{u}\cdot\grad{u}}}\right) + \kappa u = 0
+    -\grad{}\cdot\left(\frac{\grad{u}}{\sqrt{1 + \grad{u}\cdot\grad{u}}}\right) + \kappa u = 0
   \end{equation*}
   or equivalently
   \begin{equation*}
-    \grad{}\cdot\left(K\left(u\right)\,\grad{u}\right) + \kappa u = 0
+    -\grad{}\cdot\left(K\left(u\right)\,\grad{u}\right) + \kappa u = 0
   \end{equation*}
   
   This problem behaves like a Helmholtz problem with nonlinear diffusion coefficient, $K(u)$.
@@ -81,5 +81,14 @@ $ ./example-opt -r 3 -o SECOND
   \frametitle{Output}
   \begin{center}
     \includegraphics[height=0.8\textheight]{tutorial/laplace_young/screen}
+  \end{center}
+} 
+
+
+\frame
+{
+  \frametitle{Output}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{tutorial/transient_convection_diffusion/screen}
   \end{center}
 } 

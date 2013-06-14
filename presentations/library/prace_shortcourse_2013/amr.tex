@@ -266,7 +266,10 @@
     \item What is required is a way to enforce boundary conditions for
       a generic finite element basis \emph{at the element stiffness matrix level}.
 
-    \item Solution: ``Penalty'' Boundary Conditions
+    \item A Solution: ``Penalty'' Boundary Conditions
+      \begin{itemize}
+      \item \emph{For many years, penalty boundary conditions were the preferred approach in \libMesh{}, so you may encounter them.}
+      \end{itemize}
   \end{itemize}
 \end{frame}
 
@@ -287,10 +290,8 @@
     $\frac{1}{\epsilon} + 1 = \frac{1}{\epsilon}$.
 
   \item This weakly enforces $u=g$ on the boundary at the element level, and works for
-    general finite element bases.
-
-  \item It requires a few additional calculations (edge/face integrals) but is more
-    efficient than modifying row entries after assembly
+    general finite element bases.  This approach only impacts elements who have a face 
+    on the boundary of the domain.
   \end{itemize}
 \end{frame}
 
@@ -585,6 +586,25 @@ end
 \begin{frame}{A Simple Refinement Strategy (cont.)}
   \includegraphics[height=.9\textheight]{amr/error_plot}
 \end{frame}
+
+
+\frame
+{
+  \Large
+  \begin{block}{}
+    \center{\bf Examples: Transient Problem with AMR}
+    \center{\texttt{transient\_convection\_diffusion\_AMR}}
+  \end{block}
+}
+
+
+\frame
+{
+  \frametitle{Output}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{tutorial/transient_convection_diffusion_AMR/screen}
+  \end{center}
+} 
 
 %% \end{document}
 
