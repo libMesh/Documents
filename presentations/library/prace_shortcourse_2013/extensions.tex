@@ -9,10 +9,77 @@
 {
   \Large
   \begin{block}{}
-    \center{\bf Examples: Nonlinear \& Trasient Problems}
+    \center{\bf Examples: Nonlinear \& Transient Problems}
     \center{\texttt{laplace\_young}}
     \center{\texttt{transient\_convection\_diffusion}}
   \end{block}
 }
 
+\frame
+{
+  \frametitle{Lapace-Young ``minimal surface'' problem}
 
+  The Laplace-Young equation governs the behavior of films, which seek to form a minimal surface:
+  \begin{equation*}
+    \grad{}\cdot\left(\frac{\grad{u}}{\sqrt{1 + \grad{u}\cdot\grad{u}}}\right) + \kappa u = 0
+  \end{equation*}
+  or equivalently
+  \begin{equation*}
+    \grad{}\cdot\left(K\left(u\right)\,\grad{u}\right) + \kappa u = 0
+  \end{equation*}
+  
+  This problem behaves like a Helmholtz problem with nonlinear diffusion coefficient, $K(u)$.
+}
+
+\begin{frame}[fragile,shrink]
+  \frametitle{Laplace-Young Assembly}
+  \begin{lstlisting}
+// headers omitted for brevity
+class LaplaceYoung : public NonlinearImplicitSystem::ComputeJacobian,
+                     public NonlinearImplicitSystem::ComputeResidual
+{
+public:  
+  LaplaceYoung (EquationSystems &es_in) :
+    es(es_in)
+  {}
+
+  virtual void jacobian (const NumericVector<Number>& X,
+                         SparseMatrix<Number>& J,
+                         NonlinearImplicitSystem& S);
+
+  virtual void residual (const NumericVector<Number>& X,
+                         NumericVector<Number>& R,
+                         NonlinearImplicitSystem& S); 
+
+private:
+  EquationSystems &es;
+};
+  \end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Running the program}
+    \begin{block}{Running the program}
+    \begin{lstlisting}[language=bash]
+# copy the example
+
+$ make
+
+# run the example with 3 uniform refinement steps, using first
+# order Lagrange elements
+$ ./example-opt -r 3 -o FIRST 
+
+# run the example with 3 uniform refinement steps, using first
+# order Lagrange elements
+$ ./example-opt -r 3 -o SECOND
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+
+
+\frame
+{
+  \frametitle{Output}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{tutorial/laplace_young/screen}
+  \end{center}
+} 

@@ -15,11 +15,11 @@ public:
 
   virtual void jacobian (const NumericVector<Number>& X,
 			 SparseMatrix<Number>& J,
-			 sys_type& S);
+			 NonlinearImplicitSystem& S);
 
   virtual void residual (const NumericVector<Number>& X,
 			 NumericVector<Number>& R,
-			 sys_type& S); 
+			 NonlinearImplicitSystem& S); 
 
 private:
   EquationSystems &es;

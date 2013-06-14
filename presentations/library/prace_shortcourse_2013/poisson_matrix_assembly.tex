@@ -120,7 +120,13 @@ $ ./example-opt -d 3 -n 20
   \end{block}
 \end{frame}
 
- 
+\frame
+{
+  \frametitle{Output}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{tutorial/poisson_ex1/screen}
+  \end{center}
+} 
 
 \frame
 {
@@ -203,4 +209,23 @@ void Poisson::operator()(const ConstElemRange &range) const
   }
 }
   \end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Running the program}
+    \begin{block}{Running the program}
+    \begin{lstlisting}[language=bash]
+# copy the example
+
+$ make
+
+# run the example in 2D with 20 elements in each direction
+$ ./example-opt -d 2 -n 20 
+
+# run the example in 2D with 20 elements in each direction
+$ ./example-opt -d 3 -n 20 --n_threads=1
+$ ./example-opt -d 3 -n 20 --n_threads=2
+$ ./example-opt -d 3 -n 20 --n_threads=4
+
+    \end{lstlisting}
+  \end{block}
 \end{frame}

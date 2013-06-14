@@ -169,8 +169,8 @@ int main (int argc, char** argv)
 
   // Give the system a pointer to the functions that update
   // the residual and Jacobian.
-  system.nonlinear_solver->residual_object = laplace_young;
-  system.nonlinear_solver->jacobian_object = laplace_young;
+  system.nonlinear_solver->residual_object = &laplace_young;
+  system.nonlinear_solver->jacobian_object = &laplace_young;
 
   // Initialize the data structures for the equation system.
   equation_systems.init();
