@@ -1,5 +1,28 @@
 \section{Key Data Structures}
 
+\subsection{Data Types}
+\begin{frame}[fragile]
+  \begin{block}{Data Types}
+    \begin{center}
+      \scriptsize
+      \begin{tabular}{|l|l|} \hline
+        \texttt{Real} & generally, a \texttt{double}, depending on \texttt{./configure} \\
+                      & \\
+        \texttt{Number} & a \texttt{Real} or \texttt{std::complex<Real>}, depending on \texttt{./configure} \\ 
+                      & \\
+        \texttt{Gradient} & a tuple of type \texttt{Number}, whose size is the spatial dimension \\ \hline
+      \end{tabular}
+    \end{center}
+  \end{block}
+  \begin{itemize}
+  \item \libMesh{} can be compiled to support either real or complex-valued systems.
+    \begin{lstlisting}[language=bash]
+  $ ./configure --enable-complex # turns on complex number support
+    \end{lstlisting}
+  \item The underlying linear algebra libraries must support the requested type.
+  \end{itemize}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Mesh Class}
 \begin{frame}[shrink]

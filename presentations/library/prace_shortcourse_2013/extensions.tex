@@ -43,25 +43,56 @@ public:
     es(es_in)
   {}
 
-  virtual void jacobian (const NumericVector<Number>& X,
-                         SparseMatrix<Number>& J,
-                         NonlinearImplicitSystem& S);
+  virtual void jacobian (const NumericVector<Number> &soln,
+                         SparseMatrix<Number> &jacobian,
+                         NonlinearImplicitSystem &system);
 
-  virtual void residual (const NumericVector<Number>& X,
-                         NumericVector<Number>& R,
-                         NonlinearImplicitSystem& S); 
+  virtual void residual (const NumericVector<Number> &soln,
+                         NumericVector<Number> &resid,
+                         NonlinearImplicitSystem &system); 
 
 private:
   EquationSystems &es;
 };
   \end{lstlisting}
 \end{frame}
+
+
+
+\begin{frame}[fragile,shrink]
+  \frametitle{Laplace-Young Assembly}
+  \begin{lstlisting}
+// Get the degree of freedom indices for the
+// current element.
+dof_map.dof_indices (elem, dof_indices);
+
+// Now we will build the element Jacobian.  This involves
+// a double loop to integrate the test funcions (i) against
+// the trial functions (j). Note that the Jacobian depends
+// on the current solution x, which we access using the soln
+// vector.
+//
+for (unsigned int qp=0; qp<qrule.n_points(); qp++)
+  {
+    Gradient grad_u;
+
+    for (unsigned int i=0; i<phi.size(); i++)
+      grad_u += dphi[i][qp]*soln(dof_indices[i]);
+
+    const Number K = 1./std::sqrt(1. + grad_u*grad_u);
+    ...
+  }
+  \end{lstlisting}
+\end{frame}
+
+
 \begin{frame}[fragile]
-  \frametitle{Running the program}
+  \frametitle{Running the \texttt{laplace\_young} program}
     \begin{block}{Running the program}
     \begin{lstlisting}[language=bash]
 # copy the example
-
+$ cp -r $LIBMESH_TUTORIAL/laplace_young .
+$ cd laplace_young
 $ make
 
 # run the example with 3 uniform refinement steps, using first
@@ -83,6 +114,22 @@ $ ./example-opt -r 3 -o SECOND
     \includegraphics[height=0.8\textheight]{tutorial/laplace_young/screen}
   \end{center}
 } 
+
+
+\begin{frame}[fragile]
+  \frametitle{Running the \texttt{transient\_convection\_diffusion} program}
+    \begin{block}{Running the program}
+    \begin{lstlisting}[language=bash]
+# copy the example
+$ cp -r $LIBMESH_TUTORIAL/transient_convection_diffusion .
+$ cd transient_convection_diffusion
+$ make
+
+# run the example
+$ ./example-opt
+    \end{lstlisting}
+  \end{block}
+\end{frame}
 
 
 \frame

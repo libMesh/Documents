@@ -597,6 +597,87 @@ end
   \end{block}
 }
 
+\begin{frame}[fragile]
+  \frametitle{The \texttt{transient\_convection\_diffusion\_AMR} program}
+    \begin{lstlisting}
+MeshRefinement mesh_refinement (mesh);
+...
+
+for (unsigned int r_step=0; r_step<max_r_steps; r_step++)
+  {
+    // Assemble & solve the linear system
+    system.solve();
+
+    // Print out the H1 norm, for verification purposes:
+    Real H1norm = system.calculate_norm(*system.solution, SystemNorm(H1));
+
+    std::cout << "H1 norm = " << H1norm << std::endl;
+
+    // Possibly refine the mesh
+    if (r_step+1 != max_r_steps)
+      {
+        std::cout << "  Refining the mesh..." << std::endl;
+
+        // The \p ErrorVector is a particular \p StatisticsVector
+        // for computing error information on a finite element mesh.
+        ErrorVector error;
+
+        // The \p ErrorEstimator class interrogates a finite element
+        // solution and assigns to each element a positive error value.
+        // This value is used for deciding which elements to refine
+        // and which to coarsen.
+        KellyErrorEstimator error_estimator;
+
+        // Compute the error for each active element using the provided
+        // \p flux_jump indicator.  Note in general you will need to
+        // provide an error estimator specifically designed for your
+        // application.
+        error_estimator.estimate_error (system, error);
+
+        // This takes the error in \p error and decides which elements
+        // will be coarsened or refined.  Any element within 20% of the
+        // maximum error on any element will be refined, and any
+        // element within 7% of the minimum error on any element might
+        // be coarsened. Note that the elements flagged for refinement
+        // will be refined, but those flagged for coarsening _might_ be
+        // coarsened.
+        mesh_refinement.refine_fraction() = 0.80;
+        mesh_refinement.coarsen_fraction() = 0.07;
+        mesh_refinement.max_h_level() = 5;
+        mesh_refinement.flag_elements_by_error_fraction (error);
+        mesh_refinement.refine_and_coarsen_elements();
+
+        // This call reinitializes the \p EquationSystems object for
+        // the newly refined mesh.  One of the steps in the
+        // reinitialization is projecting the \p solution,
+        // \p old_solution, etc... vectors from the old mesh to
+        // the current one.
+        equation_systems.reinit ();
+      }
+  }
+    \end{lstlisting}
+\end{frame}
+    
+\begin{frame}[fragile]
+  \frametitle{Running the \texttt{transient\_convection\_diffusion\_AMR} program}
+    \begin{block}{Running the program}
+    \begin{lstlisting}[language=bash]
+# copy the example
+$ cp -r $LIBMESH_TUTORIAL/transient_convection_diffusion_AMR .
+$ cd transient_convection_diffusion_AMR
+$ make
+
+# run the example for 25 timesteps from an initially refined mesh
+$ ./example-opt -n_timesteps 25 -n_refinements 5 \
+                -output_freq 10 -init_timestep 0
+
+# restart the example, reading the refined mesh and solution
+$ ./example-opt -read_solution -n_timesteps 25 \
+                -output_freq 10 -init_timestep 25 
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+
 
 \frame
 {

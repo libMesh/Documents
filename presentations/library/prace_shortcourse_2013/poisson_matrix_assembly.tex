@@ -55,7 +55,7 @@ for (q=0; q<Nq; ++q)
   \Large
   \begin{block}{}
     \center{\bf A Complete Program:}
-    \center{\texttt{poisson\_ex1}}
+    \center{\texttt{poisson}}
   \end{block}
 }
 
@@ -93,13 +93,13 @@ private:
 
 \begin{frame}[allowframebreaks]
   \frametitle{Poisson \texttt{main()}}
-  \lstinputlisting[basicstyle=\tiny\ttfamily]{tutorial/poisson_ex1/main.C}
+  \lstinputlisting[basicstyle=\tiny\ttfamily]{tutorial/poisson/main.C}
 \end{frame}
 
 
 \begin{frame}[allowframebreaks]
   \frametitle{Poisson \texttt{assembly()}}
-  \lstinputlisting[basicstyle=\tiny\ttfamily]{tutorial/poisson_ex1/poisson_problem.C}
+  \lstinputlisting[basicstyle=\tiny\ttfamily]{tutorial/poisson/poisson_problem.C}
 \end{frame}
 
 
@@ -107,8 +107,9 @@ private:
   \frametitle{Running the program}
     \begin{block}{Running the program}
     \begin{lstlisting}[language=bash]
-# copy the example
-
+# copy & build the example
+$ cp -r $LIBMESH_TUTORIAL/poisson .
+$ cd poisson
 $ make
 
 # run the example in 2D with 20 elements in each direction
@@ -116,6 +117,9 @@ $ ./example-opt -d 2 -n 20
 
 # run the example in 3D with 20 elements in each direction
 $ ./example-opt -d 3 -n 20 
+
+# '' '' except using the Trilinos linear solvers
+$ ./example-opt -d 3 -n 20 --use-trilinos
     \end{lstlisting}
   \end{block}
 \end{frame}
@@ -124,7 +128,7 @@ $ ./example-opt -d 3 -n 20
 {
   \frametitle{Output}
   \begin{center}
-    \includegraphics[height=0.8\textheight]{tutorial/poisson_ex1/screen}
+    \includegraphics[height=0.8\textheight]{tutorial/poisson/screen}
   \end{center}
 } 
 
@@ -137,6 +141,19 @@ $ ./example-opt -d 3 -n 20
   \end{block}
 }
 
+\begin{frame}
+  \begin{block}{Multithreading in \libMesh{}}
+    \begin{itemize}
+    \item The \texttt{libMesh::Threads::()} namespace provides a transparent wrapper for Intel's Threading Building Blocks.
+    \item This is used extensively inside the library to speed up compute-heavy operations.
+      \begin{itemize}
+        \item to use it, make sure you are compiled with \texttt{--enable-tbb} and add \texttt{--n\_threads=\#} to the command line.
+      \end{itemize}
+      \item To get the most benefit from threads you'll want to write a threaded assembly routine as well.
+      \item Fortunately, this is easy.
+    \end{itemize}
+  \end{block}
+\end{frame}
 
 
 \begin{frame}[fragile,shrink]
@@ -214,8 +231,9 @@ void Poisson::operator()(const ConstElemRange &range) const
   \frametitle{Running the program}
     \begin{block}{Running the program}
     \begin{lstlisting}[language=bash]
-# copy the example
-
+# copy & build the example
+$ cp -r $LIBMESH_TUTORIAL/poisson_threaded .
+$ cd poisson_threaded
 $ make
 
 # run the example in 2D with 20 elements in each direction
