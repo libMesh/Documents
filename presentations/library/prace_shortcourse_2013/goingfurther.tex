@@ -19,6 +19,17 @@
 }
 
 
+\subsection{Discontinuous Galerkin FEM}
+\frame
+{
+  \begin{block}{Discontinuous Galerkin Support}
+    \begin{itemize}
+      \item \libMesh{} supports a rich set of discontinous finite element bases.
+      \item For an example using interior penalty DG, see \texttt{\$LIBMESH\_DIR/examples/miscellaneous/ex5}
+    \end{itemize}
+  \end{block}
+}
+
 \subsection{Multiphysics Applications}
 \frame
 {
@@ -27,7 +38,7 @@
       \item Tightly coupled multiphysics:
         \begin{itemize}
           \item All variables should be placed in the same \texttt{System}.
-          \item You can restrict variables to subdomains: c.f.\ \texttt{examples/subdomains/ex1}
+          \item You can restrict variables to subdomains: c.f.\ \texttt{\$LIBMESH\_DIR/examples/subdomains/ex1}
         \end{itemize}
         \item Loosely coupled multiphysics:
           \begin{itemize}
