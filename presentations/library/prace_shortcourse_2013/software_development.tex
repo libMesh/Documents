@@ -1,4 +1,4 @@
-\section{Software Development}
+\section{Software Installation \& Ecosystem}
 \subsection{Important Websites}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame
@@ -75,6 +75,19 @@ $ git clone git://github.com/libMesh/libmesh.git
   \end{block}
 \end{frame}
 
+\begin{frame}
+  \frametitle{\libMesh{} Suggested Dependencies}
+  \begin{itemize}
+    \item  \texttt{MPI} is of course required for shared-memory parallelism.
+    \item Out of the box, \libMesh{} will build with support for serial linear systems.
+    \item Highly recommended you first install \texttt{PETSc} and/or \texttt{Trilinos}, which \libMesh{} uses for solving linear systems in parallel.
+      \item Other recommended, optional packages are:
+        \begin{itemize}
+          \item \texttt{SLEPc}: eigenvalue support on top of \texttt{PETSc}.
+          \item Intel's Threading Building Blocks for shared-memory multithreading.
+        \end{itemize}
+  \end{itemize}
+\end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Building \libMesh{} from source}
@@ -317,7 +330,9 @@ int main (int argc, char** argv)
 \begin{frame}[fragile,shrink]
   \frametitle{A first \libMesh{} application}
   \begin{lstlisting}[language=bash]
-# build the example
+# copy & build the example
+$ cp -r $LIBMESH_TUTORIAL/basic .
+$ cd basic
 $ make
 Compiling C++ (in optimized mode) introduction_ex1.C...
 Linking example-opt...

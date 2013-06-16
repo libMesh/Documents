@@ -6,7 +6,7 @@
 % The optional argument [<+->] means everything on the frame will be displayed incrementally.
 \section{Introduction}
 \input{outline_currentsection}
-\subsection{Acknowledgements}
+\subsection{Acknowledgments}
 \begin{frame}[shrink]
   \begin{block}{Code Contributors}
     \scriptsize
@@ -46,9 +46,12 @@
   \begin{columns}
     \begin{column}{.55\textwidth}
       \scriptsize
-The original development team was heavily influenced by Professor Graham F. Carey, professor of aerospace engineering and engineering mechanics at The University of Texas at Austin, director of the ICES Computational Fluid Dynamics Laboratory, and holder of the Richard B. Curran Chair in Engineering.
+      \begin{quote}
+        The original development team was heavily influenced by Professor Graham F. Carey, professor of aerospace engineering and engineering mechanics at The University of Texas at Austin, director of the ICES Computational Fluid Dynamics Laboratory, and holder of the Richard B. Curran Chair in Engineering.
 
-Many of the technologies employed in libMesh were implemented because Dr. Carey taught them to us, we went back to the lab, and immediately began coding. In a very real way, he was ultimately responsible for this library that we hope you have found useful, despite his continued insistence that ``no one ever got a PhD from here for writing a code.''       \normalsize
+        Many of the technologies employed in libMesh were implemented because Dr. Carey taught them to us, we went back to the lab, and immediately began coding. In a very real way, he was ultimately responsible for this library that we hope you may find useful, despite his continued insistence that ``no one ever got a PhD from here for writing a code.''       
+      \end{quote}
+\normalsize
     \end{column}
     \begin{column}{.45\textwidth}
       \includegraphics[width=\textwidth]{grahamcarey}
@@ -164,7 +167,7 @@ Many of the technologies employed in libMesh were implemented because Dr. Carey 
 
   \begin{block}{Key Point}
     \begin{itemize}
-      \item The \libmesh{} library is designed to be used by studendts, researchers, scientists, and engineers as a tool for \emphcolor{developing simulation codes} or as a tool for \emphcolor{rapidily implementing a numerical method}.
+      \item The \libmesh{} library is designed to be used by students, researchers, scientists, and engineers as a tool for \emphcolor{developing simulation codes} or as a tool for \emphcolor{rapidly implementing a numerical method}.
       \item \libMesh{} is not an application code.
       \item It does not ``solve problem XYZ.''
         \begin{itemize}
@@ -189,10 +192,10 @@ Many of the technologies employed in libMesh were implemented because Dr. Carey 
         \item Visualization formats
         \item \ldots
       \end{itemize}
-    \item A design goal of \libMesh{} has always been to provide flexibile \& extensible interfaces to existing software whenever possible.
+    \item A design goal of \libMesh{} has always been to provide flexible \& extensible interfaces to existing software whenever possible.
     \item We implement the ``glue'' to these pieces, as well as what we viewed as the missing infrastructure:
       \begin{itemize}
-        \item \emphcolor{Flexibile data structures for the discretization of spatial domains and systems of PDEs posed on these domains.}
+        \item \emphcolor{Flexible data structures for the discretization of spatial domains and systems of PDEs posed on these domains.}
       \end{itemize}          
   \end{itemize}  
 }
