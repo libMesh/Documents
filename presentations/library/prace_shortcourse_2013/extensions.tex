@@ -12,6 +12,7 @@
     \center{\bf Examples: Nonlinear \& Transient Problems}
     \center{\texttt{laplace\_young}}
     \center{\texttt{transient\_convection\_diffusion}}
+    \center{\texttt{navier\_stokes}}
   \end{block}
 }
 
@@ -133,9 +134,28 @@ $ ./example-opt
 
 
 \frame
+
+\begin{frame}[fragile]
+  \frametitle{Running the \texttt{navier\_stokes} program}
+    \begin{block}{Running the program}
+    \begin{lstlisting}[language=bash]
+# copy the example
+$ cp -r $LIBMESH_TUTORIAL/navier_stokes .
+$ cd navier_stokes
+$ make
+
+# run the example
+$ ./example-opt
+$ mpirun -np 2 ./example-opt
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+
+
+\frame
 {
   \frametitle{Output}
   \begin{center}
-    \includegraphics[height=0.8\textheight]{tutorial/transient_convection_diffusion/screen}
+    \includegraphics[height=0.8\textheight]{tutorial/navier_stokes/screen}
   \end{center}
 } 
