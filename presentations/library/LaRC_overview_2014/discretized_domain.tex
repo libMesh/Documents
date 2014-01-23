@@ -1,0 +1,38 @@
+\begin{frame}
+  %\frametitle{}
+  \begin{columns}[t]
+    \column{.5\textwidth}
+    \begin{block}{}%A general class of PDE}
+      \begin{itemize}
+      \item{
+	Associated to the problem domain $\Omega$ is a \libMesh{} data
+	structure called a \texttt{Mesh}
+      }
+
+      \item{A \texttt{Mesh} is essentially
+	a collection of finite elements}
+      \end{itemize}
+      \begin{equation}
+	\label{eqn:discretized_domain}
+	\nonumber
+	\Omega^h:=\bigcup_e \Omega_e
+      \end{equation}
+    \end{block}
+    %\pause
+    \column{.5\textwidth}
+    %\begin{block}{}
+      \begin{center}
+	%\fbox{
+	\includegraphics[width=2in,angle=-90]{discretized_domain}
+	%}
+      \end{center}
+    %\end{block}
+  \end{columns}
+  \visible<2>
+  {
+  \begin{itemize}
+    \item{\libMesh{} provides some simple structured mesh generation
+routines, interfaces to Triangle and TetGen, and supports a rich set of input file formats.}
+  \end{itemize}
+  }
+\end{frame}

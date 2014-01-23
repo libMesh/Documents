@@ -1,0 +1,9 @@
+*.nav
+talk.out
+*.pdf
+*.snm
+*.aux
+*.log
+*.toc
+*.vrb
+*~

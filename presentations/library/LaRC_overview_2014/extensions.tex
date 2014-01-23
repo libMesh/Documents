@@ -1,0 +1,161 @@
+\section{Some Extensions}
+\input{outline_currentsection}
+
+
+\input{time_dependent}
+\input{nonlinear}
+
+\frame
+{
+  \Large
+  \begin{block}{}
+    \center{\bf Examples: Nonlinear \& Transient Problems}
+    \center{\texttt{laplace\_young}}
+    \center{\texttt{transient\_convection\_diffusion}}
+    \center{\texttt{navier\_stokes}}
+  \end{block}
+}
+
+\frame
+{
+  \frametitle{Lapace-Young ``minimal surface'' problem}
+
+  The Laplace-Young equation governs the behavior of films, which seek to form a minimal surface:
+  \begin{equation*}
+    -\grad{}\cdot\left(\frac{\grad{u}}{\sqrt{1 + \grad{u}\cdot\grad{u}}}\right) + \kappa u = 0
+  \end{equation*}
+  or equivalently
+  \begin{equation*}
+    -\grad{}\cdot\left(K\left(u\right)\,\grad{u}\right) + \kappa u = 0
+  \end{equation*}
+  
+  This problem behaves like a Helmholtz problem with nonlinear diffusion coefficient, $K(u)$.
+}
+
+\begin{frame}[fragile,shrink]
+  \frametitle{Laplace-Young Assembly}
+  \begin{lstlisting}
+// headers omitted for brevity
+class LaplaceYoung : public NonlinearImplicitSystem::ComputeJacobian,
+                     public NonlinearImplicitSystem::ComputeResidual
+{
+public:  
+  LaplaceYoung (EquationSystems &es_in) :
+    es(es_in)
+  {}
+
+  virtual void jacobian (const NumericVector<Number> &soln,
+                         SparseMatrix<Number> &jacobian,
+                         NonlinearImplicitSystem &system);
+
+  virtual void residual (const NumericVector<Number> &soln,
+                         NumericVector<Number> &resid,
+                         NonlinearImplicitSystem &system); 
+
+private:
+  EquationSystems &es;
+};
+  \end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile,shrink]
+  \frametitle{Laplace-Young Assembly}
+  \begin{lstlisting}
+// Get the degree of freedom indices for the
+// current element.
+dof_map.dof_indices (elem, dof_indices);
+
+// Now we will build the element Jacobian.  This involves
+// a double loop to integrate the test funcions (i) against
+// the trial functions (j). Note that the Jacobian depends
+// on the current solution x, which we access using the soln
+// vector.
+//
+for (unsigned int qp=0; qp<qrule.n_points(); qp++)
+  {
+    Gradient grad_u;
+
+    for (unsigned int i=0; i<phi.size(); i++)
+      grad_u += dphi[i][qp]*soln(dof_indices[i]);
+
+    const Number K = 1./std::sqrt(1. + grad_u*grad_u);
+    ...
+  }
+  \end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Running the \texttt{laplace\_young} program}
+    \begin{block}{Running the program}
+    \begin{lstlisting}[language=bash]
+# copy the example
+$ cp -r $LIBMESH_TUTORIAL/laplace_young .
+$ cd laplace_young
+$ make
+
+# run the example with 3 uniform refinement steps, using first
+# order Lagrange elements
+$ ./example-opt -r 3 -o FIRST 
+
+# run the example with 3 uniform refinement steps, using first
+# order Lagrange elements
+$ ./example-opt -r 3 -o SECOND
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+
+
+\frame
+{
+  \frametitle{Output}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{tutorial/laplace_young/screen}
+  \end{center}
+} 
+
+
+\begin{frame}[fragile]
+  \frametitle{Running the \texttt{transient\_convection\_diffusion} program}
+    \begin{block}{Running the program}
+    \begin{lstlisting}[language=bash]
+# copy the example
+$ cp -r $LIBMESH_TUTORIAL/transient_convection_diffusion .
+$ cd transient_convection_diffusion
+$ make
+
+# run the example
+$ ./example-opt
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+
+
+\frame
+
+\begin{frame}[fragile]
+  \frametitle{Running the \texttt{navier\_stokes} program}
+    \begin{block}{Running the program}
+    \begin{lstlisting}[language=bash]
+# copy the example
+$ cp -r $LIBMESH_TUTORIAL/navier_stokes .
+$ cd navier_stokes
+$ make
+
+# run the example
+$ ./example-opt
+$ mpirun -np 2 ./example-opt
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+
+
+\frame
+{
+  \frametitle{Output}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{tutorial/navier_stokes/screen}
+  \end{center}
+} 

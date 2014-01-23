@@ -1,0 +1,15 @@
+\subsection*{Nonlinear Problems}
+\begin{frame}
+  \begin{itemize}
+	\item{For nonlinear problems, typically a sequence of linear problems must be solved, e.g.
+	  for Newton's method
+	  \begin{equation}
+	    \nonumber
+	    (F'( u^k ) \delta u^{k+1}, v) = -(F( u^k ), v) 
+	  \end{equation}
+	  where $F'( u^k )$ is the linearized (Jacobian) operator associated with
+	  the PDE.	}
+
+	\item{Must solve $\pdv{\bv{F}}{\bv{U}}\delta\bv{U} = -\bv{F}$ (Inexact Newton method) at \emph{each iteration step}.}
+  \end{itemize}
+\end{frame}

@@ -1,0 +1,19 @@
+\begin{picture}(0,0)%
+\includegraphics{domain2.pdf}%
+\end{picture}%
+\setlength{\unitlength}{1973sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(7248,7834)(811,-8387)
+\put(5176,-4561){\makebox(0,0)[lb]{\smash{{\SetFigFont{6}{7.2}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\Huge \bv{\Omega}$}%
+}}}}
+\put(6226,-736){\makebox(0,0)[lb]{\smash{{\SetFigFont{6}{7.2}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}$\Huge \bv{\partial} \bv{\Omega}_D$}%
+}}}}
+\put(826,-7636){\makebox(0,0)[lb]{\smash{{\SetFigFont{6}{7.2}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\Huge \bv{\partial} \bv{\Omega}_N$}%
+}}}}
+\end{picture}%

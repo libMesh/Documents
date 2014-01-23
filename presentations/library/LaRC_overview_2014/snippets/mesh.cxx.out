@@ -1,0 +1,19 @@
+***************************************************************
+* Running Example introduction_ex1:
+*   example-opt -d 3 reference_elements/3D/one_hex27.xda -o output.xda 
+***************************************************************
+ 
+ Mesh Information:
+  mesh_dimension()=3
+  spatial_dimension()=3
+  n_nodes()=27
+    n_local_nodes()=27
+  n_elem()=1
+    n_local_elem()=1
+    n_active_elem()=1
+  n_subdomains()=1
+  n_partitions()=1
+  n_processors()=1
+  n_threads()=1
+  processor_id()=0
+
