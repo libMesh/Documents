@@ -1,0 +1,29 @@
+ EquationSystems
+  n_systems()=2
+   System #1, "Complex System"
+    Type "Explicit"
+    Variables={ "c" "T" } "dv"
+    Finite Element Types="LAGRANGE" "MONOMIAL"
+    Approximation Orders="FIRST" "SECOND"
+    n_dofs()=222
+    n_local_dofs()=60
+    n_constrained_dofs()=0
+    n_local_constrained_dofs()=0
+    n_vectors()=1
+    n_matrices()=0
+   System #0, "Simple System"
+    Type "TransientLinearImplicit"
+    Variables="u"
+    Finite Element Types="LAGRANGE"
+    Approximation Orders="FIRST"
+    n_dofs()=36
+    n_local_dofs()=12
+    n_constrained_dofs()=0
+    n_local_constrained_dofs()=0
+    n_vectors()=3
+    n_matrices()=1
+    DofMap Sparsity
+      Average  On-Processor Bandwidth <= 6.22222
+      Average Off-Processor Bandwidth <= 1.88889
+      Maximum  On-Processor Bandwidth <= 10
+      Maximum Off-Processor Bandwidth <= 8

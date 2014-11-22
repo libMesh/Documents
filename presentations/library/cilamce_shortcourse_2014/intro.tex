@@ -1,0 +1,451 @@
+\input{outline}
+
+
+
+
+% The optional argument [<+->] means everything on the frame will be displayed incrementally.
+\section{Introduction}
+\input{outline_currentsection}
+\subsection{Acknowledgments}
+\begin{frame}[shrink]
+  \begin{block}{Code Contributors}
+    \scriptsize
+    \begin{center}
+      \begin{tabular}{|l|l|} \hline
+        Benjamin S. Kirk & benkirk \\
+        Bill Barth       & bbarth \\
+        Cody Permann     & permcody \\
+        Daniel Dreyer    & ddreyer \\
+        David Andrs      & andrsd \\
+        David Knezevic   & knezed01 \\
+        Derek Gaston     & friedmud \\
+        Dmitry Karpeev   & karpeev \\
+        Florian Prill    & fprill \\
+        Jason Hales      & jasondhales \\
+        John W. Peterson & jwpeterson \\
+        Paul T. Bauman   & pbauman \\
+        Roy H. Stogner   & roystgnr \\
+        Steffen Petersen & spetersen \\
+        Sylvain Vallaghe & svallagh \\
+        Tim Kroeger      & sheep\_tk \\
+        Truman Ellis     & trumanellis \\
+        Wout Ruijter     & woutruijter \\ \hline
+      \end{tabular}
+    \end{center}
+    \begin{itemize}
+      \item Thanks to Wolfgang Bangerth and the \texttt{deal.II} team for initial technical inspiration. 
+      \item Also, thanks to Jed Brown, Robert McLay, \& many others for discussions over the years.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\frame
+{
+  \frametitle{Thanks to Dr.\ Graham F.\ Carey}
+
+  \begin{columns}
+    \begin{column}{.55\textwidth}
+      \scriptsize
+      \begin{quote}
+        The original development team was heavily influenced by Professor Graham F. Carey, professor of aerospace engineering and engineering mechanics at The University of Texas at Austin, director of the ICES Computational Fluid Dynamics Laboratory, and holder of the Richard B. Curran Chair in Engineering.
+
+        Many of the technologies employed in libMesh were implemented because Dr. Carey taught them to us, we went back to the lab, and immediately began coding. In a very real way, he was ultimately responsible for this library that we hope you may find useful, despite his continued insistence that ``no one ever got a PhD from here for writing a code.''       
+      \end{quote}
+\normalsize
+    \end{column}
+    \begin{column}{.45\textwidth}
+      \includegraphics[width=\textwidth]{grahamcarey}
+    \end{column}
+  \end{columns}
+}
+
+\subsection{Background}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Background}                 
+
+  \begin{itemize}
+  \item Modern simulation software is \emphcolor{complex}:
+    \begin{itemize}
+    \item Implicit numerical methods
+    \item Massively parallel computers
+    \item Adaptive methods
+    \item Multiple, coupled physical processes
+    \end{itemize}
+    %\pause
+  \item There are a host of existing software libraries that excel at treating various aspects of this complexity.
+  \item Leveraging existing software whenever possible is the most efficient way to manage this complexity.
+
+  \end{itemize}
+}
+
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Background}                 
+
+  \begin{itemize}
+  \item Modern simulation software is \emphcolor{multidisciplinary}:
+    \begin{itemize}
+    \item Physical Sciences
+    \item Engineering
+    \item Computer Science
+    \item Applied Mathematics
+    \item \ldots
+    \end{itemize}
+  \item It is not reasonable to expect a single person to have all the necessary skills for developing \& implementing high-performance numerical algorithms on modern computing architectures.
+  \item Teaming is a prerequisite for success.
+  \end{itemize}
+}
+
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Background}                 
+  \begin{itemize}
+    \item A large class of problems are amenable to \emphcolor{mesh based} simulation techniques.
+      %% \begin{columns}[t]
+      %%   \column{.5\textwidth}        
+      %%   \fbox{\includegraphics[viewport=140 420 400 685,clip=true,height=1in]{domain2/domain2_input}}
+      %%   \column{.5\textwidth}
+      %%   \fbox{\includegraphics[height=1in,angle=-90]{discretized_domain}}
+      %% \end{columns}
+    \item Consider some of the major components such a simulation:
+      \pause
+      \begin{enumerate}
+        \item Read the mesh from file
+        \item Initialize data structures
+        \item Construct a discrete representation of the governing equations
+        \item Solve the discrete system
+        \item Write out results
+        \item Optionally estimate error, refine the mesh, and repeat
+      \end{enumerate}
+
+    \pause
+    \item With the exception of step 3, the rest is \emph{independent} of the class of problems being solved.
+    \pause
+    \item This allows the major components of such a simulation to be abstracted \& implemented in a reusable software library.
+  \end{itemize}
+}
+
+
+ 
+
+\subsection{The \libmesh{} Software Library}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{The \libmesh{} Software Library}
+  \begin{itemize}
+    \item In 2002, the \libmesh{} library began with these ideas in mind.
+    \item Primary goal is to provide data structures and algorithms that can be shared by disparate physical applications, that may need some combination of
+      \begin{itemize}
+      \item Implicit numerical methods
+      \item Adaptive mesh refinement techniques
+      \item Parallel computing
+      \end{itemize}
+    \item Unifying theme: \emphcolor{mesh-based simulation of partial differential equations (PDEs)}.
+  \end{itemize}
+}
+
+
+
+ 
+
+\subsection{Software Reusability}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{The \libmesh{} Software Library}
+
+  \begin{block}{Key Point}
+    \begin{itemize}
+      \item The \libmesh{} library is designed to be used by students, researchers, scientists, and engineers as a tool for \emphcolor{developing simulation codes} or as a tool for \emphcolor{rapidly implementing a numerical method}.
+      \item \libMesh{} is not an application code.
+      \item It does not ``solve problem XYZ.''
+        \begin{itemize}
+          \item It can be used to help you develop an application to solve problem XYZ, and to do so quickly with advanced numerical algorithms on high-performance computing platforms.
+        \end{itemize}
+      %\item It was initially targeted for finite element based simulations, but has been used for finite volume discretizations as well.
+    \end{itemize}    
+  \end{block}
+} 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Software Reusability}
+  \begin{itemize}
+    \item At the inception of \libMesh{} in 2002, there were many high-quality software libraries that implemented some aspect of the end-to-end PDE simulation process:
+      \begin{itemize}
+        \item Parallel linear algebra
+        \item Partitioning algorithms for domain decomposition
+        \item Visualization formats
+        \item \ldots
+      \end{itemize}
+    \item A design goal of \libMesh{} has always been to provide flexible \& extensible interfaces to existing software whenever possible.
+    \item We implement the ``glue'' to these pieces, as well as what we viewed as the missing infrastructure:
+      \begin{itemize}
+        \item \emphcolor{Flexible data structures for the discretization of spatial domains and systems of PDEs posed on these domains.}
+      \end{itemize}          
+  \end{itemize}  
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+  %\frametitle{LibMesh Tree}
+%  \vspace{-.25in}
+%  \begin{center}
+%    \includegraphics[width=.6\textwidth]{mytreeandroots_allnames}    
+%  \end{center}
+
+
+    \begin{minipage}[h]{.6\textwidth}
+    \begin{center}
+      \includegraphics[width=.9\textwidth]{mytreeandroots_allnames}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}[h]{.35\textwidth}
+    \begin{block}{Library Structure}
+      \begin{itemize}
+        %\small
+    \item Basic libraries are \LibMesh's ``roots''
+    \item Application ``branches'' built off the library ``trunk''
+      \end{itemize}
+    \end{block}
+  \end{minipage}
+\end{frame}
+
+
+\subsection{Library Trivia}
+\frame
+{
+  \frametitle{Trivia -- Downloads}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{trivia/libmesh_downloads}
+  \end{center}
+}       
+
+\frame
+{
+  \frametitle{Trivia -- Mailing List Membership}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{trivia/libmesh_mailinglists_membership}
+    
+    \small
+    
+    \url{libmesh-users@lists.sourceforge.net}
+
+    \url{libmesh-devel@lists.sourceforge.net}
+  \end{center}
+}       
+
+\frame
+{
+  \frametitle{Trivia -- Citations}
+  \begin{center}
+    \includegraphics[height=0.8\textheight]{trivia/libmesh_citations}
+  \end{center}
+}       
+
+
+\subsection{Library Design}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{The ``Glue''}
+  \begin{itemize}
+    \item The \cpp{} programming language provides a powerful abstraction mechanism for separating a software interface from its implementation.
+    \item The notion of \emphcolor{Base Classes} defining an abstract interface and \emphcolor{Derived Classes} implementing the interface is key to this programming model.
+      \pause
+    \item The classic \cpp{} example: Shapes.
+  \end{itemize}
+  \lstinputlisting{snippets/shapes/main.cxx}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Abstract Shape}
+  \lstinputlisting{snippets/shapes/shape.cxx}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Specific Shape: Rectangle}
+  \lstinputlisting{snippets/shapes/rectangle.cxx}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Specific Shape: Circle}
+  \lstinputlisting{snippets/shapes/circle.cxx}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Object Polymorphism}
+  \lstinputlisting{snippets/shapes/main2.cxx}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \Large
+  \begin{block}{}
+    \center{Examples of Polymorphism in}
+    \center{\bf \libmesh{}}
+  \end{block}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{The ``Glue:'' Linear Algebra}
+  \begin{center}
+    \includegraphics[width=\textwidth,trim=7.56in 0 0 0,clip]{libmesh_docs/classlibMesh_1_1SparseMatrix__inherit__graph}
+  \end{center}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{The ``Glue:'' I/O formats}
+  \begin{center}
+    \includegraphics[height=0.9\textheight]{libmesh_docs/mesh_io}
+  \end{center}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Disretization: The Mesh}
+  \begin{center}
+    \includegraphics[width=\textwidth]{libmesh_docs/mesh_base}
+  \end{center}
+}      
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Disretization: Geometric Elements}
+  \begin{center}
+    \includegraphics[width=\textwidth]{libmesh_docs/classlibMesh_1_1Elem__inherit__graph}
+  \end{center}
+}      
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Disretization: Geometric Elements}
+  \begin{center}
+    \includegraphics[width=0.9\textwidth]{libmesh_docs/classlibMesh_1_1Edge__inherit__graph}
+  \end{center}
+}      
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Disretization: Geometric Elements}
+  \begin{center}
+    \includegraphics[width=0.95\textwidth]{libmesh_docs/classlibMesh_1_1Face__inherit__graph}
+  \end{center}
+}      
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Disretization: Geometric Elements}
+  \begin{center}
+    \includegraphics[width=0.9\textwidth,trim=11.3in 0 0 0,clip]{libmesh_docs/classlibMesh_1_1Cell__inherit__graph}
+  \end{center}
+}      
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Disretization: Finite Elements}
+  \begin{center}
+    \includegraphics[width=0.9\textwidth,trim=7.4in 0 0 0,clip]{libmesh_docs/classlibMesh_1_1FEAbstract__inherit__graph}
+  \end{center}
+}      
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Algorithms: Domain Partitioning}
+  \begin{center}
+    \includegraphics[width=.45\textwidth]{part_trans}
+    %\\
+    \includegraphics[width=.45\textwidth]{streamtraces}
+  \end{center}  
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Algorithms: Domain Partitioning}
+  \begin{center}
+    \includegraphics[width=\textwidth]{libmesh_docs/partitioner}
+  \end{center}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{Algorithms: Error Estimation}
+  \begin{center}
+    \includegraphics[width=\textwidth]{libmesh_docs/error_estimation}
+  \end{center}
+}
+
+
+
+
+
+% LocalWords:  nasablue

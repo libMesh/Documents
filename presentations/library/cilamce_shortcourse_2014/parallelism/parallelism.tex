@@ -1,0 +1,63 @@
+\subsection{Parallelism}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{Parallelism Goals}{
+\royitemizebegin{Reduced CPU time}
+\item Distributed CPU usage
+\item Asynchronous I/O
+\royitemizeend
+
+\royitemizebegin{Reduced memory requirements}
+\item Larger attainable problem size
+\royitemizeend
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{Parallelism Levels}{
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\royitemizebegin{SIMD Instructions}
+\item Assemblies, MatVec operations
+\royitemizeend
+
+\royitemizebegin{Shared-memory Threads}
+\item Mesh Partitioning
+\royitemizeend
+\end{column}
+
+\begin{column}{0.5\textwidth}
+  \begin{center}
+    \includegraphics[width=.9\textwidth]{parallelism/SIMD}
+  \end{center}
+\end{column}
+\end{columns}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{Parallelism Levels}{
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\royitemizebegin{Separate Simulations}
+\item Parametric studies
+\item Uncertainty analysis
+\royitemizeend
+
+\royitemizebegin{Distributed-memory Processes}
+\item Asynchronous I/O
+\item Mesh Partitioning
+\royitemizeend
+\end{column}
+
+\begin{column}{0.5\textwidth}
+  \begin{center}
+    \includegraphics[width=.9\textwidth]{parallelism/Meshes}
+  \end{center}
+\end{column}
+\end{columns}
+}

@@ -1,0 +1,52 @@
+\subsection*{Element Integrals}
+\begin{frame}%[c]
+%  \frametitle{Poisson Equation}
+  \begin{itemize}    
+  \item{
+%%     \only<1>
+%% 	{
+	  The integral over $\Omega^h$ \ldots
+%%	}
+	  \visible<2->
+	  {
+	    is written as
+	    a sum of integrals over the $\alert{N_e}$ finite elements: % $\Omega_e^h$
+	  }
+  }
+  \end{itemize}
+	  
+  %\begin{block}{}
+    \begin{eqnarray}
+	\nonumber
+	%(F( u^h ), v^h) &:=& %\hspace{3in} \\  \nonumber
+	0 &=&
+	\phantom{\sum_{e=1}^{N_e}}
+	\int_{\Omega^h}  \left[ \nabla u^h \cdot \nabla v^h - fv^h \right] dx
+	\hspace{.2in} \forall v^{h} \in \mathcal{V}^{h}
+	\\ \nonumber
+	\visible<2>
+	    {
+	&=&\alert{\sum_{e=1}^{N_e}}
+	      \int_{\alert{\Omega_e}}
+	      \left[ \nabla u^h \cdot \nabla v^h - fv^h \right] dx
+	      \hspace{.2in} \forall v^{h} \in \mathcal{V}^{h}
+	      \\ \nonumber
+	    }
+%% 	    \visible<3>
+%% 		{
+%% 	&=&\alert{\sum_{e=1}^{N_e}}
+%% 	      \underbrace{\int_{\alert{\Omega_e}}
+%% 	      \left[ \nabla u^h \cdot \nabla v^h - fv^h \right] dx}_{\text{We must compute this}}
+%% 	      \hspace{.2in} \forall v^{h} \in \mathcal{V}^{h}
+%% 		}
+      \end{eqnarray}
+    %\end{block}
+%%     \begin{eqnarray}
+%%       \nonumber
+%%       (F( u^h ), v^h) &=& \int_{\Omega^h} (\ldots) \\
+%%       \nonumber
+%%       &=& \sum_{e=1}^{N_e} \int_{\Omega_e}(\ldots)\hspace{.25in} \forall v^{h} \in \mathcal{V}^{h}
+%%     \end{eqnarray}
+    
+%  \item{The $v^h$ typically have support over only a small subset of the elements.}
+\end{frame}
