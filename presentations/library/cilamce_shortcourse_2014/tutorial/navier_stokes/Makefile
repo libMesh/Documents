@@ -1,7 +1,7 @@
 ######################################################################
 #
 # Template libMesh application Makefile
-LIBMESH_DIR ?= /usr/local/libmesh/0.9.1
+LIBMESH_DIR ?= /usr/local/libmesh/0.9.4-rc1
 
 
 # include the library options determined by configure
@@ -48,7 +48,7 @@ dust:
 clean: dust
 	@rm -f $(objects) *.$(obj-suffix)
 
-clobber: clean 
+clobber: clean
 	@rm -f $(target)
 
 distclean: clean
