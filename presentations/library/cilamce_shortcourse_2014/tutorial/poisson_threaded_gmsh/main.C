@@ -114,31 +114,12 @@ int main (int argc, char** argv)
   // Create a GetPot object to parse the command line
   GetPot command_line (argc, argv);
 
-  // Check for proper calling arguments.
-  if (argc < 3)
-    {
-      if (libMesh::processor_id() == 0)
-        std::cerr << "Usage:\n"
-                  <<"\t " << argv[0] << " -d 2(3)" << " -n 15"
-                  << std::endl;
+  std::cout << "Running " << argv[0];
 
-      // This handy function will print the file name, line number,
-      // and then abort.  Currrently the library does not use C++
-      // exception handling.
-      libmesh_error();
-    }
+  for (int i=1; i<argc; i++)
+    std::cout << " " << argv[i];
 
-  // Brief message to the user regarding the program name
-  // and command line arguments.
-  else
-    {
-      std::cout << "Running " << argv[0];
-
-      for (int i=1; i<argc; i++)
-        std::cout << " " << argv[i];
-
-      std::cout << std::endl << std::endl;
-    }
+  std::cout << std::endl << std::endl;
 
 
   // Read problem dimension from command line.  Use int

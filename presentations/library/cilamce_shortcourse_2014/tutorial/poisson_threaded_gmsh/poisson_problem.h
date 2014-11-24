@@ -62,7 +62,13 @@ public:
     es (es_in)
   {}
 
+  Poisson (const Poisson &other) :
+    es(other.es)
+  {}
+
   void assemble ();
+
+  void operator()(const ConstElemRange &range) const;
 
   Real exact_solution (const Real x,
 		       const Real y,
@@ -75,6 +81,8 @@ public:
 
 private:
   EquationSystems &es;
+
+  mutable Threads::spin_mutex assembly_mutex;
 };
 
 #endif
