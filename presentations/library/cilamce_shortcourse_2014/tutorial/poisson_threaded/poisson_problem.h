@@ -62,6 +62,10 @@ public:
     es (es_in)
   {}
 
+  Poisson (const Poisson &other) :
+    es(other.es)
+  {}
+
   void assemble ();
 
   void operator()(const ConstElemRange &range) const;

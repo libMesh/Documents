@@ -4,11 +4,13 @@
 #include "libmesh/equation_systems.h"
 #include "libmesh/nonlinear_implicit_system.h"
 
+using namespace libMesh;
+
 class LaplaceYoung : public NonlinearImplicitSystem::ComputeJacobian,
 		     public NonlinearImplicitSystem::ComputeResidual
 {
 public:
-  
+
   LaplaceYoung (EquationSystems &es_in) :
     es(es_in)
   {}
@@ -19,7 +21,7 @@ public:
 
   virtual void residual (const NumericVector<Number>& X,
 			 NumericVector<Number>& R,
-			 NonlinearImplicitSystem& S); 
+			 NonlinearImplicitSystem& S);
 
 private:
   EquationSystems &es;

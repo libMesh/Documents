@@ -64,12 +64,17 @@ public:
 
   void assemble ();
 
-  void operator()(const ConstElemRange &range) const;
+  Real exact_solution (const Real x,
+		       const Real y,
+		       const Real z = 0.) const
+  {
+    static const Real pi = acos(-1.);
+
+    return cos(.5*pi*x)*sin(.5*pi*y)*cos(.5*pi*z);
+  }
 
 private:
   EquationSystems &es;
-
-  mutable Threads::spin_mutex assembly_mutex;
 };
 
 #endif
