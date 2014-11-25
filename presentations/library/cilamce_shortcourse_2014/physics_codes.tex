@@ -23,11 +23,11 @@
     \only<1>{\includegraphics[height=0.9\textheight]{nosetip/smeared.png}}
 
     \only<2>{\includegraphics[height=0.9\textheight]{nosetip/amr.png}}
-    
+
     \only<3>{\includegraphics[height=0.9\textheight]{nosetip/smeared.pdf}}
 
     \only<4>{\includegraphics[height=0.9\textheight]{nosetip/amr.pdf}}
-    
+
   \end{center}
 }
 %===============================================================================
@@ -37,11 +37,11 @@
 {
   \frametitle{Arcjet Nozzle Calculation}
   \begin{center}
-      
+
     \only<1>{\includegraphics[width=0.95\linewidth,trim=4px 4px 4px 4px,clip]{arcjet/viz/T}}
-    
+
     \only<2>{\includegraphics[width=0.95\linewidth,trim=4px 4px 4px 4px,clip]{arcjet/viz/M}}
-    
+
   \end{center}
 }
 
@@ -71,11 +71,11 @@
 {
   \frametitle{Coupled Pyrolysis, Temperature}
   \begin{center}
-    
+
     \only<1>{\includegraphics[height=.85\textheight]{arcjet/data/coupled/T.png}}
 
     \only<2>{\includemovie[autoplay,loop,text={\includegraphics[height=.85\textheight]{arcjet/data/coupled/T.png}}]{}{.85\textheight}{rawfigs/arcjet/data/coupled/T.avi}}
-    
+
   \end{center}
 }
 
@@ -87,11 +87,11 @@
 {
   \frametitle{Coupled Pyrolysis, Pyrolysis gas mass flux, $\dot{m}$}
   \begin{center}
-    
+
     \only<1>{\includegraphics[height=.85\textheight]{arcjet/data/coupled/mdotzoom.png}}
 
     \only<2>{\includemovie[autoplay,loop,text={\includegraphics[height=.85\textheight]{arcjet/data/coupled/mdotzoom.png}}]{}{.85\textheight}{rawfigs/arcjet/data/coupled/mdotzoom.avi}}
-    
+
   \end{center}
 }
 
@@ -101,11 +101,11 @@
 {
   \frametitle{Coupled Thermal/Solid Mechanics}
   \begin{center}
-    
+
     \only<1>{\includegraphics[height=.85\textheight]{Gaston/pgc.png}}
 
-    \only<2>{\includemovie[autoplay,loop,text={\includegraphics[height=.85\textheight]{Gaston/pgc.png}}]{}{.85\textheight}{Gaston/pgc.avi}}
-    
+    %\only<2>{\includemovie[autoplay,loop,text={\includegraphics[height=.85\textheight]{Gaston/pgc.png}}]{}{.85\textheight}{Gaston/pgc.avi}}
+
   \end{center}
 }
 
@@ -146,5 +146,21 @@
   \frametitle{The MOOSE Framework - Gaston et al., INL}
   \begin{center}
     \fbox{\includegraphics[page=22,height=0.8\textheight]{Gaston/talk}}
+  \end{center}
+}
+
+
+
+\frame
+{
+  \frametitle{The MOOSE Framework - Gaston et al., INL}
+  \begin{center}
+    \large
+    \vspace{2em}
+
+    Especially if you want to use Jacobian-Free Newton-Krylov solution techniques, consider acessing \libmesh{} through MOOSE:
+    \vspace{1em}
+
+    \url{http://mooseframework.org}
   \end{center}
 }

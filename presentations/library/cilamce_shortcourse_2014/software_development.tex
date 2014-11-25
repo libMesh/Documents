@@ -23,7 +23,7 @@
 {
 \frametitle{\url{http://libmesh.github.io}}
 
-\centerline{\includegraphics[width=0.85\textwidth]{trivia/libmesh_site}}
+\centerline{\includegraphics[height=0.85\textheight]{trivia/libmesh_site}}
 }
 
 
@@ -63,7 +63,7 @@
 
       Download prepackaged releases from
 
-      \scriptsize{\url{https://github.com/libMesh/libmesh/release}}
+      \scriptsize{\url{http://github.com/libMesh/libmesh/releases}}
       \normalsize
     \item \textbf{Development tree:}
 
@@ -95,7 +95,7 @@ $ git clone git://github.com/libMesh/libmesh.git
   \begin{block}{Unpack, Configure, Build, Install, \& Test}
     \begin{lstlisting}[language=bash]
 # unpack the distribution
-$ tar jxf libmesh-0.9.1.tar.bz2 && cd libmesh-0.9.1
+$ tar jxf libmesh-0.9.4-rc1.tar.bz2 && cd libmesh-0.9.4-rc1
 # configure, install into the current directory
 $ ./configure --prefix=$PWD/install
 # build & install
@@ -114,7 +114,7 @@ $ make -j 4 check METHODS=opt
   \begin{block}{Advanced Configurations}
     \begin{lstlisting}[language=bash]
 # unpack the distribution
-$ tar jxf libmesh-0.9.1.tar.bz2 && cd libmesh-0.9.1
+$ tar jxf libmesh-0.9.4-rc1.tar.bz2 && cd libmesh-0.9.4-rc1
 # build in a subdirectory, allows multiple simultaneous builds
 $ mkdir -p clang && cd clang
 # configure specifing optional packages & compilers
@@ -154,7 +154,7 @@ Testing Header base/dof_object.h ...                   [   OK   ]
 
 Checking for self-sufficient examples...
 
-Testing examples in /tmp/libmesh-0.9.1/_inst/examples
+Testing examples in /tmp/libmesh-0.9.4-rc1/_inst/examples
 Testing example installation adaptivity/ex1 ...        [   OK   ]
 Testing example installation adaptivity/ex2 ...        [   OK   ]
 Testing example installation adaptivity/ex3 ...        [   OK   ]
