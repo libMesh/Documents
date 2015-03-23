@@ -1,0 +1,51 @@
+title Test Gmsh man model
+steps 200 1.e-5
+
+#opendx off
+#use gmsh
+use vtk
+save cpu 1 h
+output every 25
+
+density,1.0
+vislam 18.6e-6
+pref,85562
+
+relax 0.4 0.1 0.4 0.8
+#turbulence ke 0.001
+#thermal on
+init,field,0.0 0.0 -0.1,,1.e-4,1e-4
+
+scheme UVW  GAMMA
+
+slope UVW  vnf
+slope P    vnf
+slope KEPS vnf
+
+post p    vert
+
+
+boundary,man
+wall
+noslip               
+0.0 0.0 0.0          
+fixed        
+273 + 38 0.0
+
+boundary,inlet
+inlet
+0.0 0.0 -1.0
+1.0
+293
+inle
+0.25 0.01
+
+boundary,outlet
+outlet
+1.0
+
+boundary,floor
+symp
+
+boundary,walls
+symp

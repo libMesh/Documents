@@ -1,0 +1,131 @@
+\section{Essential BCs}
+\input{outline_currentsection}
+
+
+\subsection*{Essential Boundary Data}
+\begin{frame}[t]
+  %\vspace{-.2in}
+  \begin{block}{
+      %Essential Boundary Data
+    }
+  \begin{itemize}
+  \item {Dirichlet boundary conditions can be enforced after 
+    the global stiffness matrix $\bv{K}$ has been assembled}
+  \item This usually involves
+    \begin{enumerate}
+    \item<1-> placing a ``1'' on the main diagonal of the
+      global stiffness matrix
+    \item<2-> zeroing out the row entries
+    \item<3-> placing the Dirichlet
+      value in the rhs vector
+    \item<4-> subtracting off the column entries from the rhs
+    \end{enumerate}
+  \end{itemize}
+  \end{block}
+  \visible<5->{
+    \vspace{-0.1in}
+  \begin{equation}
+    \nonumber
+      \begin{bmatrix}
+	k_{11} & k_{12} & k_{13} & .  \\
+	k_{21} & k_{22} & k_{23} & .  \\
+	k_{31} & k_{32} & k_{33} & .  \\
+	  .    &   .    &    .   & .  
+      \end{bmatrix},
+      \begin{bmatrix}
+	f_{1}  \\
+	f_{2}  \\
+	f_{3}  \\
+	  .     
+      \end{bmatrix} \rightarrow
+      \begin{bmatrix}
+	1      & 0      & 0      & 0  \\
+	0      & k_{22} & k_{23} & .  \\
+	0      & k_{32} & k_{33} & .  \\
+	  0    &   .    &    .   & .  
+      \end{bmatrix},
+      \begin{bmatrix}
+	g_{1}  \\
+	f_{2} - k_{21}g_1  \\
+	f_{3} - k_{31}g_1  \\
+	  .     
+      \end{bmatrix}      
+  \end{equation}}
+
+\end{frame}
+
+
+
+\begin{frame}[c]
+%\begin{block}{}
+  \begin{itemize}[<+->]
+    \item {Cons of this approach :
+      \begin{itemize}[<+->]
+      \item {Works for an interpolary finite element basis
+	but not in general.}
+	
+      \item {May be inefficient to change individual entries once the global matrix is assembled.}
+      \end{itemize}
+      }
+    \item {Need to enforce boundary conditions for
+      a generic finite element basis \emph{at the element stiffness matrix level}.}
+
+    %\item Solution: ``Penalty'' Boundary Conditions
+  \end{itemize}
+%  \end{block}
+\end{frame}
+
+
+\subsection*{Penalty Formulation}
+\begin{frame}[c]
+%\begin{block}{}
+  \begin{itemize}[<+->]
+  \item {One solution is the ``penalty'' boundary formulation}
+    %
+  \item {A term is added to the standard weighted residual statement
+    \begin{equation}
+      \nonumber
+      (F( u ), v)
+      + \underbrace{\frac{1}{\epsilon} \int_{\partial \Omega_D} (u-u_D)v \; dx}_{\text{penalty term}} =
+      0 \hspace{.3in} \forall v \in \mathcal{V}
+    \end{equation}
+  }
+    %
+  \item {Here $\epsilon \ll 1$ is chosen so that, in floating point arithmetic,
+    $\frac{1}{\epsilon} + 1 = \frac{1}{\epsilon}$.}
+    %
+  \item {This weakly enforces $u=u_D$ on the Dirichlet boundary, and works for
+    general finite element bases.}
+
+%%   \item It requires a few additional calculations (edge/face integrals) but is more
+%%     efficient than modifying row entries after assembly
+  \end{itemize}
+%  \end{block}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \begin{block}{}
+  \texttt{\libMesh{}} provides:
+  \begin{itemize}
+  \item {A quadrature rule with \texttt{Nqf} points and \texttt{JxW\_f[]}}
+  \item {A finite element coincident with the boundary face that has % \texttt{Nf}
+    shape function values \texttt{phi\_f[][]}}
+  \end{itemize}
+  \end{block}
+\small
+  \begin{semiverbatim}
+for (qf=0; qf<Nqf; ++qf) \{
+  for (i=0; i<Nf; ++i) \{
+    Fe(i) += JxW_f[qf]*
+      \alert<2>{penalty}*\alert<3>{uD(xyz[q])}*phi_f[i][qf];
+	
+    for (j=0; j<Nf; ++j)
+      Ke(i,j) += JxW_f[qf]*
+        \alert<2>{penalty}*phi_f[j][qf]*phi_f[i][qf];
+  \}
+\}
+    \end{semiverbatim}
+
+\end{frame}

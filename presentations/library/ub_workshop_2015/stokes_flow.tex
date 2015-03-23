@@ -1,0 +1,133 @@
+\subsection*{Stokes Flow}
+\begin{frame}[t]  
+  \begin{block}{}
+    \begin{itemize}    
+    \item{For multi-variable systems like Stokes flow,
+      \begin{equation}
+	\begin{array}{rcl}
+	  \nonumber
+	  %\frac{\partial \bv{u}}{\partial t} +
+	  %\left(\bv{u} \cdot \nabla\right) \bv{u} +
+	  \nabla p - \nu \Delta \bv{u}  &=& \bv{f}
+	  \\
+	  \nonumber
+	  \nabla \cdot \bv{u} &=& 0
+	\end{array}  \hspace{.25in}  \in \hspace{.1in} \Omega \subset \mathbb{R}^2
+      \end{equation}
+    }
+\vspace{-.25in}
+      
+    \item{The element stiffness matrix concept can extended to include sub-matrices
+      \begin{eqnarray}
+	\nonumber
+	\label{eqn:Ke_stokes}
+	\left[
+	  \begin{array}{cc|c}
+	    \alert<2>{K^e_{u_1 u_1}}   & K^e_{u_1 u_2}             &  K^e_{u_1 p}        \\
+	    K^e_{u_2 u_1}              & \alert<3>{K^e_{u_2 u_2}}  &  K^e_{u_2 p} \\ \hline
+	    K^e_{p u_1}                & \alert<4>{K^e_{p u_2}}    &  K^e_{p p}      \\
+	  \end{array}
+	  \right]
+	\left[
+  \begin{array}{c}
+    U^e_{u_1} \\
+    U^e_{u_2}\\ \hline
+    U^e_{p}
+  \end{array}
+  \right]-
+\left[
+  \begin{array}{c}
+    \alert<6>{F^e_{u_{1}}} \\
+    \alert<7>{F^e_{u_{2}}} \\ \hline
+    F^e_{p}
+  \end{array}
+  \right]
+      \end{eqnarray}
+    }
+
+
+      \item
+	{
+	  \only<1-4>	      {We have an array of submatrices:}
+	      \only<1>	      {\texttt{Ke[ ][ ]}}
+	      \only<2>	      {\hspace{-0.05in}\texttt{Ke[\alert<2>{0}][\alert<2>{0}]}}
+	      \only<3>	      {\hspace{-0.1in}\texttt{Ke[\alert<3>{1}][\alert<3>{1}]}}
+	      \only<4>        {\hspace{-0.15in}\texttt{Ke[\alert<4>{2}][\alert<4>{1}]}}
+
+      \only<5->          { 	  And an array of right-hand sides: }
+ 	\only<5> {\texttt{Fe[]}.}
+	\only<6> {\hspace{-0.05in}\texttt{Fe[\alert{0}]}.}
+	\only<7> {\hspace{-0.1in}\texttt{Fe[\alert{1}]}.}
+	}
+
+	
+%%       \only<1>
+%% 	  {
+%% 	  \item{
+%% 	    We have an array of submatrices
+%% 	    \texttt{Ke[ ][ ]}.
+%% 	  }
+%% 	  }
+
+%% 	  \only<2>
+%% 	  {
+%% 	  \item{
+%% 	    We have an array of submatrices
+%% 	    \texttt{Ke[\alert<2>{1}][\alert<2>{1}]}.
+%% 	  }
+%% 	  } 
+%%           \only<3>
+%%           {
+%%  	  \item{
+%%  	    In this case, we have an array of submatrices
+%%  	    \texttt{Ke[\alert<3>{2}][\alert<3>{2}]}.
+%%  	  }
+%% 	  }
+%%           \only<4>
+%%           {
+%%  	  \item{
+%%  	    In this case, we have an array of submatrices
+%%  	    \texttt{Ke[\alert<4>{3}][\alert<4>{2}]}.
+%%  	  }
+%% 	  }
+%%           \only<5>
+%%           {
+%%  	  \item{
+%%  	    And an array of right-hand sides
+%%  	    \texttt{Fe[]}.
+%%  	  }
+%% 	  }
+%% 	  \only<6>
+%% 	  {
+%%  	  \item{
+%%  	    And an array of right-hand sides
+%%  	    \texttt{Fe[\alert{1}]}.
+%%  	  }
+%% 	  }
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+
+
+\begin{frame}[fragile] 
+  \begin{block}{}
+    \begin{itemize}    
+    \item{The matrix assembly can proceed in essentially the same way.}
+    \item{For the momentum equations:}
+    \end{itemize}
+  \end{block}
+  \small
+\begin{semiverbatim}
+for (q=0; q<Nq; ++q) 
+  \alert{for (d=0; d<2; ++d)}
+    for (i=0; i<Ns; ++i) \{
+      Fe\alert{[d]}(i) += JxW[q]*f(xyz[q],\alert{d})*phi[i][q];
+      
+      for (j=0; j<Ns; ++j)
+        Ke\alert{[d][d]}(i,j) +=
+	            JxW[q]*nu*(dphi[j][q]*dphi[i][q]);
+    \}
+\end{semiverbatim}
+\end{frame}

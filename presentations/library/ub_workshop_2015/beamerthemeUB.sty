@@ -1,0 +1,97 @@
+\usetheme{Rochester}
+
+\RequirePackage{pgf}
+
+\pgfdeclareimage[width=0.6\paperwidth]{ublogo}{./figs/1-line_white.png}
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+%\setbeamercovered{transparent}
+
+\beamertemplatenavigationsymbolsempty
+
+\beamer@headheight=0.13\paperwidth
+
+\definecolor{ubblue}{HTML}{041A9B}
+\definecolor{ubblueblend}{HTML}{5771B6}
+\definecolor{ubgray}{HTML}{666666}
+\definecolor{ubskyblue}{HTML}{809DC4}
+\definecolor{ubtealblue}{HTML}{59979C}
+\definecolor{ubgreen}{HTML}{9EBA29}
+\definecolor{uborange}{HTML}{E59319}
+
+\definecolor{play}{RGB}{252,245,235}
+\definecolor{play2}{RGB}{194,207,202}
+\definecolor{play3}{RGB}{240,240,240}
+
+\usecolortheme[named=ubskyblue]{structure}
+\useinnertheme[shadow]{rounded} 
+
+%\setbeamercolor*{Title bar}{fg=white}
+%\setbeamercolor*{Location bar}{fg=oxygenorange,bg=oxygenlightgray}
+\setbeamercolor*{frametitle}{fg=black}
+\setbeamerfont{frametitle}{series=\bf}
+\setbeamercolor*{block title}{bg=ubskyblue,fg=white}
+\setbeamercolor*{block body}{bg=play3,fg=black}
+%\setbeamerfont{block title}{series=\bf}
+
+\setbeamercolor*{normal text}{bg=white,fg=black}
+
+\setbeamercolor*{section in head/foot}{bg=ubblue,fg=white}
+\setbeamercolor*{author in head/foot}{bg=ubblue,fg=white}                                                                                                                                                                             
+\setbeamercolor*{title in head/foot}{bg=ubblueblend,fg=white}
+\setbeamercolor*{date in head/foot}{bg=ubskyblue,fg=white}
+
+\setbeamertemplate{items}[circle]
+\setbeamercolor{itemize item}{fg=black}
+\setbeamercolor{itemize subitem}{fg=black}
+\setbeamercolor{itemize subsubitem}{fg=black}
+
+%\setbeamerfont{section in head/foot}{size=\tiny,series=\normalfont}
+%\setbeamerfont{frametitle}{size=\Large}
+
+\usepackage[scaled]{helvet}
+%\usepackage{eulervm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+%\setbeamertemplate{headline}
+\setbeamertemplate{frametitle}
+{
+  \vskip 0.2\beamer@headheight
+  %\vskip-\baselineskip
+  %\vskip-0.2cm
+  \usebeamerfont*{frametitle}\insertframetitle
+}
+
+\setbeamertemplate{headline}
+{
+  \framelatex{
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.5\beamer@headheight]{section in head/foot}
+    \usebeamerfont{section in head/foot}%
+  \end{beamercolorbox}}
+
+\vskip -0.4\beamer@headheight
+\hspace{0.1in}\pgfuseimage{ublogo}
+}
+
+\defbeamertemplate*{footline}{infolines theme}
+{                                                                                                                                                                                                                                          
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+   % \usebeamerfont{author in head/foot}\insertshortauthor~~(\insertshortinstitute)
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\setbeamersize{text margin left=1em,text margin right=1em}
+

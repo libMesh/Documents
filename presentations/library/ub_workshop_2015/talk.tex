@@ -1,0 +1,149 @@
+\documentclass[compress]{beamer}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LaTeX package inclusion %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{times}
+\usepackage{units}
+\usepackage{mathrsfs}
+\usepackage{diss} % defines \bv and some other stuff
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{movie15}
+\usepackage{stmaryrd} % \llbracket
+\graphicspath{{figs/}}
+
+
+
+\usefonttheme[
+  onlymath
+]{serif} %onlymath option doesn't look too bad, eqns are more readable this way.
+
+\definecolor{DarkGreen}{rgb}{0.13,0.55,0.13}
+\definecolor{DarkRed}{rgb}{0.55,0.13,0.13}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\setcounter{tocdepth}{1}
+
+
+\usetheme{UB}
+%\usetheme{nasatalk}
+
+\definecolor{nasablue}{RGB}{0,96,169}
+\definecolor{nasared}{RGB}{239,61,66}
+\definecolor{orionblue}{RGB}{15,16,64}
+
+%\usecolortheme{orchid} % white on dark block titles.  use w/ whale.
+%\usecolortheme{whale} % darkest top titles, usually used by CFDLab presenters
+\setbeamertemplate{itemize items}[circle]% Force any theme (eg Antibes) to use circle bullets
+%\useinnertheme[shadow]{rounded} % Causes itemize blocks to have rounded corners & drop shadows
+%\logo{\includegraphics[width=.5in]{common/rawfigs/word3}}
+%\setbeamercolor{title}{fg=red!80!black,bg=red!20!white} %pink title!
+
+\title[The \texttt{libMesh} Finite Element Library]{The \texttt{libMesh} Finite Element Library \\ \vspace{.5em} \emph{\large Object-Oriented High-Performance Computing}}
+\author[P.~T.~Bauman]{Paul T. Bauman}
+\institute[UB]{University at Buffalo, SUNY}
+\date{March 25, 2015}
+
+\AtBeginSection[]{\frame{\tableofcontents[current]}}
+
+% Dr. Carey's Notes:
+% I had in mind some of the material we have in the Libmesh papers well
+% as  from the perspective of:(1) a very knowlegable  developer,(2)
+% installing an application with experience (3)  applying an
+% application for parametric runs  with some examples. perhaps some of
+% the issues encounter, as in all such codes like stopping criteria for
+% adaptive refinement, selection of error indicators, flexibility in
+% model adaption, ( adding terms, modifying constitutive models etc).
+% perhaps something on the coarsening /refining ; one level exceptions
+% etc. it would be helpful if you, Ben and Roy coordinated this.
+% Someone should talk about PETSc, partitioning etc. Someone about
+% memory restrictions etc. Strengths and limitations.  examples, couple
+% of movies etc etc
+
+
+% Abstract:
+% This talk will focus on several of the practical aspects involved in
+% using the LibMesh library for finite element analysis.  The topics
+% covered will include: the steps in going from a mathematical model
+% (PDE) to a working implementation (code), stopping criteria for
+% adaptive refinement, the selection of error indicators, and model
+% adaptation (adding terms, changing constitutive laws, etc).  The
+% strengths, weaknesses, and current limitations of the library will
+% be discussed in the same practical context.  Finally, some additional
+% examples giving a flavor of the types of applications which have
+% already been developed around the library will be given.
+%\setbeamercovered{transparent}
+
+
+\newcommand{\R}{\mathscr{R}}
+\newcommand{\LibMesh}{\texttt{libMesh}}
+\newcommand{\libmesh}{\texttt{libMesh}}
+\newcommand{\emphcolor}[1]{\textcolor{nasablue}{#1}}
+\newcommand{\royslide}[2]{\begin{frame} \frametitle{#1} #2 \end{frame}}
+\newcommand{\royitemizebegin}[1]{\begin{block}{#1} \begin{itemize}}
+\newcommand{\royitemizeend}{\end{itemize} \end{block}}
+
+\begin{document}
+
+\lstset{
+  language=C++,
+  basicstyle=\scriptsize\ttfamily,
+  frame=none,
+  commentstyle=\color{nasared},
+  keywordstyle=\color{nasablue},   % keyword style
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=3pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve}      % string literal style
+}
+
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\input{intro}
+%\input{applications}
+%\input{rayleigh}
+%\input{marangoni}
+%\input{solute}
+%\input{tumor}
+%\input{cahn}
+%\input{hsp}
+\input{physics_codes}
+\input{software_development}
+\input{bvp}
+\input{datastructures}
+\input{wrs}
+\input{poisson}
+\input{other}
+%\input{bcs}
+\input{extensions}
+\input{amr}
+\input{parallelism}
+\input{goingfurther}
+\input{references}
+
+\end{document}
+
+
+
+
+
+
+% LocalWords:  rcl fv Nonlinearity
