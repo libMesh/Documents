@@ -1,12 +1,26 @@
-\input{outline}
+\frame
+{
+  \frametitle{Thanks to Dr.\ Graham F.\ Carey}
 
+  \begin{columns}
+    \begin{column}{.55\textwidth}
+      \scriptsize
+      \begin{quote}
+        The original development team was heavily influenced by Professor Graham F. Carey, professor of aerospace engineering and engineering mechanics at The University of Texas at Austin, director of the ICES Computational Fluid Dynamics Laboratory, and holder of the Richard B. Curran Chair in Engineering.
 
-
+        Many of the technologies employed in libMesh were implemented because Dr. Carey taught them to us, we went back to the lab, and immediately began coding. In a very real way, he was ultimately responsible for this library that we hope you may find useful, despite his continued insistence that ``no one ever got a PhD from here for writing a code.''
+      \end{quote}
+\normalsize
+    \end{column}
+    \begin{column}{.45\textwidth}
+      \includegraphics[width=\textwidth]{grahamcarey}
+    \end{column}
+  \end{columns}
+}
 
 % The optional argument [<+->] means everything on the frame will be displayed incrementally.
-\section{Introduction}
-\input{outline_currentsection}
-\subsection{Acknowledgments}
+
+
 \begin{frame}[shrink]
   \begin{block}{Code Contributors}
     \scriptsize
@@ -33,37 +47,26 @@
       \end{tabular}
     \end{center}
     \begin{itemize}
-      \item Thanks to Wolfgang Bangerth and the \texttt{deal.II} team for initial technical inspiration. 
+      \item Thanks to Wolfgang Bangerth and the \texttt{deal.II} team for initial technical inspiration.
       \item Also, thanks to Jed Brown, Robert McLay, \& many others for discussions over the years.
     \end{itemize}
   \end{block}
 \end{frame}
 
-\frame
-{
-  \frametitle{Thanks to Dr.\ Graham F.\ Carey}
+%=================================================================
+% Outline
+%=================================================================
+%\section{Introduction}
+%\input{outline_currentsection}
+\input{outline}
 
-  \begin{columns}
-    \begin{column}{.55\textwidth}
-      \scriptsize
-      \begin{quote}
-        The original development team was heavily influenced by Professor Graham F. Carey, professor of aerospace engineering and engineering mechanics at The University of Texas at Austin, director of the ICES Computational Fluid Dynamics Laboratory, and holder of the Richard B. Curran Chair in Engineering.
 
-        Many of the technologies employed in libMesh were implemented because Dr. Carey taught them to us, we went back to the lab, and immediately began coding. In a very real way, he was ultimately responsible for this library that we hope you may find useful, despite his continued insistence that ``no one ever got a PhD from here for writing a code.''       
-      \end{quote}
-\normalsize
-    \end{column}
-    \begin{column}{.45\textwidth}
-      \includegraphics[width=\textwidth]{grahamcarey}
-    \end{column}
-  \end{columns}
-}
 
 \subsection{Background}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame
 {
-  \frametitle{Background}                 
+  \frametitle{Background}
 
   \begin{itemize}
   \item Modern simulation software is \emphcolor{complex}:
@@ -81,12 +84,12 @@
 }
 
 
- 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame
 {
-  \frametitle{Background}                 
+  \frametitle{Background}
 
   \begin{itemize}
   \item Modern simulation software is \emphcolor{multidisciplinary}:
