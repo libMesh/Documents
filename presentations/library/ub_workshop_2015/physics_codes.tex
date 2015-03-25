@@ -158,3 +158,50 @@
 
   \end{center}
 }
+
+
+%===============================================================================
+% New Slide
+%===============================================================================
+\begin{frame}
+\frametitle{\texttt{GRINS}}
+
+\begin{block}{\url{https://github.com/grinsfem/grins}}
+  \begin{itemize}
+  \item Multiphysics FEM platform built on \texttt{libMesh}
+  \item Modular structure for ``Physics'', solvers, QoIs, etc.
+  \item Key feature: automatically enabled discrete adjoints (AMR, sensitivities)
+  \end{itemize}
+\end{block}
+
+\begin{columns}[T]
+  \begin{column}{0.4\textwidth}
+    \uncover<2->{\centerline{\includegraphics[width=\linewidth]{var_vortices}}}
+  \end{column}
+  %
+  \begin{column}{0.4\textwidth}
+    \only<3>{\centerline{\includegraphics[width=\linewidth]{balloon_1}}}
+    \uncover<4->{\centerline{\includegraphics[width=\linewidth]{balloon_4}}}
+  \end{column}
+  %
+  \begin{column}{0.2\textwidth}
+    \uncover<5->{\centerline{\includegraphics[width=\linewidth]{sov}}
+    \tiny{Courtesy Nick Malaya, UT Austin}}
+  \end{column}
+  \end{columns}
+
+\end{frame}
+
+%===============================================================================
+% New Slide
+%===============================================================================
+\begin{frame}
+  \frametitle{\texttt{GRINS}}
+
+\begin{block}{Ozone Flame}
+  \only<1>{\centerline{\includegraphics[width=0.9\linewidth]{ozone_flame_wo_nomesh}}}
+  \only<2>{\centerline{\includegraphics[width=0.9\linewidth]{ozone_flame_wo}}}
+\end{block}
+
+
+\end{frame}
