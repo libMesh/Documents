@@ -4,6 +4,8 @@
 #include "libmesh/equation_systems.h"
 #include "libmesh/nonlinear_implicit_system.h"
 
+using namespace libMesh;
+
 class LaplaceYoung : public NonlinearImplicitSystem::ComputeJacobian,
 		     public NonlinearImplicitSystem::ComputeResidual
 {
