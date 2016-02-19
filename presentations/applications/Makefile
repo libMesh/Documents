@@ -2,7 +2,15 @@
 default: all
 	@true # override later % rule
 
-dirlist := $(wildcard */)
+dirlist := \
+doublediffusionrodeo06 \
+libmesh_cse13_talk \
+siam2004 \
+va_euler
+
+failing := \
+doublediffusionfef07 \
+erdcseminar2007
 
 clean:
 	@echo make clean
