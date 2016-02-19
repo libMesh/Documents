@@ -5,7 +5,6 @@ default: all
 dirlist := \
 arl \
 arl2 \
-cilamce_shortcourse_2014 \
 erdctalk \
 gridclasstalk \
 libmeshflows1 \
@@ -18,6 +17,7 @@ ub_workshop_2015 \
 vicksburg
 
 failing := \
+cilamce_shortcourse_2014 \
 LaRC_overview_2014
 
 
