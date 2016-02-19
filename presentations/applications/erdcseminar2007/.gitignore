@@ -1,6 +1,5 @@
 *.nav
 *.out
-*.pdf
 *.snm
 *.aux
 *.log
@@ -8,3 +7,4 @@
 *.vrb
 *.gmv.*
 *.ps
+ERDC_seminar.pdf
