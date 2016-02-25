@@ -1,0 +1,77 @@
+\section{Going Further}
+
+\subsection{Mesh Generation \& Importing}
+\frame
+{
+  \begin{block}{Mesh Generation}
+    \begin{itemize}
+      \item You will need access to a complete mesh generation package to create complex meshes for use inside \libMesh{}.
+      \item General process involves importing geometry, creating a volume mesh, assigning boundary conditions, and exporting the mesh.
+      \item Recommended mesh generation packages:
+        \begin{itemize}
+          \item \texttt{gridgen/pointwise}: export mesh in \texttt{ExodusII} format.
+          \item \texttt{gmsh}: open-source mesh generator. \libMesh{} supports \texttt{gmsh} format.
+          \item \texttt{Cubit}: unstructured mesh generator from Sandia National Labs.
+          \item Need another mesh format? \url{libmesh-users@lists.sourceforge.net}
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+}
+
+
+\subsection{Discontinuous Galerkin FEM}
+\frame
+{
+  \begin{block}{Discontinuous Galerkin Support}
+    \begin{itemize}
+      \item \libMesh{} supports a rich set of discontinous finite element bases.
+      \item For an example using interior penalty DG, see \texttt{\$LIBMESH\_DIR/examples/miscellaneous/ex5}
+    \end{itemize}
+  \end{block}
+}
+
+\subsection{Multiphysics Applications}
+\frame
+{
+  \begin{block}{Multiphysics Support}
+    \begin{itemize}
+      \item Tightly coupled multiphysics:
+        \begin{itemize}
+          \item All variables should be placed in the same \texttt{System}.
+          \item You can restrict variables to subdomains: c.f.\ \texttt{\$LIBMESH\_DIR/examples/subdomains/ex1}
+        \end{itemize}
+        \item Loosely coupled multiphysics:
+          \begin{itemize}
+            \item On the same \texttt{Mesh}, use different \texttt{Systems}
+            \item On disjoint \texttt{Mesh}es, pass data via \texttt{MeshfreeInterpolation} objects.
+          \end{itemize}
+    \end{itemize}
+  \end{block}
+}
+
+
+
+\subsection{FEMSystem Framework}
+\frame
+{
+  \begin{block}{\texttt{FEMSystem}}
+    \begin{itemize}
+    \item \texttt{FEMSystem} provides an alternative programming interface specifically for finite element applications.
+    \item Allows more direct interaction between solution algorithms and finite element approximation.
+    \item See \texttt{\$LIBMESH\_DIR/examples/fem\_system}      
+    \end{itemize}
+  \end{block}
+}
+
+
+\subsection{Reduced Basis Modeling}
+\frame
+{
+  \begin{block}{Reduced Basis Modeling}
+    \begin{itemize}
+      \item Recent effort led by David Knezevic to add certified reduced basis support to \libMesh{}.
+      \item This functionality allows fine-scale solutions to be approximated in an optimal basis with an associated error estimate.
+      \item See \texttt{\$LIBMESH\_DIR/examples/reduced\_basis}
+    \end{itemize}
+  \end{block}
+}
