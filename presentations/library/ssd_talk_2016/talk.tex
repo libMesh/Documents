@@ -17,7 +17,9 @@
 \newcommand{\Reals}{\mathbb{R}}
 
 \newcommand{\Qoi}{{\ensuremath{Q}}}
+\newcommand{\qoi}{{\ensuremath{q}}}
 \newcommand{\Res}{{\ensuremath{\mathcal R}}}
+\newcommand{\params}{{\ensuremath{\bv{\xi}}}}
 \newcommand{\Unknowns}{{\ensuremath{\bf{U}}}}
 \newcommand{\unknown}{{\ensuremath{\bv{u}}}}
 \newcommand{\Testfuncs}{{\ensuremath{\bf{V}}}}
@@ -26,6 +28,7 @@
 \newcommand{\adjointsol}{{\ensuremath{\bv{\tilde{z}}}}}
 \newcommand{\adjointsolh}{{\ensuremath{\bv{\tilde{z}^h}}}}
 \newcommand{\adjointsolH}{{\ensuremath{\bv{\tilde{z}^H}}}}
+\newcommand{\Liftfunc}{{\ensuremath{\Psi}}}
 \newcommand{\elem}{\ensuremath{E}}
 
 \definecolor{DarkGreen}{rgb}{0.13,0.55,0.13}
@@ -35,13 +38,16 @@
 
 \graphicspath{{./figs/}}
 
-\date{Feb 26, 2013}
+\date{Feb 26, 2016}
 \author{Roy H.~Stogner\inst{1}}
 \institute{\inst{1}The University of Texas at Austin}
 \title[libMesh]{PDE Discretization and Analysis with libMesh}
 \begin{document}
 
 \begin{frame}
+\begin{center}
+\includegraphics[width=.8\linewidth]{grand_logo}\\
+\end{center}
 \titlepage
 \end{frame}
 
@@ -86,12 +92,12 @@
 \column{.65\textwidth}
 \begin{block}{Challenges}
 \begin{itemize}
+\item Radically different application types
 \item Widely dispersed core developers
 \begin{itemize}
 \item INL, UT-Austin, U.Buffalo, JSC, MIT, Harvard, Argonne
 \end{itemize}
 \item OSS, commercial, private applications
-\item Radically different application types
 \end{itemize}
 \end{block}
 \end{columns}
@@ -290,7 +296,7 @@ Library data is distributed, synchronized:
 \end{itemize}
 \end{block}
 
-\begin{block}{Threads:: interfaces wrap TBB or pthreads}
+\begin{block}{Threads:: interfaces TBB/pthreads/OpenMP}
 \begin{itemize}
 	\item Sparsity, AMR constraint calculation
 	\item {\texttt{FEMSystem}} assembly routines
@@ -392,20 +398,25 @@ Refine to reduce solution error {\emph{when it influences QoI error}}:
 
 
 \begin{frame}
-\frametitle{Adjoint-based Goal-oriented Error Indicators}
+\frametitle{Adjoint-based Error Indicators, Sensitivities}
 
-\begin{equation*}
-\Qoi(\primalsolh) - \Qoi(\primalsol) = \Res(\primalsolh, \adjointsol - \adjointsolh) + H.O.T.
-\end{equation*}
+\vspace{-5mm}
+
+\begin{eqnarray*}
+\Qoi(\primalsolh) - \Qoi(\primalsol) & = & \Res(\primalsolh, \adjointsol - \adjointsolh) + H.O.T. \\
+\qoi' & = & \Qoi_\params(\primalsol; \params) - 
+        \Res_\params(\primalsol, \adjointsol - \Liftfunc(\primalsol; \params); \params)
+\end{eqnarray*}
 
 \begin{block}{Adjoint Refinement}
 \begin{equation*}
-\Res(\primalsolh, \adjointsol) = \sum_\elem 
-\Res^\elem(\primalsolh, \adjointsolH)
+\Res(\primalsolh, \adjointsol - \adjointsolh) \approx \sum_\elem 
+\Res^\elem(\primalsolh, \adjointsolH - \adjointsolh)
 \end{equation*}
 \end{block}
 
 \begin{block}{Adjoint Residual}
+\vspace{-4mm}
 \begin{equation*}
 \abs{\Res(\primalsolh, \adjointsol - \adjointsolh)} \leq
 \sum_\elem \norm{\Res^\elem_\unknown}_{B(\Unknowns^\elem,
@@ -416,8 +427,9 @@ Refine to reduce solution error {\emph{when it influences QoI error}}:
 \end{block}
 
 \begin{block}{Generalized Adjoint Residual}
+\vspace{-4mm}
 \begin{align*}
-\abs{\Res(\primalsolh, \adjointsol)}
+\abs{\Res(\primalsolh, \adjointsol - \adjointsolh)}
 \leq \sum_\elem \norm{\adjointsol_i-\adjointsolh_i}_i \; M_{ij} \; \norm{\primalsol_j-\primalsolh_j
 }_j \nonumber
 \end{align*}
@@ -455,10 +467,8 @@ Refine to reduce solution error {\emph{when it influences QoI error}}:
 \begin{itemize}
 	\item Email attachments
 	\item Ticket attachments
-	\begin{itemize}
 		\item Repository forks!
 		\item Pull requests!
-	\end{itemize}
 \end{itemize}
 \end{block}
 
@@ -552,16 +562,18 @@ Refine to reduce solution error {\emph{when it influences QoI error}}:
 
 \begin{frame}[fragile]{Git Guidelines}
   \begin{columns}
-    \column{.48\textwidth}
-    \includegraphics[width=\textwidth]{git_branching}
-    \column{.48\textwidth}
-    \begin{itemize}\itemsep=.05\textheight
+    \column{.45\textwidth}
+    \includegraphics[width=.8\textwidth]{git_branching}
+    \column{.55\textwidth}
+    \begin{itemize}
     \item Strive for ``useful nonlinearity.''
     \item Develop separate feature sets on separate branches; merge them back to master when complete.
-    \item Minimize or eliminate periodic/unnecessary merge commits.
-    \item Instead, \texttt{rebase} feature branches on top of master before merging and pushing
-    \item Rebasing public (aka shared) branches is bad\texttrademark, so wait until you are ready to push,
-      branch from the shared branch locally, rebase it on top of master, and then merge it.
+    \item Minimize or eliminate periodic or unnecessary \texttt{merge} commits.
+    \item \texttt{rebase} feature branches on top of master before
+        merge + push
+    \item Rebasing public branches is bad\texttrademark.  Complete the
+        shared branch, branch from the shared branch locally,
+        \texttt{rebase} from target, then \texttt{merge}
     \end{itemize}
   \end{columns}
     \small
@@ -605,6 +617,10 @@ Refine to reduce solution error {\emph{when it influences QoI error}}:
 
 \begin{itemize}
 	\item Maintain a wide range of external compatibility
+        \begin{itemize}
+            \item Dropped PETSc 2.3.3 (2007) support for libMesh 1.0 (2016)
+            \item C++11 shims
+        \end{itemize}
 	\item Limit \libMesh{} API changes
 \end{itemize}
 
@@ -628,7 +644,7 @@ Refine to reduce solution error {\emph{when it influences QoI error}}:
 \begin{block}{Runtime warnings}
 \begin{itemize}
 	\item {\texttt{libmesh\_experimental()}} \quad (in-flux APIs)
-	\item {\texttt{libmesh\_deprecated()}} \quad (~1 year, 1-2 releases)
+	\item {\texttt{libmesh\_deprecated()}} \quad ($\sim$1 year, 1-2 releases)
 \end{itemize}
 \end{block}
 
@@ -665,6 +681,84 @@ Refine to reduce solution error {\emph{when it influences QoI error}}:
     \item Middleware, application test suites
     \end{itemize}
   \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Assertions}
+{\footnotesize
+\begin{verbatim}
+libmesh_assert(c < _variables.size());
+libmesh_assert(s < elem->n_sides());
+libmesh_assert((ig >= Ug.first_local_index()) &&
+               (ig < Ug.last_local_index()));
+libmesh_assert(requested_ids[p].size() == ghost_objects_from_proc[p]);
+
+libmesh_assert(obj_procid != DofObject::invalid_processor_id);
+libmesh_assert(mesh.is_prepared());
+MeshTools::libmesh_assert_valid_node_procids(mesh);
+
+libmesh_assert(neigh->has_children());
+libmesh_assert(error_estimator.error_norm.type(var) == H1_SEMINORM ||
+               error_estimator.error_norm.type(var) == W1_INF_SEMINORM)
+libmesh_assert(number_h_refinements > 0 || number_p_refinements > 0);
+\end{verbatim}
+}
+
+\pause
+
+\begin{itemize}[<+->]
+\item Trust preconditions/postconditions, not any of your users
+\item Earlier errors are easier errors
+\item Exceptions!  Stack traces!  Line numbers!
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Manufactured Solution Testing}
+
+  (Finding unknown unknowns)
+
+  \begin{columns}[c]
+    \begin{column}{6cm}
+
+      \begin{block}{Verification of FIN-S hypersonics code}
+        \small
+        \begin{itemize}
+        \item \small FANS, Spalart-Allmaras
+          
+        \item Derivative:
+          \begin{equation}
+            \nonumber  
+            \frac{d(sa)}{dx} = \frac{1}{\rho}*\left(\frac{d(\rho *sa)}{dx} - sa \frac{d\rho}{dx}\right)
+          \end{equation}
+          
+        \item In code:
+          \begin{equation}
+            \nonumber  
+            \frac{d(sa)}{dx} = \frac{1}{\rho}*\frac{d(\rho *sa)}{dx} - sa \frac{d \rho}{dx}
+          \end{equation}
+          
+        \end{itemize}
+      \end{block}
+    \end{column}
+
+    \begin{column}{5cm}
+      \begin{center}
+        \includegraphics[scale=.3]{sa_bug} \\
+      \end{center}
+    \end{column}
+
+    \end{columns}
+
+    \vspace{5mm}
+
+    Manufactured Analytical Solution Abstraction library:
+
+    \url{https://manufactured-solutions.github.io/MASA/}
+
 \end{frame}
 
 
@@ -726,6 +820,7 @@ Refine to reduce solution error {\emph{when it influences QoI error}}:
 \begin{frame}
 \frametitle{Acknowledgements}
 
+Recent contributors:
 \begin{columns}
 
 \column{.45\textwidth}
@@ -749,6 +844,16 @@ Refine to reduce solution error {\emph{when it influences QoI error}}:
 
 \end{columns}
 
+\vspace{5mm}
+
+Useful resources:
+\begin{itemize}
+\item libMesh: \url{https://libmesh.github.io/}
+\item GRINS: \url{https://grinsfem.github.io/}
+\item MOOSE: \url{https://mooseframework.org/}
+\item MASA: \url{https://manufactured-solutions.github.io/MASA/}
+\end{itemize}
+
 \begin{columns}[c] 
 \begin{column}{.5\textwidth} 
 \begin{block}{}
@@ -756,15 +861,7 @@ Refine to reduce solution error {\emph{when it influences QoI error}}:
 \end{block}
 \end{column}
 \end{columns}
-\begin{center}
-\end{center}
 
-Useful resources:
-\begin{itemize}
-\item libMesh: \url{https://libmesh.github.io/}
-\item GRINS: \url{https://github.com/grinsfem/grins/}
-\item MOOSE: \url{https://mooseframework.org/}
-\end{itemize}
 
 \end{frame}
 
