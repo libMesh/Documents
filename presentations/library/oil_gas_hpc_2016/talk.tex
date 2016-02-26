@@ -54,36 +54,6 @@ Simulation with \texttt{libMesh}}
 \institute[UT-Austin]{University of Texas at Austin}
 \date{March 3, 2016}
 
-%\AtBeginSection[]{\frame{\tableofcontents[current]}}
-
-% Dr. Carey's Notes:
-% I had in mind some of the material we have in the Libmesh papers well
-% as  from the perspective of:(1) a very knowlegable  developer,(2)
-% installing an application with experience (3)  applying an
-% application for parametric runs  with some examples. perhaps some of
-% the issues encounter, as in all such codes like stopping criteria for
-% adaptive refinement, selection of error indicators, flexibility in
-% model adaption, ( adding terms, modifying constitutive models etc).
-% perhaps something on the coarsening /refining ; one level exceptions
-% etc. it would be helpful if you, Ben and Roy coordinated this.
-% Someone should talk about PETSc, partitioning etc. Someone about
-% memory restrictions etc. Strengths and limitations.  examples, couple
-% of movies etc etc
-
-
-% Abstract:
-% This talk will focus on several of the practical aspects involved in
-% using the LibMesh library for finite element analysis.  The topics
-% covered will include: the steps in going from a mathematical model
-% (PDE) to a working implementation (code), stopping criteria for
-% adaptive refinement, the selection of error indicators, and model
-% adaptation (adding terms, changing constitutive laws, etc).  The
-% strengths, weaknesses, and current limitations of the library will
-% be discussed in the same practical context.  Finally, some additional
-% examples giving a flavor of the types of applications which have
-% already been developed around the library will be given.
-%\setbeamercovered{transparent}
-
 
 \newcommand{\R}{\mathscr{R}}
 \newcommand{\LibMesh}{\texttt{libMesh}}
@@ -92,6 +62,7 @@ Simulation with \texttt{libMesh}}
 \newcommand{\royslide}[2]{\begin{frame} \frametitle{#1} #2 \end{frame}}
 \newcommand{\royitemizebegin}[1]{\begin{block}{#1} \begin{itemize}}
 \newcommand{\royitemizeend}{\end{itemize} \end{block}}
+\newcommand{\commentout}[1]{}
 
 \begin{document}
 
@@ -122,21 +93,14 @@ Simulation with \texttt{libMesh}}
 \input{objectives}
 \input{acknowledgements}
 \input{intro}
-%\input{applications}
-%\input{rayleigh}
-%\input{marangoni}
-%\input{solute}
-%\input{tumor}
-%\input{cahn}
-%\input{hsp}
 \input{physics_codes}
 \input{software_development}
+\input{verification}
 \input{bvp}
 \input{datastructures}
 \input{wrs}
 \input{poisson}
 \input{other}
-%\input{bcs}
 \input{amr}
 \input{parallelism}
 \input{goingfurther}
