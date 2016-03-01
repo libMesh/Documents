@@ -68,6 +68,16 @@ Simulation with \texttt{libMesh}}
 \newcommand{\M}[1]{\bv{#1}}
 \newcommand{\orderof}[1]{\ensuremath{ {\cal O}\left(#1\right)}}
 
+
+\AtBeginSection[]
+{
+   \begin{frame}
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+
 \begin{document}
 
 \lstset{
@@ -92,14 +102,9 @@ Simulation with \texttt{libMesh}}
   \titlepage
 \end{frame}
 
-
-
-\input{objectives}
-\input{acknowledgements}
 \input{intro}
 \input{physics_codes}
 \input{software_development}
-\input{verification}
 \input{bvp}
 \input{datastructures}
 \input{wrs}
@@ -107,7 +112,9 @@ Simulation with \texttt{libMesh}}
 \input{other}
 \input{amr}
 \input{parallelism}
+\input{verification}
 \input{goingfurther}
+\input{acknowledgements}
 \input{references}
 
 \end{document}
