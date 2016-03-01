@@ -1,82 +1,47 @@
 \subsection*{A Generic BVP}
 
-%% \begin{frame}
-%%   %\frametitle{}
-%%   \begin{columns}[t]
-%%     \column{.5\textwidth}
-%%     \begin{block}{}%A general class of PDE}      %find $u(\bv{x},t)$ such that
-%%       For this talk we will assume there is a
-%%       mathematical model (PDE) to be solved in an engineering analysis:
-%%       \begin{eqnarray}
-%% 	\label{eqn:general_pde}
-%% 	\nonumber
-%% 	%\frac{\partial u}{\partial t} +
-%% 	\R( u ) & = & 0 \;\;\;\;\; \in \Omega
-%% 	\\
-%% 	\nonumber
-%% 	u & = & u_D \;\; \in \partial \Omega_D
-%% 	\\
-%% 	\nonumber
-%% 	\nabla u \cdot n & = & u_N \;\; \in \partial \Omega_N
-%% %% 	\\
-%% %% 	\nonumber
-%% %% 	u(\bv{x}, 0) & = & u_0(\bv{x})
-%%       \end{eqnarray}
-%%     \end{block}
-%%     %\pause
-%%     \column{.5\textwidth}
-%%     %\begin{block}{}
-%%       \begin{center}
-%% 	%\fbox{
-%% 	%\includegraphics[width=2in,angle=-90]{domain}
-%%         \includegraphics[viewport=140 420 400 685,clip=true,width=2in]{domain2/domain2_input}
-%% 	%}
-%%       \end{center}
-%%     %\end{block}
-%%   \end{columns}
-%% %%  \begin{itemize}
-%% %%    \item $\mathcal{N}( u )$ is a nonlinear operator which depends on the unknown
-%% %%      $u$ and its spatial gradients%, $\bv{f}$ is a forcing function
-%% %%    % \item With slight modifications, a wide range of physically interesting problems fall into this class
-%% %%    \item Use generic numerical methods to treat many problems in the same framework
-%% %%  \end{itemize}
-%% \end{frame}
-
-
-
-% The ``Generic BVP'' slide has been slightly revamped for notational consistency
-\begin{frame}
-  %\frametitle{A Generic BVP}
+\begin{frame}[t]
+  \frametitle{Typical Boundary Value Problem}
   \begin{columns}[t]
     \column{.5\textwidth}
-    \begin{block}{A general class of PDE}      %find $u(\bv{x},t)$ such that
-      \begin{itemize}
-      \item We assume there is a Boundary Value Problem
-      of the form to be approximated in an FE function space
-      \end{itemize}
+     \begin{itemize}
+      \item Common BVP components:
       \vspace{-.1in}
-      \begin{eqnarray}
-	\label{eqn:general_pde}
-	\nonumber
-	M \frac{\partial u}{\partial t} & = & F( u ) \;\;\;\; \in \Omega
+        \begin{eqnarray}
+        \label{eqn:general_pde}
+        \nonumber
+        \bv{M} \frac{\partial \bv{u}}{\partial t} & = & \bv{F}( \bv{u} ) \;\, \in \Omega \subset \Reals^n
         \\
-	\nonumber
-	G( u ) & = & 0 \;\;\;\;\;\;\;\;\; \in \Omega
-	\\
-	\nonumber
-	u & = & u_D \;\;\;\;\;\;\; \in \partial \Omega_D
-	\\
-	\nonumber
-	N(u) & = & 0 \;\;\;\;\;\;\;\;\; \in \partial \Omega_N
- 	\\
- 	\nonumber
- 	u(\bv{x}, 0) & = & u_0(\bv{x})
+        \nonumber
+        \bv{G}( \bv{u} ) & = & 0 \;\;\;\;\;\;\;\; \in \Omega
+        \\
+        \nonumber
+        \bv{u} & = & \bv{u}_D \;\;\;\;\; \in \partial \Omega_D
+        \\
+        \nonumber
+        \bv{N}(\bv{u}) & = & 0 \;\;\;\;\;\;\;\; \in \partial \Omega_N
+        \\
+        \nonumber
+        \bv{u}(\bv{x}, 0) & = & u_0(\bv{x}) 
       \end{eqnarray}
-    \end{block}
-    %\pause
+      \item Less common components:
+        \begin{itemize}
+        \item Moving domain $\Omega(t)$, $\Omega(\bv{u},t)$
+        \item Multi-dimensional manifolds
+        \item Self-overlapping, contact
+        \item Acceleration ${\partial^2 u}/{\partial t^2}$
+        \item Integro-differential equations
+        \end{itemize}
+      \end{itemize}
     \column{.5\textwidth}
       \begin{center}
-	\includegraphics[viewport=140 420 400 685,clip=true,width=2in]{domain2/domain2_input}
+        \includegraphics[viewport=140 420 400 685,clip=true,width=.5\textwidth]{domain2_input}
+        \includegraphics[width=.5\textwidth]{capsule_partitioned}
+
+        \includegraphics[width=.45\textwidth]{fins-transition} \;
+        \includegraphics[width=.45\textwidth]{sheet_perspective}
+
       \end{center}
   \end{columns}
 \end{frame}
+
