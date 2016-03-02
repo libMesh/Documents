@@ -1,4 +1,39 @@
 \subsection{Parallel Algorithms}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{ParallelMesh Data Structure}{
+\royitemizebegin{std::vector fails}
+\item Not sparse
+\item $O(N_E)$ storage cost
+\royitemizeend
+\royitemizebegin{std::map}
+\item ``mapvector'' interface provides iterators
+\item $O(log (N_E/N_P))$ lookup time without std::unsorted\_map
+\item $O(1)$ lookup time with std::unsorted\_map
+\royitemizeend
+}
+
+
+
+\subsubsection{Adaptivity Issues}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{Adaptivity and ParallelMesh}{
+\begin{columns}
+\begin{column}{.5\textwidth}
+\begin{center}
+\includegraphics[width=.9\textwidth]{parallelism/adaptive}
+\end{center}
+\end{column}
+\begin{column}{.5\textwidth}
+\royitemizebegin{Challenges}
+\item Reindexing elements, nodes, DoFs
+\item Synchronization of ghost objects
+\item Load balancing, Repartitioning
+\royitemizeend
+\end{column}
+\end{columns}
+}
+
 \subsubsection{Parallel Programming}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\royslide{Parallel:: API}{
@@ -58,90 +93,3 @@ else
 \end{frame}
 %}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\royslide{ParallelMesh Data Structure}{
-\royitemizebegin{std::vector fails}
-\item Not sparse
-\item $O(N_E)$ storage cost
-\royitemizeend
-\royitemizebegin{std::map}
-\item ``mapvector'' interface provides iterators
-\item $O(log (N_E/N_P))$ lookup time without std::unsorted\_map
-\item $O(1)$ lookup time with std::unsorted\_map
-\royitemizeend
-\royitemizebegin{Hybrid data structure?}
-\item Dense vector for most elements
-\item Sparse data structure for new elements
-\royitemizeend
-}
-
-
-
-\subsubsection{Adaptivity Issues}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\royslide{Adaptivity and ParallelMesh}{
-\begin{columns}
-\begin{column}{.5\textwidth}
-\begin{center}
-\includegraphics[width=.9\textwidth]{parallelism/adaptive}
-\end{center}
-\end{column}
-\begin{column}{.5\textwidth}
-\royitemizebegin{Challenges}
-\item Reindexing elements, nodes, DoFs
-\item Synchronization of ghost objects
-\item Load balancing, Repartitioning
-\royitemizeend
-\end{column}
-\end{columns}
-}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\royslide{Parallel Global Indexing}{
-\royitemizebegin{One-pass indexing}
-\item Index processor $P$ from $\sum_1^{P-1} N_{E_p}$
-\item Pass $\sum_1^P N_{E_p}$ to processor $P+1$
-\item $O(N_E)$ work
-\item $O(N_E)$ execution time
-\royitemizeend
-}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\royslide{Parallel Global Indexing}{
-\royitemizebegin{Two-pass indexing}
-\item Count processor $P$ indices from 0
-\item Gather $N_{E_p}$ on all processors
-\item Re-index processor $P$ from $\sum_1^{P-1} N_{E_p}$
-\item Double the work
-\item $O(N_E/N_P)$ execution time
-\royitemizeend
-}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\royslide{Parallel Synchronization}{
-\royitemizebegin{What can lose sync?}
-\item Refinement flags
-\item New child elements, nodes
-\item New degrees of freedom
-\item Hanging node constraint equations
-\item Repartitioned elements, nodes
-\royitemizeend
-}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\royslide{Parallel Synchronization}{
-\royitemizebegin{Round-Robin Complications}
-\item Refinement flags must obey consistency rules
-\item New ghost nodes may have unknown processor ids
-\item Constraint equations may be recursive
-\royitemizeend
-}

@@ -1,8 +1,11 @@
 \subsection{Finite Element Computation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\royslide{FEM Computational Costs}{
-\royitemizebegin{}
+\royslide{Computational Costs}{
+\begin{columns}
+
+\column{.45\textwidth}
+\royitemizebegin{FEM Costs}
 \item Discrete system solves
 \item Discrete Jacobian assembly
 \item Discrete residual assembly
@@ -11,15 +14,16 @@
 \item Mesh generation
 \item Mesh movement
 \royitemizeend
-}
 
 
-\royslide{Adaptive FEM Costs}{
-\royitemizebegin{}
+\column{.45\textwidth}
+\royitemizebegin{Adaptive FEM Costs}
 \item Error estimator evaluation
 \item Adaptive refinement/coarsening
 \item Inter-mesh projections
 \item Adaptivity flagging
 \item Adaptive constraint calculations
 \royitemizeend
+\end{columns}
 }
+

@@ -202,34 +202,23 @@ assert(!in\_trouble());
 \begin{itemize}
 \item Does function result satisfy requirements?
 \end{itemize}
-\item Approx. 7000 assertions in \libMesh alone
+\item Approx. 7000 assertions in \libMesh{} alone
 \end{itemize}
 \end{block}
 
-\pause
+\begin{block}{Assertion types}
+Standard \texttt{assert()} prints failed assertion, prints file/line numbers, exits
 
-\begin{block}{Has Found {\bf MANY} Library Bugs}
-\begin{columns}[t]
-\begin{column}{.5\textwidth}
+\texttt{libmesh\_assert()} adds:
 \begin{itemize}
-\item {\small Uninitialized data}
-\item {\footnotesize Unpartitioned elements}
-\item {\scriptsize ``Tearing'' in neighbor map reconstruction}
-\item {\scriptsize Parallel vector operation miscommunication}
-\item {\tiny Parallel mesh adaptivity synchronization failures}
-\end{itemize}
-\end{column}
-\begin{column}{.5\textwidth}
+\item Per-processor stack trace files
 \begin{itemize}
-\item {\small Out-of-order API calls}
-\item {\footnotesize $N_{elem} < N_{proc}$ bugs}
-\item {\scriptsize Bad I/O node numbering}
-\item {\scriptsize Unsupported I/O format features}
-\item {\tiny Failure to ``deep copy'' a Mesh}
+\item Line numbers via gdb
 \end{itemize}
-\end{column}
-\end{columns}
+\item \cpp{} exception thrown
+\end{itemize}
 \end{block}
+
 \end{frame}
 
 %===============================================================================
@@ -261,54 +250,6 @@ libmesh_assert(number_h_refinements > 0 || number_p_refinements > 0);
 % NEW SLIDE
 %===============================================================================
 \begin{frame}
-\frametitle{High-level Assertions}
-
-\begin{block}{Assertion types}
-Standard \texttt{assert()} prints failed assertion, prints file/line numbers, exits
-
-\texttt{libmesh\_assert()} adds:
-\begin{itemize}
-\item Per-processor stack trace files
-\begin{itemize}
-\item Line numbers via gdb
-\end{itemize}
-\item \cpp{} exception thrown
-\end{itemize}
-\end{block}
-
-\pause
-
-\begin{block}{Has Found {\bf COUNTLESS} Application Bugs}
-\begin{columns}[t]
-\begin{column}{.5\textwidth}
-\begin{itemize}
-\item API mistakes
-\begin{itemize}
-\item {\small Misordered function args}
-\item {\footnotesize Sharing non-shareable objects}
-\item {\scriptsize Querying data before calculating it}
-\item {\tiny Finite element types on incompatible geometric elements}
-\end{itemize}
-\end{itemize}
-\end{column}
-\begin{column}{.5\textwidth}
-\begin{itemize}
-\item Runtime problems
-\begin{itemize}
-\item {\small Invalid input files}
-\item {\footnotesize Unsupported p-refinement levels}
-\item {\scriptsize Attempting incompatible mesh modification}
-\end{itemize}
-\end{itemize}
-\end{column}
-\end{columns}
-\end{block}
-\end{frame}
-
-%===============================================================================
-% NEW SLIDE
-%===============================================================================
-\begin{frame}
 \frametitle{Low-level Assertions}
 \begin{block}{Defining \texttt{\_GLIBCXX\_DEBUG}}
 \begin{itemize}
@@ -320,15 +261,6 @@ segfaults!
 \end{itemize}
 \end{block}
 
-\pause
-
-\begin{block}{Has Found}
-\begin{itemize}
-\item Many off-by-one indexing, transposed indexing errors
-\item Array allocation errors
-\item MPI communication mismatches
-\end{itemize}
-\end{block}
 \end{frame}
 
 
@@ -441,18 +373,6 @@ public:
 \end{itemize}
 \end{block}
 
-\pause
-
-\begin{block}{Has Found}
-\begin{itemize}
-\item Regressions in non-standard compile-time options
-  \begin{itemize}
-  \item Complex-valued solutions, Infinite Elements
-  \item AMR, MPI, tracefiles, GMV, etc. disabled
-  \end{itemize}
-\item Internal use of deprecated APIs
-\end{itemize}
-\end{block}
 \end{frame}
 
 
@@ -510,14 +430,6 @@ Capitalize on anything you know a priori:
 \end{itemize}
 \end{block}
 
-\pause
-
-\begin{block}{Has Found}
-\begin{itemize}
-\item Assorted application bugs
-\item Adjoint-based parameter sensitivity bugs
-\end{itemize}
-\end{block}
 \end{frame}
 
 %===============================================================================
@@ -677,15 +589,6 @@ true solution
 \end{column}
 \end{columns}
 
-\pause
-
-\begin{block}{Has Found}
-\begin{itemize}
-\item Incompatible mixed formulations
-\item Bad basis values on new FE type
-\item Bad adaptive constraint application
-\end{itemize}
-\end{block}
 \end{frame}
 
 \subsection{Application Verification}
@@ -715,14 +618,6 @@ true solution
 \end{column}
 \end{columns}
 
-\pause
-
-\begin{block}{Has Found}
-\begin{itemize}
-\item Differing FIN-S shock capturing operator behaviors
-\item Differing DPLR/LAURA high temperature models
-\end{itemize}
-\end{block}
 \end{frame}
 
 %===============================================================================
@@ -746,14 +641,6 @@ true solution
 \end{itemize}
 \end{block}
 
-\pause
-
-\begin{block}{Has Found}
-\begin{itemize}
-\item Bugs in non-Newtonian viscous flow code
-\item Bugs in new FIN-S multi-species capabilities
-\end{itemize}
-\end{block}
 \end{frame}
 
 %===============================================================================
@@ -777,14 +664,6 @@ true solution
 \end{column}
 \end{columns}
 
-\pause
-
-\begin{block}{Has Found}
-\begin{itemize}
-\item Indexing errors in DPLR coupling
-\item Artificial ``pinning'' in Cahn-Hilliard discretizations
-\end{itemize}
-\end{block}
 \end{frame}
 
 %===============================================================================
@@ -860,15 +739,6 @@ finite differenced Jacobian
 \end{itemize}
 \end{block}
 
-\pause
-
-\begin{block}{Has Found}
-\begin{itemize}
-\item Application codes with bad Jacobians (often!)
-\item Application codes with bad residuals
-\end{itemize}
-\end{block}
-
 \end{frame}
 
 %===============================================================================
@@ -894,15 +764,6 @@ finite differenced Jacobian
 \end{itemize}
 \end{block}
 
-\pause
-
-\begin{block}{Has Found}
-\begin{itemize}
-\item Errors in new FE options
-\item Errors in adaptivity application
-\item Errors in application codes
-\end{itemize}
-\end{block}
 \end{frame}
 
 %===============================================================================
@@ -945,21 +806,6 @@ fails for $L_2$ error with quadratic elements for fourth order problems
 \;\;\;
 \includegraphics[width=.25\textwidth]{cavityerror}
 \end{center}
-\end{block}
-
-\begin{block}{Has Found}
-\begin{itemize}
-\item Solution Verification:
-\begin{itemize}
-\item Good/Bad adaptive refinement strategies
-\item Non-conforming boundary condition enforcement
-\end{itemize}
-\item Code Verification:
-\begin{itemize}
-\item Library failure to handle $h \approx \orderof{10^{-6}}$
-\item Application failure to enforce hanging node constraints
-\end{itemize}
-\end{itemize}
 \end{block}
 
 \end{frame}
