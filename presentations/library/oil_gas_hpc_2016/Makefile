@@ -26,7 +26,7 @@ all: $(texfinal)
 
 figures: $(figures)
 
-$(texfinal): *.tex $(bibfiles) $(figures) $(clsfiles) $(styfiles) $(codefiles)
+$(texfinal): *.tex */*.tex $(bibfiles) $(figures) $(clsfiles) $(styfiles) $(codefiles)
 	if (test -f *.bib); then $(PDFLATEX) $(texroot) && bibtex $(texroot); fi
 	$(PDFLATEX) $(texroot) && $(PDFLATEX) $(texroot) && $(PDFLATEX) $(texroot)
 	if [ $(texroot).pdf != "$(texfinal)" ]; then cp $(texroot).pdf "$(texfinal)" && rm -f $(texroot).pdf; fi
