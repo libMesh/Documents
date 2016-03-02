@@ -1,23 +1,5 @@
 \section{Software Installation \& Ecosystem}
 \subsection{Important Websites}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\frame
-{
-  \Large
-  \begin{block}{}
-    \center{\bf Important Websites}
-    \begin{itemize}
-      \item \href{http://libmesh.sourceforge.net}{Primary website}
-      \item \href{http://github.com/libMesh/libmesh}{Revision Control \& Collaboration with GitHub}
-      \item Continuous Integration with MooseBuild (from INL)
-        %% \begin{itemize}
-        %%   \item \href{http://buildbot.ices.utexas.edu:8010/builders/libmesh\%2Fmaster}{Vanilla Master}
-        %%   \item \href{http://buildbot.ices.utexas.edu:8010/builders/libmesh\%2Fmaster%2Bsl6options}{Options}
-        %% \end{itemize}
-    \end{itemize}
-  \end{block}
-}
-
 
 \frame
 {
@@ -44,15 +26,7 @@
 
 
 
-\subsection{Compiling the library}
-\frame
-{
-  \Large
-  \begin{block}{}
-    \center{\bf Building \libMesh{}}
-  \end{block}
-}
-
+\subsection{Building the library}
 
 \begin{frame}[fragile]
   \frametitle{Getting the \libMesh{} Source}
@@ -78,7 +52,7 @@ $ git clone git://github.com/libMesh/libmesh.git
 \begin{frame}
   \frametitle{\libMesh{} Suggested Dependencies}
   \begin{itemize}
-    \item  \texttt{MPI} is of course required for shared-memory parallelism.
+    \item  \texttt{MPI} is of course required for distributed-memory parallelism.
     \item Out of the box, \libMesh{} will build with support for serial linear systems.
     \item Highly recommended you first install \texttt{PETSc} and/or \texttt{Trilinos}, which \libMesh{} uses for solving linear systems in parallel.
       \item Other recommended, optional packages are:

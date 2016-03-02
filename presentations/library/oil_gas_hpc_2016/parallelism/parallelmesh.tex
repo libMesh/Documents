@@ -82,6 +82,27 @@
 % NEW SLIDE
 %===============================================================================
 \begin{frame}
+\frametitle{``Typical'' PDE example}
+
+Transient Cahn-Hilliard, Bogner-Fox-Schmidt quads or hexes
+
+  \includegraphics[width=.5\textwidth]{parallelism/parallelmesh_usage_2D}
+  \includegraphics[width=.5\textwidth]{parallelism/parallelmesh_usage_3D}
+
+\begin{block}{Results}
+\begin{itemize}
+\item Parallel codes using SerialMesh are unchanged for ParallelMesh
+\item Overhead, distributed sparse matrix costs are unchanged
+\item Serialized mesh, indexing once dominated RAM use
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+%===============================================================================
+% NEW SLIDE
+%===============================================================================
+\begin{frame}
 \frametitle{Distributed Mesh Refinement}
 
 \begin{columns}
@@ -122,24 +143,3 @@ subconstraints-of-subconstraints...
 
 %\section{Applications}
 
-\subsection{Performance}
-
-%===============================================================================
-% NEW SLIDE
-%===============================================================================
-\begin{frame}
-\frametitle{``Typical'' PDE example}
-
-Transient Cahn-Hilliard, Bogner-Fox-Schmidt quads or hexes
-
-  \includegraphics[width=.5\textwidth]{parallelism/parallelmesh_usage_2D}
-  \includegraphics[width=.5\textwidth]{parallelism/parallelmesh_usage_3D}
-
-\begin{block}{Results}
-\begin{itemize}
-\item Parallel codes using SerialMesh are unchanged for ParallelMesh
-\item Overhead, distributed sparse matrix costs are unchanged
-\item Serialized mesh, indexing once dominated RAM use
-\end{itemize}
-\end{block}
-\end{frame}

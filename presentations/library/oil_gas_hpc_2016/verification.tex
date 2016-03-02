@@ -4,58 +4,6 @@
 % NEW SLIDE
 %===============================================================================
 \begin{frame}
-\frametitle{What Are Your Unknown Unknowns?}
-
-\begin{center}
-\includegraphics[height=.3\textwidth]{Rumsfeld_before}
-\end{center}
-
-\begin{itemize}
-\item ``as we know, there are known knowns; there are things we know we know.
-We also know there are known unknowns; that is to say we know there
-are some things we do not know. But there are also unknown unknowns --
-the ones we don't know we don't know.''
-
-\item ``It’s unlikely that things will be perfectly predictable.''
-
-\item ``Success tends to go not to the person who is error-free, because he
-also tends to be risk-averse.''
-\end{itemize}
-
-\end{frame}
-
-%===============================================================================
-% NEW SLIDE
-%===============================================================================
-\begin{frame}
-\frametitle{What Are Your Unknown Unknowns?}
-
-\begin{center}
-\includegraphics[height=.3\textwidth]{Rumsfeld_after}
-\end{center}
-
-\begin{itemize}
-
-\item {\scriptsize ``I can't tell you if the use of force in Iraq today would last
-five days, or five weeks, or five months, but it certainly isn't going
-to last any longer than that.''}
-
-\item {\footnotesize ``We do know of certain knowledge that [Osama Bin
-Laden] is either in Afghanistan, or in some other country, or dead.''}
-
-\item {\small ``[The WMDs are] in the area around Tikrit and
-Baghdad and east, west, south, and north somewhat...''}
-
-\item {``Oh, Lord. I didn't mean to say anything quotable.''}
-
-\end{itemize}
-
-\end{frame}
-
-%===============================================================================
-% NEW SLIDE
-%===============================================================================
-\begin{frame}
 \frametitle{Verification: Finding The Unknown Unknowns}
 \begin{block}{Solution Verification}
 Estimating Numerical Error:
@@ -549,6 +497,27 @@ true solution
 
 \end{frame}
 
+
+%===============================================================================
+% NEW SLIDE
+%===============================================================================
+\begin{frame}
+\frametitle{Manufactured Solution Issues}
+\begin{block}{Compressible Inviscid Perfect Gas Flow}
+
+\includegraphics[height=.5\textwidth,angle=90]{energy_equation_forcing1}
+\includegraphics[height=.5\textwidth,angle=90]{energy_equation_forcing2}
+
+\end{block}
+
+\begin{itemize}
+\item Use Maple, Mathematica, automatic differentiation
+\item Manufactured Analytic Solution Abstraction library:
+      \url{https://manufactured-solutions.github.io/MASA/}
+\end{itemize}
+
+\end{frame}
+
 %===============================================================================
 % NEW SLIDE
 %===============================================================================
@@ -746,31 +715,6 @@ finite differenced Jacobian
 %===============================================================================
 \begin{frame}
 \frametitle{A Priori Asymptotic Convergence Rates}
-\begin{block}{Pros}
-\begin{itemize}
-\item Applicable to wide ranges of problems
-\item Does not require exact, or even manufactured, solution
-\item Part of solution verification, not just code verification
-\end{itemize}
-\end{block}
-
-\pause
-
-\begin{block}{Cons}
-\begin{itemize}
-\item Does not verify physics
-\item Requires asymptotic assumption
-\item Part of solution verification, not just code verification
-\end{itemize}
-\end{block}
-
-\end{frame}
-
-%===============================================================================
-% NEW SLIDE
-%===============================================================================
-\begin{frame}
-\frametitle{Asymptotic Convergence Rate Examples}
 \begin{block}{Biharmonic Problem, Manufactured Solution}
 \begin{itemize}
 \item $\Delta^2 \V{u} = \V{f}$
@@ -783,7 +727,7 @@ finite differenced Jacobian
 \includegraphics[width=\textwidth]{macroelement}
 \end{column}
 \begin{column}{.5\textwidth}
-\begin{block}{Verification Results}
+\begin{block}{Verification Example}
 \begin{itemize}
 \item Code verification failures - bugs in basis transformations
 \item Solution verification ``failure'' - higher order Nitsche lift
@@ -792,21 +736,6 @@ fails for $L_2$ error with quadratic elements for fourth order problems
 \end{block}
 \end{column}
 \end{columns}
-
-\end{frame}
-
-%===============================================================================
-% NEW SLIDE
-%===============================================================================
-\begin{frame}
-\frametitle{Asymptotic Convergence Rate Examples}
-\begin{block}{Lid-Driven Cavity Flow}
-\begin{center}
-\includegraphics[width=.25\textwidth]{drivenvorticity5-400-new}
-\;\;\;
-\includegraphics[width=.25\textwidth]{cavityerror}
-\end{center}
-\end{block}
 
 \end{frame}
 
@@ -838,21 +767,3 @@ Gives some confidence in even highly nonlinear, transient, stochastic problems
 
 \end{frame}
 
-%===============================================================================
-% NEW SLIDE
-%===============================================================================
-\begin{frame}
-\frametitle{Manufactured Solution Example}
-\begin{block}{Compressible Inviscid Perfect Gas Flow}
-
-\includegraphics[height=.5\textwidth,angle=90]{energy_equation_forcing1}
-\includegraphics[height=.5\textwidth,angle=90]{energy_equation_forcing2}
-
-\end{block}
-
-\begin{itemize}
-\item Maple, Mathematica are your friends
-\item Manufactured Analytic Solution Abstraction library
-\end{itemize}
-
-\end{frame}

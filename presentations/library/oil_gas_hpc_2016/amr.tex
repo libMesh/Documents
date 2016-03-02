@@ -45,6 +45,7 @@
 
 \section{Adaptive Mesh Refinement}
 
+\subsection{Model Problem}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -170,30 +171,7 @@
 \end{frame}
 
 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Adaptivity And Error Indicators}
-  \begin{itemize}
-
-  \item A major goal of the \texttt{LibMesh} library is to provide:
-    \begin{itemize}
-    \item Adaptive mesh refinement support for standard geometric elements
-    \item Generic, physics-independent error indicators
-  \end{itemize}
-
-  \item In this context, we'll discuss
-    \begin{itemize}
-    \item ``Natural'' refinement patterns
-    \item A flux-jump error indicator
-  \end{itemize}
-
-
-  \end{itemize}
-\end{frame}
-
-
+\subsection{Mesh Refinement}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -263,36 +241,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{1D Example}
-\begin{itemize}
-\item In 1 dimension, the jump integrals reduce to point-wise evaluation
-  of the derivatives at the element boundaries.
-
-  \item For linear elements, the error indicator $\eta$ for a particular element
-    $\Omega_e = (x_e, x_{e+1})$ is defined as
-    \begin{equation}
-      \eta^2 =
-      %\left\{
-      %\begin{array}{c}
-%	h_e \llbracket u'(x_2) \rrbracket^2 \\
-      %\frac{h_e}{2} \left( \llbracket u'(x_e) \rrbracket^2 + \llbracket u'(x_{e+1}) \rrbracket^2 \right) \\
-%	h_e \llbracket u'(x_{N_e}) \rrbracket^2
- %     \end{array}
- %     \right.
-	\frac{h_e}{N_{\text{int}}} \sum_{i=1}^{N_{\text{int}}}  \llbracket u'(y_i) \rrbracket^2
-    \end{equation}
-    where $h_e = x_{e+1} - x_e$ is the element length, and $N_{\text{int}} \leq 2$ is the number of
-    \emph{interior} nodes $y_i$ the element has.
-
-%  \item The flux-jump indicator for elements on Dirichlet boundaries weights the jump
-%    at the single interior node twice.
-\end{itemize}
-
-\end{frame}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{1D Example (cont.)}
   \begin{columns}
     \column{.65\textwidth}
     \begin{itemize}
@@ -408,6 +356,119 @@ end
 \begin{frame}{A Simple Refinement Strategy (cont.)}
   \includegraphics[height=.9\textheight]{amr/error_plot}
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Goal-oriented Adaptivity}
+
+\begin{columns}
+
+\column{0.5\textwidth}
+Refine to reduce solution error {\emph{when it influences QoI error}}:
+
+\begin{center}
+\includegraphics[width=1.0\textwidth]{qoi_may_29_2009_convergence_cropped}
+\end{center}
+
+\column{0.45\textwidth}
+
+\begin{center}
+\includegraphics[height=0.5\textwidth]{QoI_October_20_2011_kelly_mesh}
+\includegraphics[height=0.5\textwidth]{QoI_May_29_2009_arpp_mesh+adjoint}
+\end{center}
+
+\begin{itemize}
+\item Global error indicator targets layer alone; QoI temporarily plateaus
+\item Rapid convergence from adjoint-based refinement
+\end{itemize}
+
+\end{columns}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Adaptivity: Error Estimators, Error Indicators}
+\begin{columns}
+\column{.7\textwidth}
+\begin{block}{Error decompositions}
+        Subterms on each element $K$:
+        \begin{itemize}
+                \item $\norm{u-u_h}_\mathcal{H}^2 = 
+                        \sum_K \norm{u-u_h}_\mathcal{H(K)}^2 \leq 
+                        \sum_K \abs{\eta_K}^2$
+                \item $\Qoi(u) - \Qoi(u_h) \approx \sum_K \eta_K$
+                \item $\abs{\Qoi(u) - \Qoi(u_h)} \leq \sum_K \abs{\eta_K}$
+        \end{itemize}
+\end{block}
+\begin{block}{Refinement heuristics}
+        \begin{itemize}
+        \item Refinement/coarsening of elements with:
+        \begin{itemize}
+                \item Worst/best fraction sorted by error
+                \item Error over/under fraction of tolerance
+                \item Error over/under target mesh size average
+        \end{itemize}
+        \item $h$-vs-$p$ refinement:
+        \begin{itemize}
+                \item {\textit{a priori}} singularity identification
+                \item Behavior vs. cost when $h$ vs. $p$ coarsening?
+        \end{itemize}
+        \end{itemize}
+\end{block}
+
+\column{.3\textwidth}
+\center
+\includegraphics[width=.6\textwidth]{qoi_primal_error}
+
+\center
+\includegraphics[width=.6\textwidth]{qoi_weighted_error}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Adjoint-based Error Indicators, Sensitivities}
+
+\vspace{-5mm}
+
+\begin{eqnarray*}
+\Qoi(\primalsolh) - \Qoi(\primalsol) & = & \Res(\primalsolh, \adjointsol - \adjointsolh) + H.O.T. \\
+\qoi' & = & \Qoi_\params(\primalsol; \params) - 
+        \Res_\params(\primalsol, \adjointsol - \Liftfunc(\primalsol; \params); \params)
+\end{eqnarray*}
+
+\begin{block}{Adjoint Refinement}
+\begin{equation*}
+\Res(\primalsolh, \adjointsol - \adjointsolh) \approx \sum_\elem 
+\Res^\elem(\primalsolh, \adjointsolH - \adjointsolh)
+\end{equation*}
+\end{block}
+
+\begin{block}{Adjoint Residual}
+\vspace{-4mm}
+\begin{equation*}
+\abs{\Res(\primalsolh, \adjointsol - \adjointsolh)} \leq
+\sum_\elem \norm{\Res^\elem_\unknown}_{B(\Unknowns^\elem,
+\Testfuncs^{\elem *})}
+\norm{\primalsol - \primalsolh}_{\Unknowns^\elem}
+\norm{\adjointsol - \adjointsolh}_{\Testfuncs^\elem}
+\end{equation*}
+\end{block}
+
+\begin{block}{Generalized Adjoint Residual}
+\vspace{-4mm}
+\begin{align*}
+\abs{\Res(\primalsolh, \adjointsol - \adjointsolh)}
+\leq \sum_\elem \norm{\adjointsol_i-\adjointsolh_i}_i \; M_{ij} \; \norm{\primalsol_j-\primalsolh_j
+}_j \nonumber
+\end{align*}
+\end{block}
+
+\end{frame}
+
 
 
 %% \end{document}
