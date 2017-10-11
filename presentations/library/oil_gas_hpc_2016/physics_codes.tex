@@ -1,0 +1,139 @@
+\section{Application Examples}
+\subsection{Application Results}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame
+{
+  \frametitle{FIN-S: Fully Implicit Navier-Stokes}
+
+  \begin{columns}
+    \begin{column}{0.45\textwidth}
+      \begin{itemize}
+      \item Kirk, Stogner, Bauman, Oliver, Computers \& Fluids, 2014
+      \item Application for high-speed (including reentry)
+        compressible flows in thermochemical nonequilibrium
+      \item Including AMR capabilities
+      \item Fully implicit coupling with surface response models
+      \end{itemize}
+    \end{column}
+    %
+    \begin{column}{0.45\textwidth}
+      \begin{center}
+        \only<1>{\includegraphics[height=\linewidth]{nosetip/smeared.png}}
+        \only<2>{\includegraphics[height=\linewidth]{nosetip/amr.png}}
+        \only<3>{\includegraphics[height=\linewidth]{nosetip/smeared.pdf}}
+        \only<4>{\includegraphics[height=\linewidth]{nosetip/amr.pdf}}
+        \only<5>{\includegraphics[height=\linewidth]{ablating_hs_wbg}}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+
+%===============================================================================
+% New Slide
+%===============================================================================
+\begin{frame}
+\frametitle{\texttt{GRINS}}
+
+\begin{block}{\url{https://github.com/grinsfem/grins}}
+  \begin{itemize}
+  \item Multiphysics FEM platform built on \texttt{libMesh}
+  \item Modular structure for ``Physics'', solvers, QoIs, etc.
+  \item Key feature: automatically enabled discrete adjoints (AMR, sensitivities)
+  \end{itemize}
+\end{block}
+
+\begin{columns}[T]
+  \begin{column}{0.4\textwidth}
+    \uncover<2->{\centerline{\includegraphics[width=\linewidth]{var_vortices}}}
+  \end{column}
+  %
+  \begin{column}{0.4\textwidth}
+    \only<3>{\centerline{\includegraphics[width=\linewidth]{balloon_1}}}
+    \uncover<4->{\centerline{\includegraphics[width=\linewidth]{balloon_4}}}
+  \end{column}
+  %
+  \begin{column}{0.2\textwidth}
+    \uncover<5->{\centerline{\includegraphics[width=\linewidth]{sov}}
+    \tiny{Courtesy Nick Malaya, UT Austin}}
+  \end{column}
+  \end{columns}
+
+\end{frame}
+
+
+
+\frame
+{
+  \frametitle{The MOOSE Framework - Gaston et al., INL}
+  \begin{center}
+    \fbox{\includegraphics[page=2,height=0.8\textheight]{Gaston/talk}}
+  \end{center}
+}
+
+
+
+%% \frame
+%% {
+%%   \frametitle{The MOOSE Framework - Gaston et al., INL}
+%%   \begin{center}
+%%     \fbox{\includegraphics[page=4,height=0.8\textheight]{Gaston/talk}}
+%%   \end{center}
+%% }
+
+
+
+\frame
+{
+  \frametitle{The MOOSE Framework - Gaston et al., INL}
+  \begin{center}
+    \fbox{\includegraphics[page=22,height=0.8\textheight]{Gaston/talk}}
+  \end{center}
+}
+
+\frame
+{
+  \frametitle{MOOSE - Coupled Thermal/Solid Mechanics}
+
+  \url{https://mooseframework.org/}
+
+  \begin{center}
+
+    \only<1>{\includegraphics[height=.8\textheight]{Gaston/pgc.png}}
+
+    \only<2>{\includemovie[autoplay,loop,text={\includegraphics[height=.8\textheight]{Gaston/pgc.png}}]{}{.8\textheight}{Gaston/pgc.avi}}
+
+  \end{center}
+}
+
+\frame
+{
+  \frametitle{MOOSE + FALCON - Fracturing And Liquid CONservation}
+  
+  \url{https://github.com/idaholab/falcon}
+
+  \begin{center}
+
+    \only<1>{\includegraphics[height=.65\textheight]{falcon/falcon_geothermal.png}}
+
+    \only<2>{\includemovie[autoplay,loop,text={\includegraphics[height=.65\textheight]{falcon/falcon_geothermal.png}}]{}{.65\textheight}{falcon/anim_FALCON.avi}}
+
+  \end{center}
+}
+\frame
+{
+  \frametitle{MOOSE + FALCON - Fracturing And Liquid CONservation}
+
+  \url{https://github.com/idaholab/falcon}
+
+  \begin{center}
+
+    \only<1>{\includegraphics[height=.75\textheight]{falcon/falcon_transport.png}}
+
+    \only<2>{\includemovie[autoplay,loop,text={\includegraphics[height=.75\textheight]{falcon/falcon_transport.png}}]{}{.75\textheight}{falcon/moose_falcon_porous_flow.mov}}
+
+  \end{center}
+}

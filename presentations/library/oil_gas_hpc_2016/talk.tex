@@ -1,0 +1,146 @@
+\documentclass[compress]{beamer}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LaTeX package inclusion %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{times}
+\usepackage{units}
+\usepackage{mathrsfs}
+\usepackage{diss} % defines \bv and some other stuff
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{movie15}
+\usepackage{stmaryrd} % \llbracket
+\graphicspath{{figs/}}
+
+
+
+\usefonttheme[
+  onlymath
+]{serif} %onlymath option doesn't look too bad, eqns are more readable this way.
+
+\definecolor{DarkGreen}{rgb}{0.13,0.55,0.13}
+\definecolor{DarkRed}{rgb}{0.55,0.13,0.13}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\setcounter{tocdepth}{1}
+
+
+\usetheme{pecostalk}
+
+\definecolor{nasablue}{RGB}{0,96,169}
+\definecolor{nasared}{RGB}{239,61,66}
+\definecolor{orionblue}{RGB}{15,16,64}
+
+%\usecolortheme{orchid} % white on dark block titles.  use w/ whale.
+%\usecolortheme{whale} % darkest top titles, usually used by CFDLab presenters
+\setbeamertemplate{itemize items}[circle]% Force any theme (eg Antibes) to use circle bullets
+%\useinnertheme[shadow]{rounded} % Causes itemize blocks to have rounded corners & drop shadows
+%\logo{\includegraphics[width=.5in]{common/rawfigs/word3}}
+%\setbeamercolor{title}{fg=red!80!black,bg=red!20!white} %pink title!
+
+\title[\texttt{libMesh} PDE Simulation]{Parallel Adaptive PDE
+Simulation with \texttt{libMesh}}
+\author[R.~H.~Stogner]{Roy H. Stogner}
+\institute[UT-Austin]{University of Texas at Austin}
+\date{March 2, 2016}
+
+
+\newcommand{\R}{\mathscr{R}}
+\newcommand{\LibMesh}{\texttt{libMesh}}
+\newcommand{\libmesh}{\texttt{libMesh}}
+\newcommand{\emphcolor}[1]{\textcolor{nasablue}{#1}}
+\newcommand{\royslide}[2]{\begin{frame} \frametitle{#1} #2 \end{frame}}
+\newcommand{\royitemizebegin}[1]{\begin{block}{#1} \begin{itemize}}
+\newcommand{\royitemizeend}{\end{itemize} \end{block}}
+\newcommand{\commentout}[1]{}
+
+\newcommand{\V}[1]{\bv{#1}}
+\newcommand{\M}[1]{\bv{#1}}
+\newcommand{\orderof}[1]{\ensuremath{ {\cal O}\left(#1\right)}}
+\newcommand{\Reals}{\mathbb{R}}
+\newcommand{\abs}[1]{\ensuremath{ \left|#1\right|}}
+\newcommand{\norm}[1]{\ensuremath{ \left|\left|#1\right|\right|}}
+
+\newcommand{\Qoi}{{\ensuremath{Q}}}
+\newcommand{\qoi}{{\ensuremath{q}}}
+\newcommand{\Res}{{\ensuremath{\mathcal R}}}
+\newcommand{\params}{{\ensuremath{\bv{\xi}}}}
+\newcommand{\Unknowns}{{\ensuremath{\bf{U}}}}
+\newcommand{\unknown}{{\ensuremath{\bv{u}}}}
+\newcommand{\Testfuncs}{{\ensuremath{\bf{V}}}}
+\newcommand{\primalsol}{{\ensuremath{\bv{\tilde{u}}}}}
+\newcommand{\primalsolh}{{\ensuremath{\bv{\tilde{u}^h}}}}
+\newcommand{\adjointsol}{{\ensuremath{\bv{\tilde{z}}}}}
+\newcommand{\adjointsolh}{{\ensuremath{\bv{\tilde{z}^h}}}}
+\newcommand{\adjointsolH}{{\ensuremath{\bv{\tilde{z}^H}}}}
+\newcommand{\Liftfunc}{{\ensuremath{\Psi}}}
+\newcommand{\elem}{\ensuremath{E}}
+
+
+
+
+\AtBeginSection[]
+{
+   \begin{frame}
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+
+\begin{document}
+
+\lstset{
+  language=C++,
+  basicstyle=\scriptsize\ttfamily,
+  frame=none,
+  commentstyle=\color{nasared},
+  keywordstyle=\color{nasablue},   % keyword style
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=3pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve}      % string literal style
+}
+
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\input{intro}
+\input{physics_codes}
+\input{software_development}
+\input{bvp}
+\input{datastructures}
+\input{wrs}
+\input{poisson}
+\input{other}
+\input{amr}
+\input{parallelism}
+\input{verification}
+\input{acknowledgements}
+%\input{references}
+
+\end{document}
+
+
+
+
+
+
+% LocalWords:  rcl fv Nonlinearity
