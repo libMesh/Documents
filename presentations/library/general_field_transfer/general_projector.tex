@@ -1,0 +1,26 @@
+%
+% Mesh Generation
+%
+
+%\begin{titleframe}{Field Transfer Problems}
+%\end{titleframe}
+
+\begin{frame}{MultiApp Transfer Problems}
+\begin{itemize}\itemsep=.07\textheight
+  \item Moose-based MultiApps couple calculations via parallel data
+    transfer of intermediate solution values from one subapp to
+    another, using one of an array of \code{MultiAppTransfer}
+    subclasses.
+  \begin{itemize}
+    \item Scalar solution variables
+    \item Postprocessor outputs
+    \item ... and Field variables
+  \end{itemize}
+\end{itemize}
+
+\vfill
+
+\begin{itemize}\itemsep=.07\textheight
+  \item Field variables present the largest challenges here
+\end{itemize}
+\end{frame}

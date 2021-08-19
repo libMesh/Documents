@@ -1,0 +1,9 @@
+*.png
+*.fdb_latexmk
+*.fls
+*.nav
+*.snm
+*.toc
+*.vrb
+!figures/*.png
+!figures/*.pdf
