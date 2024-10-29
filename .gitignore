@@ -11,3 +11,5 @@
 *.fls
 *.pdf
 *.spl
+*.bbl
+*.blg
