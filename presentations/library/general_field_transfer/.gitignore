@@ -7,3 +7,4 @@
 *.vrb
 !figures/*.png
 !figures/*.pdf
+main.pdf
