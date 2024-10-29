@@ -1,0 +1,86 @@
+%
+% Mesh Generation
+%
+
+%\begin{titleframe}{Field Transfer Problems}
+%\end{titleframe}
+
+\begin{frame}{MultiApp Transfer}
+\begin{itemize}
+  \item Moose-based MultiApps couple calculations via parallel data
+    transfer of intermediate solution values from one subapp to
+    another, using one of an array of \code{MultiAppTransfer}
+    subclasses.
+  \begin{itemize}
+    \item Scalar solution variables
+    \item Postprocessor outputs
+    \item ... and Field variables
+  \end{itemize}
+\end{itemize}
+
+\vfill
+
+\begin{itemize}
+  \item Field variables present the largest challenges here
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{MultiApp Transfer Problems}
+\begin{itemize}
+  \item Existing MultiAppFieldTransfer subclasses had many limitations
+    on what spaces were supported:
+  \begin{itemize}
+    \item Precisely matching discretizations, for direct copies of
+      solution vectors/subvectors
+    \item Lagrange source Finite Element (FE) types, for ``nearest node" lookups
+    \item Lagrange+constant-Monomial target FE types, for interpolation-only projections
+  \end{itemize}
+\end{itemize}
+
+\vfill
+
+\begin{itemize}
+  \item Excellent options for *some* FE spaces
+  \item Forces users to restrict their FE choices, in advance
+  \item Punishes users even in some supported combinations!
+  \begin{itemize}
+    \item Nearest-Node on non-matched meshes works ... but decimates
+      asymptotic convergence rates
+    \item Global $L^2$ projection on matched domains works (slowly) ... but
+      near sharp internal and boundary layers can lead to
+      multi-element layers ``ringing", resembling Gibbs' phenomena
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{MultiApp Transfer Goals}
+\begin{itemize}
+  \item Support for all \code{libMesh} FE spaces, as both sources and
+    targets
+  \begin{itemize}
+    \item Non-Lagrange
+    \item Superparametric with topological DoF storage
+    \item Non-lowest-order
+    \item Non-$C^0$
+    \item Vector-valued (inc. Nedelec)
+    \item \emph{New, Future FE spaces}
+    \begin{itemize}
+      \item Side-valued (flux variables, DPG flux spaces)
+      \item Vector-valued (e.g. Raviart-Thomas)
+    \end{itemize}
+  \end{itemize}
+  \item Support for mismatched meshes
+  \item Support for mismatched domains
+  \item Minimized transfer error in some appropriate norm
+  \item Minimized error ``pollution" away from mismatches
+\end{itemize}
+
+\vfill
+
+\begin{itemize}
+  \item \code{MultiAppGeneralFieldTransfer} achieves about 70\% of those so
+    far
+\end{itemize}
+\end{frame}
