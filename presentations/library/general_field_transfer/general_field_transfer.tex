@@ -5,22 +5,66 @@
 %\begin{titleframe}{Field Transfer Problems}
 %\end{titleframe}
 
-\begin{frame}{MultiApp Transfer Problems}
-\begin{itemize}\itemsep=.07\textheight
-  \item Moose-based MultiApps couple calculations via parallel data
-    transfer of intermediate solution values from one subapp to
-    another, using one of an array of \code{MultiAppTransfer}
-    subclasses.
+\begin{frame}{General Field Transfer conflicts}
+
+\begin{itemize}
+  \item Original \code{GenericProjector} code wasn't \emph{quite} as Generic as advertised...
+\end{itemize}
+
+\begin{itemize}
+  \item \code{libMesh} upgrades for \code{MultiAppGeneralFieldTransfer}:
   \begin{itemize}
-    \item Scalar solution variables
-    \item Postprocessor outputs
-    \item ... and Field variables
+    \item Non-const input functor support, for caching queries
+    \item Performance fixes for new corner cases
+    \begin{itemize}
+      \item Correctness fixes, with `--disable-deprecated`
+        configurations which enable sanity testing of certain
+        performance characteristics
+    \end{itemize}
+    \item More flexible support for subdomain-restricted
+      variables in source fields
+    \item More flexible element iterators, for subdomain-restricted
+      subsets of an individual processor's elements
   \end{itemize}
 \end{itemize}
 
-\vfill
+\end{frame}
 
-\begin{itemize}\itemsep=.07\textheight
-  \item Field variables present the largest challenges here
+
+\begin{frame}{MultiApp General Field Transfer Code}
+\begin{itemize}
+  \item Two sweeps through \code{GenericProjector} per transfer, with
+    different functors for each
+  \begin{itemize}
+    \item \code{GenericProjector} Pass 1: Record data queries locally
+    \begin{itemize}
+      \item \code{GenericProjector} determines full set of vertex
+        locations and quadrature point locations on which data is
+        needed
+      \item New \code{RecordRequests} input functor fills location
+        caches, to determine remote processors to query for each
+      \item Null output functor
+    \end{itemize}
+    \item \code{TIMPI::pull\_parallel\_vector\_data}, NBX algorithm,
+      for asynchronous sparse MPI data queries and responses.
+    \begin{itemize}
+      \item Query sends cached points to processors owning
+        each (or directly triggers response 
+      \item Response functor \code{evaluateInterpValues} uses
+        subdomain-aware \code{MeshFunction} to determine source app
+        variable field values
+      \item Action functor \code{cacheIncomingInterpValues} stores
+        responses for final calculation
+    \end{itemize}
+    \item \code{GenericProjector} Pass 2
+    \begin{itemize}
+      \item New \code{CachedData} input functor responds to vertex
+        point + quadrature point value requests via received
+        responses.
+      \item \code{GenericProjector} calculates transferred solution
+        coefficients on target FE space
+      \item \code{VectorSetAction} sets new solution values
+    \end{itemize}
+  \end{itemize}
 \end{itemize}
 \end{frame}

@@ -2,25 +2,74 @@
 % Mesh Generation
 %
 
-%\begin{titleframe}{Field Transfer Problems}
+%\begin{titleframe}{libMesh::GeneralProjector}
 %\end{titleframe}
 
-\begin{frame}{MultiApp Transfer Problems}
-\begin{itemize}\itemsep=.07\textheight
-  \item Moose-based MultiApps couple calculations via parallel data
-    transfer of intermediate solution values from one subapp to
-    another, using one of an array of \code{MultiAppTransfer}
-    subclasses.
+\begin{frame}{Generic Projector Code}
+\begin{itemize}
+  \item Original \code{libMesh} FE projection codes: copied and
+    modified
   \begin{itemize}
-    \item Scalar solution variables
-    \item Postprocessor outputs
-    \item ... and Field variables
+    \item And hopefully fixed, independently in every copy, when bugs
+      were found...
+  \end{itemize}
+  \item Modern \code{libMesh::GenericProjector}: class encapsulating
+    one flexible projection algorithm
+  \item Templated, for widely different use cases via different
+    input/output functors
+  \begin{itemize}
+    \item Function $\rightarrow$ FE space: e.g. initial conditions set
+      from parsed functions of position, time
+    \item FEM function $\rightarrow$ FE space: e.g. derived quantities
+      postprocessed from solution variables, constitutive laws
+    \item Old FE solution $\rightarrow$ Related FE space: solution updates
+      after Adaptive Mesh Refinement+Coarsening (AMR+C) in solver, transient,
+      or continuation loops
+    \item Old FE space $\rightarrow$ Related FE space: sparse projection
+      matrices, via operator-overloading of \code{MetaPhysicL} sparse
+      vector data types: e.g. for Geometric MultiGrid
+  \end{itemize}
+  \item Intended to handle every contingency
+  \begin{itemize}
+    \item Hybrid MPI+threads execution with internal synchronization
+    \item Tested with every \code{libMesh} FE type, continuity level,
+      adaptivity type
+    \item Field, scalar, and/or subdomain-restricted variables
+    \item Repeated optimization passes
+    \item Optimized code paths for most common cases
   \end{itemize}
 \end{itemize}
+\end{frame}
 
-\vfill
 
-\begin{itemize}\itemsep=.07\textheight
-  \item Field variables present the largest challenges here
+\begin{frame}{Generic Projector Algorithm}
+\begin{itemize}
+  \item Sequential Constrained Local Projections
+  \begin{enumerate}
+    \item Interpolation of all vertex Degrees of Freedom (DoFs)
+    \item Projection of all edge DoFs, holding vertex values fixed
+    \item Projection of all face DoFs, holding edge values fixed
+    \item Projection of all interior DoFs, holding face values fixed
+  \end{enumerate}
+  \item Continuity-aware Projections
+  \begin{itemize}
+    \item $L^2$ for $C^0$ scalar-valued FE, discontinuous interiors
+    \item $(L^2)^2$ for $C^0$ vector-valued FE
+    \item $H^1$ for $C^1$
+  \end{itemize}
+  \item Each projection is a (typically BLAS-accelerated
+    factorization) solve of a small dense matrix
+  \item Adaptive, non-conforming projection range FE spaces add complications
+  \begin{itemize}
+    \item ``Hanging nodes'' may be topologically detached from a
+      neighboring coarse element
+    \item A hanging node may be a vertex as seen from one element, but
+      an edge or face from another
+    \item DoFs on AMR boundaries may overlap or may be
+      independent-but-constrained
+    \item DoF constraint equations (from AMR+C, Periodic Boundary
+      Conditions, or arbitrary user constraints) need to trump initial
+      projected values
+  \end{itemize}
 \end{itemize}
 \end{frame}
