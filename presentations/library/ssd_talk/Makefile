@@ -1,6 +1,7 @@
 # You must build the slides using one of the rules below.  They automatically
 # include the correct documentclass.
 
+all: ssd_talk
 
 ssd_talk: ssd_talk.tex
 	nice pdflatex "\input{standard_dc.tex}\input{${<}}"
