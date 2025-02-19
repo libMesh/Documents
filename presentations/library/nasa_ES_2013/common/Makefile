@@ -42,7 +42,7 @@ cleanfigs:
 
 figs/%.pdf: rawfigs/%.dia
 	@mkdir -p $(dir $@)
-	dia -t eps-builtin -e $?_roytemp.eps $? && epstopdf $?_roytemp.eps -o=$@
+	dia -t cairo-eps -e $?_roytemp.eps $? && epstopdf $?_roytemp.eps -o=$@
 	@rm -f $?_roytemp.eps
 
 figs/%.pdf: rawfigs/%.eps

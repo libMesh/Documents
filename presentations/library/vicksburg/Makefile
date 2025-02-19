@@ -29,7 +29,7 @@ cleanfigs:
 
 
 figs/%.pdf: diafigs/%.dia
-	dia -t eps-builtin -e $*.eps $?
+	dia -t cairo-eps -e $*.eps $?
 	epstopdf $*.eps -o=$@
 	rm -f $*.eps
 
