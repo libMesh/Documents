@@ -1,0 +1,74 @@
+\subsection{Parallelism}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{Parallelism Goals}{
+\royitemizebegin{Reduced CPU time}
+\item Distributed CPU usage
+\item Asynchronous I/O
+\royitemizeend
+
+\royitemizebegin{Reduced memory requirements}
+\item Larger attainable problem size
+\royitemizeend
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{Parallelism Levels}{
+
+\begin{columns}
+\begin{column}{0.7\textwidth}
+\royitemizebegin{Single Instruction, Multiple Data Operations}
+\item ``Easy'': CPU SIMD in element assemblies, matvec operations,
+  etc.
+\pause
+\item Hard: GPU SIMD across multiple elements, with heterogeneous
+  element and/or FE type
+\royitemizeend
+
+\royitemizebegin{Shared-memory Multiple Instruction, Multiple Data Operations}
+\item Via \texttt{Threads::} range splitting in \libMesh{}
+\item Easier than distributed-memory algorithms?
+  Each thread can access all the data it needs.
+\pause
+\item Much harder than message-passing?
+  Each thread has direct access to each other's data.
+\royitemizeend
+\end{column}
+
+\begin{column}{0.25\textwidth}
+  \begin{center}
+    \includegraphics[width=.9\textwidth]{parallelism/SIMD}
+  \end{center}
+\end{column}
+\end{columns}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{Parallelism Levels}{
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\royitemizebegin{Separate Simulations}
+\item Parametric studies
+\item Uncertainty analysis
+\pause
+\item ``Embarrassingly parallel''
+\royitemizeend
+
+\royitemizebegin{Distributed-memory Processes}
+\item Asynchronous I/O
+\item Mesh Partitioning
+\royitemizeend
+\end{column}
+
+\begin{column}{0.5\textwidth}
+  \begin{center}
+    \includegraphics[width=.9\textwidth]{parallelism/Meshes}
+  \end{center}
+\end{column}
+\end{columns}
+}

@@ -1,0 +1,96 @@
+\section{Key Data Structures}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Mesh Class}
+
+\begin{frame}
+  \frametitle{Operations on Objects in the \texttt{Mesh}}
+  \begin{block}{}
+    \begin{itemize}
+    \item From a \texttt{Mesh} it is trivial to access ranges of objects of interest through \emph{iterators}.
+    \item Iterators are simply a mechanism for accessing a range of objects.
+    \item \libMesh{} makes extensive use of \emph{predictated iterators} to access, for example,
+      \begin{itemize}
+        \item All elements in the mesh.
+        \item The ``active'' elements in the mesh assigned to the local processor in a parallel simulation.
+        \item The nodes in the mesh.
+      \end{itemize}
+  \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[shrink]
+  \frametitle{Mesh Ranges and Iterators}
+  \lstinputlisting{snippets/active_elem_iterators.cxx}
+\end{frame}
+
+\begin{frame}[shrink]
+  \frametitle{Mesh Ranges and Iterators}
+  \lstinputlisting{snippets/node_iterators.cxx}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The EquationSystems Class}
+\begin{frame}
+  \frametitle{EquationSystems}
+  \begin{block}{}
+    \begin{itemize}
+      \item A \texttt{Mesh} is a discrete representation of problem geometry.
+      \item For each \texttt{Mesh}, there can be an
+        \texttt{EquationSystems} object, representing one or more
+        coupled systems of equations posed on the \texttt{Mesh}.
+        \begin{itemize}
+          \item There is at most one \texttt{EquationSystems} object per \texttt{Mesh}.
+          \item The \texttt{EquationSystems} object can hold many \texttt{System} objects, each representing a logical system of equations.
+        \end{itemize}
+      \item High-level operations such as solution input/output
+        typically operate at the \texttt{EquationSystems} level.
+      \item Each \texttt{System} has a degree-of-freedom mapping
+        \texttt{DofMap} that assigns any DoF indices to each
+        \texttt{DofObject} (\texttt{Elem} or \texttt{Node})
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[shrink]
+  \frametitle{EquationSystems}
+  \lstinputlisting{snippets/es.cxx}
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The \texttt{Elem} and \texttt{Node} Classes}
+\begin{frame}
+  \frametitle{Elements and Nodes}
+  \begin{block}{Elements}
+    \begin{itemize}
+      \item The \texttt{Elem} base class is the interface to any geometric element in \libMesh{}.
+      \item An \texttt{Elem} is defined by \texttt{Node}s, Edges (2D, 3D) and Faces (3D).
+      \item An \texttt{Elem} is also a \texttt{DofObject} with
+        more metadata:
+        \begin{itemize}
+          \item Global ID.
+          \item Processor ownership.
+          \item Degree of freedom indexing data.
+          \item ``Extra'' integers or data
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  \begin{block}{Nodes}
+    \begin{itemize}
+      \item A \texttt{Node} is a \texttt{DofObject} which is also a
+        \texttt{Point}, defining a location in 1D/2D/3D
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[shrink]
+  \frametitle{Elements and Nodes}
+  \lstinputlisting{snippets/elem.cxx}
+\end{frame}
+
