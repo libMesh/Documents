@@ -82,26 +82,50 @@
 }
 
 
-%===============================================================================
-% NEW SLIDE
-%===============================================================================
-%\begin{frame}
-%\frametitle{``Typical'' PDE example}
-%
-%Transient Cahn-Hilliard, Bogner-Fox-Schmidt quads or hexes
-%
-%  \includegraphics[width=.5\textwidth]{parallelism/parallelmesh_usage_2D}
-%  \includegraphics[width=.5\textwidth]{parallelism/parallelmesh_usage_3D}
-%
-%\begin{block}{Results}
-%\begin{itemize}
-%\item Parallel codes using ReplicatedMesh are unchanged for DistributedMesh
-%\item Overhead, distributed sparse matrix costs are unchanged
-%\item Serialized mesh, indexing once dominated RAM use
-%\end{itemize}
-%\end{block}
-%\end{frame}
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\royslide{DistributedMesh Ghosting Control}{
+\begin{frame}[fragile]
+\frametitle{DistributedMesh Ghosting Control}
+  \royitemizebegin{\texttt{GhostingFunctor} API}
+    \item Local elements we know we need: the \texttt{Partitioner} said so
+    \item What elements do \emph{those} elements need ghosted?
+    \item How are the ghosted elements' variables connected to us?
+  \royitemizeend
+
+Example:
+\small
+\begin{lstlisting}
+virtual void operator()
+  (const MeshBase::const_element_iterator & range_begin,
+   const MeshBase::const_element_iterator & range_end,
+   processor_id_type p,
+   map_type & coupled_elements) = 0;
+
+// coupled_elements[elem] = coupling_matrix_ptr;
+\end{lstlisting}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{DistributedMesh Ghosting Control}{
+  \royitemizebegin{\texttt{GhostingFunctor} Usage}
+    \item \texttt{MeshBase::add\_ghosting\_functor()}: ``Ask this
+      functor too when redistributing or removing non-local elements
+      from a processor''
+    \item \texttt{DofMap::add\_algebraic\_ghosting\_functor()}: ``Ask
+      this functor too when computing `send lists' for algebraic
+      ghosting''
+    \item \texttt{DofMap::add\_coupling\_functor()}: ``Ask this functor
+      too when computing matrix sparsity''
+    \item Coupling implies algebraic ghosting
+    \item Algebraic ghosting implies geometric ghosting
+  \royitemizeend
+}
+
+
+
+
 
 %===============================================================================
 % NEW SLIDE
