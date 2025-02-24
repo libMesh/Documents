@@ -1,0 +1,32 @@
+
+libMesh Finite Element Library: Design, Use, and Abuse
+
+
+The Multiphysics Object-Oriented Simulation Environment (MOOSE)
+framework is the foundation of dozens of scientific and engineering
+applications developed at Idaho National Laboratory (INL) and
+elsewhere, as well as being a powerful simulation tool in its own
+right.  MOOSE itself was founded using libMesh, an open source library
+originally created for academic research into adaptive finite element
+methods for computational fluid dynamics problems which over the last
+twenty years has grown far beyond those roots.  We will discuss the
+history and philosophy behind libMesh development, from the wisest
+decisions that led to the library's longevity to the design mistakes
+that have limited it or that have since been overcome, we will quickly
+review the basic design and usage of the most common libMesh
+subsystems, and we will discuss the challenges and opportunities of
+writing libMesh code that works with its most advanced features.
+
+
+Dr. Roy Stogner is a Computational Scientist in the Computational
+Frameworks department at INL.  He received his B.S. in Mechanical
+Engineering from Rice University, and his Ph.D. in Applied Mathematics
+from the University of Texas at Austin.  It was at U.T. Austin that
+Dr. Stogner became an early developer and eventually the chief
+architect of the libMesh library, which he used first for research
+into adaptive finite elements for fourth-order partial differential
+equations (PDEs), and later into finite element methods for hypersonic
+flow problems and as a foundation for uncertainty quantification of
+PDE-governed systems.  At INL he is still the chief architect of
+libMesh among other MOOSE dependencies, and is a core developer of the
+MOOSE framework itself.
