@@ -26,7 +26,7 @@ send_receive(dest_processor_id, send,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\royslide{Parallel:: API}{
 \begin{frame}[fragile,shrink]
-\frametitle{Parallel:: API}
+\frametitle{TIMPI: Templated Interface to MPI}
 
 Instead of:
 \begin{lstlisting}
@@ -58,4 +58,71 @@ else
 \end{lstlisting}
 \end{frame}
 %}
+
+
+\begin{frame}[fragile]
+\frametitle{TIMPI Templating}
+\royitemizebegin{TIMPI method input types}
+\item Templating + recursion enables arbitrary input data
+\item \texttt{StandardType<T>} handles any fixed-size \texttt{T}
+\item \texttt{Packing<T>} handles any variable-size \texttt{T}
+\item Specializations for \texttt{T<U,V>} operate recursively
+\royitemizeend
+
+\pause
+
+Example:
+\small
+\begin{lstlisting}
+std::vector<std::pair<std::set<unsigned int>, unsigned int>> vals;
+const unsigned int my_rank = TestCommWorld->rank();
+
+TestCommWorld->allgather(std::make_pair(
+                           createSet<unsigned int>(my_rank + 1),
+                           my_rank), vals);
+\end{lstlisting}
+
+\pause
+
+\texttt{StandardType<T>} and \texttt{Packing<T>} are predefined for
+  standard types, defined in separate headers for \libMesh{} and
+  \texttt{MetaPhysicL} types, and specializable for user types.
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{TIMPI Parallel Synchronization Algorithms}
+\royitemizebegin{Pushing or Pulling Data}
+\item We have data to send to a sparse set of processors
+  \begin{itemize}
+    \item Queries, if only the receiver knows what it needs
+  \end{itemize}
+\item We need to act on that data when we get it
+\royitemizeend
+
+\pause
+
+Example:
+\small
+\begin{lstlisting}
+std::map<processor_id_type, std::vector<unsigned int> > send, receive;
+
+fill_scalar_data(send);
+
+auto collect_data =
+  [&received_data]
+  (processor_id_type pid,
+   const std::vector<unsigned int> & vec_received)
+  {
+    auto & vec = receive[pid];
+    vec.insert(vec.end(), vec_received.begin(), vec_received.end());
+  };
+
+TIMPI::push_parallel_vector_data(*TestCommWorld, send, collect_data);
+\end{lstlisting}
+
+\end{frame}
 
