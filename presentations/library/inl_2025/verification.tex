@@ -457,24 +457,31 @@ true solution
 %===============================================================================
 \begin{frame}
 \frametitle{Code-to-Code, Code-to-Experiment}
-\begin{columns}
-\begin{column}{.5\textwidth}
-\begin{block}{``Lumped'' Verification}
 \begin{itemize}
-\item Differing results from:
-\begin{itemize}
-\item Different assumptions
-\item Different models
-\item Different formulations
-\item Different discretizations
+  \item Validation: Solving the right equations
+  \item Verification: Solving the equations right
 \end{itemize}
-\item Errors can \emph{cancel}
+\begin{columns}
+\begin{column}{.7\textwidth}
+\begin{block}{``Lumped'' Verification + Validation}
+\begin{itemize}
+\item ``Error'' can be indistinguishable from non-errors, giving false
+  positives
+\begin{itemize}
+\item Different experimental assumptions
+\item Different physical models
+\item Different mathematical formulations
+\item Different numerical discretizations
+\end{itemize}
+\item Error contributions can \emph{cancel} in test scenarios, giving
+  false negatives
+\item Uncaught error terms can \emph{extrapolate} in a use case
 \end{itemize}
 \end{block}
 \end{column}
-\begin{column}{.5\textwidth}
+\begin{column}{.3\textwidth}
 \begin{center}
-\includegraphics[width=.3\textwidth]{dplr_fins}
+\includegraphics[width=.5\textwidth]{dplr_fins}
 \end{center}
 \end{column}
 \end{columns}
