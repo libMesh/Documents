@@ -1,0 +1,91 @@
+\subsection*{Element Matrix and Load Vector}
+\begin{frame}%[t]
+%  \frametitle{Poisson Equation}
+  \begin{itemize}    
+    \visible<1->
+	{
+	\item
+	  {
+	    The element integrals \ldots
+	    \begin{equation}
+	      \nonumber
+	      \int_{\Omega_e} \left[ \nabla u^h \cdot \nabla v^h - fv^h \right] dx
+	    \end{equation}
+	  }
+	}
+
+	
+      \visible<2->
+      {
+	\item{
+	  are written in terms of the local ``$\alert<2>{\phi_i}$'' basis functions
+	  \begin{equation}
+	    \nonumber
+		\alert<2>{\sum_{j=1}^{N_s}}  \alert<2>{u_j}   \int_{\Omega_e}
+		\nabla \alert<2>{\phi_j} \cdot \nabla \alert<2>{\phi_i} \;dx
+		- \int_{\Omega_e}  f\alert<2>{\phi_i} \;dx
+		\hspace{.15in},\hspace{.15in} i = 1,\ldots,N_s
+	  \end{equation}
+	}
+      }
+      \visible<3>
+      {
+	\item{
+	  This can be expressed naturally in matrix notation as
+	\begin{equation}
+	  \nonumber
+	  \bv{K^e} \bv{U^e} - \bv{F^e} 
+	\end{equation}
+	}
+      }
+  \end{itemize}
+ \end{frame}
+
+
+
+%% \frame%[t]
+%%     {
+%%   \frametitle{Poisson Equation}
+%%   \begin{itemize}    
+%%   \item
+%%     {
+%%       \visible<1->
+%%       {
+%% 	The element integrals \ldots
+%%       }
+%%       \visible<2->
+%%       {
+%% 	are written in terms of the local ``$\alert<2>{\phi_i}$'' basis functions \ldots
+%%       }
+%%       \visible<3>
+%%       {
+%% 	which can be expressed naturally in matrix notation.
+%% 	%element ``stiffness matrix'' $\alert{\bv{K_e}}$
+%% 	%and ``load vector'' $\alert{\bv{F_e}}$. 
+%%       }
+%%     }
+%%   \end{itemize}
+%%     \begin{eqnarray}
+%%       %\begin{center}
+%% 	\nonumber
+%% 	%\begin{array}{c}
+%% 	\int_{\Omega_e} \left[ \nabla u^h \cdot \nabla v^h - fv^h \right] dx
+%% 	\hspace{.75in} \\ \nonumber
+%% 	  \visible<2->
+%% 	      {
+%% 		\Downarrow \hspace{1.5in} \\ \nonumber
+%% 		%
+%% 		\alert<2>{\sum_{j=1}^{N_s}}  \alert<2>{u_j}   \int_{\Omega_e}
+%% 		\nabla \alert<2>{\phi_j} \cdot \nabla \alert<2>{\phi_i} \;dx
+%% 		- \int_{\Omega_e}  f\alert<2>{\phi_i} \;dx
+%% 		\hspace{.15in},\hspace{.15in} i = 1,\ldots,N_s \\ \nonumber
+%% 	      }
+%% 	      \visible<3>
+%% 	      {\Downarrow \hspace{1.5in} \\ \nonumber
+%% 		%
+%% 		\bv{K_e} \bv{U_e} - \bv{F_e} \hspace{1.25in}
+%% 	      }
+%% 	%\end{array}
+%%       %\end{center}
+%%     \end{eqnarray}
+%%     }

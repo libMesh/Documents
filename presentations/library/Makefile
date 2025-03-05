@@ -5,20 +5,22 @@ default: all
 dirlist := \
 arl \
 arl2 \
+cilamce_shortcourse_2014 \
 erdctalk \
+general_field_transfer \
 gridclasstalk \
+LaRC_overview_2014 \
 libmeshflows1 \
 libmeshslides \
 nasa_ES_2013 \
+oil_gas_hpc_2016 \
 prace_shortcourse_2013 \
+psaap2_talk_2013 \
 sandiatalk \
 ssd_talk \
+ssd_talk_2016 \
 ub_workshop_2015 \
 vicksburg
-
-failing := \
-cilamce_shortcourse_2014 \
-LaRC_overview_2014
 
 
 clean:

@@ -1,0 +1,173 @@
+\subsection{DistributedMesh}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{ReplicatedMesh Partitioning}{
+\begin{columns}
+\begin{column}{.5\textwidth}
+  \royitemizebegin{}
+    \item Each element, node is ``local'' to one processor
+    \item Each processor has an identical Mesh copy
+    \item Mesh stays in sync through redundant work
+    \item FEM data synced on ``ghost'' elements only
+  \royitemizeend
+\end{column}
+\begin{column}{.5\textwidth}
+  \begin{center}
+    \includegraphics[width=.9\textwidth]{parallelism/SerialMesh}
+  \end{center}
+\end{column}
+\end{columns}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{DistributedMesh Partitioning}{
+\begin{columns}
+\begin{column}{.5\textwidth}
+  \royitemizebegin{}
+    \item Processors store only local and ghost objects
+    \item Geometric ghosting may match or be a superset of algebraic
+      ghosting
+    \item Each processor can only directly see a small Mesh subset
+    \item Mesh stays in sync through complex MPI communication
+  \royitemizeend
+\end{column}
+\begin{column}{.5\textwidth}
+  \begin{center}
+    \includegraphics[width=.9\textwidth]{parallelism/ParallelMesh1}
+  \end{center}
+\end{column}
+\end{columns}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{DistributedMesh Partitioning}{
+\begin{columns}
+\begin{column}{.5\textwidth}
+  \royitemizebegin{Pros}
+    \item $O(N_E)$ total memory costs, vs $O(N_E \cdot N_P)$ for
+      $N_E$ elements in a mesh serialized on $N_P$ processors
+    \item $O(N_E/N_P)$ CPU costs to modify the entire mesh, vs $O(N_E)$
+    \item The only way to scale an unstructured mesh asymptotically
+  \royitemizeend
+\end{column}
+\begin{column}{.5\textwidth}
+  \begin{center}
+    \includegraphics[width=.9\textwidth]{parallelism/ParallelMesh2}
+  \end{center}
+\end{column}
+\end{columns}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{DistributedMesh Partitioning}{
+\begin{columns}
+\begin{column}{.5\textwidth}
+  \royitemizebegin{Cons}
+    \item Increased code complexity
+    \item Increased synchronization ``bookkeeping'' communication
+    \item Greater debugging difficulty
+  \royitemizeend
+\end{column}
+\begin{column}{.5\textwidth}
+  \begin{center}
+    \includegraphics[width=.9\textwidth]{parallelism/ParallelMesh3}
+  \end{center}
+\end{column}
+\end{columns}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\royslide{DistributedMesh Ghosting Control}{
+\begin{frame}[fragile]
+\frametitle{DistributedMesh Ghosting Control}
+  \royitemizebegin{\texttt{GhostingFunctor} API}
+    \item Local elements we know we need: the \texttt{Partitioner} said so
+    \item What elements do \emph{those} elements need ghosted?
+    \item How are the ghosted elements' variables connected to us?
+  \royitemizeend
+
+Example:
+\small
+\begin{lstlisting}
+virtual void operator()
+  (const MeshBase::const_element_iterator & range_begin,
+   const MeshBase::const_element_iterator & range_end,
+   processor_id_type p,
+   map_type & coupled_elements) = 0;
+
+// coupled_elements[elem] = coupling_matrix_ptr;
+\end{lstlisting}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\royslide{DistributedMesh Ghosting Control}{
+  \royitemizebegin{\texttt{GhostingFunctor} Usage}
+    \item \texttt{MeshBase::add\_ghosting\_functor()}: ``Ask this
+      functor too when redistributing or removing non-local elements
+      from a processor''
+    \item \texttt{DofMap::add\_algebraic\_ghosting\_functor()}: ``Ask
+      this functor too when computing `send lists' for algebraic
+      ghosting''
+    \item \texttt{DofMap::add\_coupling\_functor()}: ``Ask this functor
+      too when computing matrix sparsity''
+    \item Coupling implies algebraic ghosting
+    \item Algebraic ghosting implies geometric ghosting
+  \royitemizeend
+}
+
+
+
+
+
+%===============================================================================
+% NEW SLIDE
+%===============================================================================
+\begin{frame}
+\frametitle{Distributed Mesh Refinement}
+
+\begin{columns}
+\column{.6\textwidth}
+\begin{block}{Elem, Node creation}
+\begin{itemize}
+\item<2-> Ids $\{i: i\;{\mathrm{mod}}\;(N_P+1) = p\}$ are assigned by processor $p$
+\end{itemize}
+\end{block}
+
+\visible<3->{
+\begin{block}{Synchronization}
+\begin{itemize}
+\item Refinement Flags
+\begin{itemize}
+  \item<4-> Data requested by id
+  \item<4-> Iteratively to enforce smoothing
+\end{itemize}
+\item New ghost child elements, nodes
+\begin{itemize}
+\item<4-> Id requested by data
+\end{itemize}
+\item Hanging node constraint equations
+\begin{itemize}
+\item<4-> Iteratively through subconstraints,
+subconstraints-of-subconstraints...
+\end{itemize}
+\end{itemize}
+\end{block}
+}
+\column{.4\textwidth}
+\begin{center}
+\includegraphics[width=.6\textwidth]{parallelism/LevelOneProblem}
+\end{center}
+\end{columns}
+
+\end{frame}
+
+%\section{Applications}
+
