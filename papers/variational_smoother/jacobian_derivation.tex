@@ -1,0 +1,588 @@
+%% 
+%% Copyright 2007-2024 Elsevier Ltd
+%% 
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%% 
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.3 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%% 
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%% 
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%% SP 2008/03/01
+%% $Id: elsarticle-template-num.tex 249 2024-04-06 10:51:24Z rishi $
+%%
+\documentclass[preprint,12pt]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsmath package provides various useful equation environments.
+\usepackage{amsmath}
+\usepackage{bm}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+\usepackage{lineno}
+
+%% Package for strikeout
+\usepackage[normalem]{ulem}
+
+% For creating tree diagrams
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning, trees}
+
+% For writing algorithms
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+
+% Make \paragraph have its own line
+\usepackage{indentfirst}
+\usepackage{titlesec}
+
+\titleformat{\paragraph}
+  {\normalfont\itshape}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+  {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+% Define commands for contributors to comment
+\usepackage[svgnames]{xcolor}
+\newcommand{\pab}[1]{\textcolor{blue}{{\scriptsize PAB:} #1}}
+\newcommand{\rhs}[1]{\textcolor{violet}{{\scriptsize RHS:} #1}}
+
+\usepackage{empheq}
+\usepackage{xpatch}
+\makeatletter
+\newcommand{\colorboxed}[1]{\fcolorbox{blue}{white}{\m@th$\displaystyle#1$}}
+\xpatchcmd{\@Aboxed}{\boxed}{\colorboxed}{}{}
+\makeatother
+
+% other custom commands
+\newcommand{\Eq}[1]{Eq.~\eqref{#1}}
+\newcommand{\Fig}[1]{Fig.~\ref{#1}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+
+\renewcommand{\vec}[1]{\bm{#1}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\journal{???}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for theassociated footnote;
+%% use the fnref command within \author or \affiliation for footnotes;
+%% use the fntext command for theassociated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for theassociated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \affiliation{organization={},
+%%             addressline={},
+%%             city={},
+%%             postcode={},
+%%             state={},
+%%             country={}}
+%% \fntext[label3]{}
+
+\title{Formulation of Gradient and Hessian Terms of the Distortion-Dilation Term}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{}
+%% \affiliation[label1]{organization={},
+%%             addressline={},
+%%             city={},
+%%             postcode={},
+%%             state={},
+%%             country={}}
+%%
+%% \affiliation[label2]{organization={},
+%%             addressline={},
+%%             city={},
+%%             postcode={},
+%%             state={},
+%%             country={}}
+
+\author[inl]{Patrick Behne} %% Author name
+
+%% Author affiliation
+\affiliation[inl]{organization={Idaho National Laboratory},%Department and Organization
+            addressline={1955 N. Fremont Ave}, 
+            city={Idaho Falls},
+            postcode={83415}, 
+            state={Idaho},
+            country={United States}}
+
+%% Abstract
+%\begin{abstract}
+%\end{abstract}
+
+%%Graphical abstract
+%\begin{graphicalabstract}
+%\includegraphics{grabs}
+%\end{graphicalabstract}
+
+%%Research highlights
+%\begin{highlights}
+%\item Research highlight 1
+%\item Research highlight 2
+%\end{highlights}
+
+%% Keywords
+%\begin{keyword}
+%\end{keyword}
+
+\end{frontmatter}
+
+%% Add \usepackage{lineno} before \begin{document} and uncomment 
+%% following line to enable line numbers
+\linenumbers
+
+%% main text
+%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\nolinenumbers
+\section{Introduction}
+\label{sec:intro}
+
+The distortion-dilation functional of an $n$-dimensional (i.e., 2D or 3D) mesh to minimize is:
+\be
+\Aboxed{I_h(\vec{R}) = \sum_{c=1}^{N\text{cells}} \int_{\hat{\Omega}_c} E_\theta (S_c(\vec{R})) d \vec{\xi}} \,,
+\ee
+where:
+\begin{itemize}
+	\item $\vec{R} \in \mathcal{R}^{n \times N_\text{nodes}}$ is a vector containing the node locations of the mesh in the physical domain
+	\item $S(\vec{R})$ is the Jacobian of the mapping from the physical cell to the reference cell. The dependence of this mapping on the node locations $\vec{R}$ is made explicit.
+	\item $\vec{\xi}$ denotes the multidimensional reference coordinates.
+	\item $E_\theta (S(\vec{R}))$ is the distortion-dilation function.
+\end{itemize}
+
+The distortion-dilation function is given by
+\be
+\Aboxed{E_\theta(S(\vec{R})) = (1 - \theta) \beta(S(\vec{R})) + \theta \mu(S(\vec{R}))} \,,
+\ee
+where $\theta$ is a weight between zero and one, and $\beta$ and $\mu$ are measures of element distortion and dilation, given by:
+\be
+\Aboxed{\beta(S(\vec{R})) = \frac{\left(\frac{1}{n} \text{tr}(S^TS(\vec{R}))\right)^{\frac{n}{2}}}{\chi_\epsilon(|S(\vec{R})|)}}
+\ee
+and
+\be
+\Aboxed{\mu(S(\vec{R})) = \frac{v + \frac{|S(\vec{R})|^2}{v}}{2\chi_\epsilon(|S(\vec{R})|}} \,,
+\ee
+where $n$ is the dimension of the mesh, $|S|$ denotes the determinant of $S$, and $v$ is the arithmetic average value of the element-averaged $|S|$.
+The function $\chi_\epsilon(|S|)$ is used in place of $|S|$ such that the metrics are well-defined for degenerate and folded elements:
+\be
+\Aboxed{\chi_\epsilon(|S|) = \frac{1}{2} \left( |S| + \sqrt{\epsilon^2 + |S|^2} \right)} \,,
+\ee
+where $\epsilon$ is a small number that prevents $\chi_\epsilon$ from being zero.
+For brevity, $\chi_\epsilon(|S|$ and it's first ($\chi_\epsilon^\prime(|S|)$) and second ($\chi_\epsilon^{\prime \prime}(|S|)$) derivatives with respect to det$(S)$ will be abbreviated by $\chi_\epsilon$, $\chi_\epsilon^\prime$, and $\chi_\epsilon^{\prime \prime}$, respectively.
+These functions will never take parameters other than det$(S)$.
+
+\section{Minimization Proceedure}
+
+We utilize Newton's method to solve the following minimization problem:
+\be
+\vec{R}_\text{smooth} = \argmin_{\vec{R}} I_h(\vec{R}) \,.
+\ee
+At the minimum of $I_h$, the gradient of $I_h$ with respect to the components of $\vec{R}$ will be zero:
+\be
+\nabla_{\vec{R}} I_h(\vec{R}) \rvert_{\vec{R}_\text{smooth}} = \vec{0} \,.
+\ee
+Newton's method can be used to find $\vec{R}_\text{smooth}$.
+The update iteration $k$+1 is:
+\be
+\Aboxed{\vec{R}^{k+1} = \vec{R}^k - H^{-1}(I_h(\vec{R}^k)) \nabla_{\vec{R}} I_h(\vec{R}^k)} \,.
+\ee
+where $H(I_h)$ denotes the Jacobian of the gradient of $I_h$ (i.e., the Hessian):
+\be
+H(I_h) = \nabla_{\vec{R}} \nabla_{\vec{R}} I_h \,.
+\ee
+It is clear that in order to use Newton's method, we must first write down expressions for the gradient and Hessian of $I_h$.
+
+\section{Matrix Calculus Identities}
+\label{sec:matrix_calculus_identities}
+
+Some matrix calculus identities are important in this work.
+In this context, $S$ is a square matrix.
+The derivative of a scalar-valued function $f(S)$ with respect to $S$ is a matrix with the $k,l$ entry given by
+\be
+\left( \frac{\partial f(S)}{\partial S} \right)_{kl} = \frac{\partial f(S)}{\partial S_{kl}} \,.
+\ee
+The following identities hold for the matrix derivatives of $f(S) = |S|$ and $f(S) = \text{tr}(S^TS)$:
+\be
+\Aboxed{\frac{\partial |S|}{\partial S} = |S| S^{-T}} \,,
+\ee
+\be
+\Aboxed{\frac{\partial \text{tr}(S^TS)}{\partial S} = 2S} \,.
+\ee
+
+The derivative of a matrix-valued function $F(S)$ with respect to $S$ is a fourth-order tensor with the $i,j,k,\ell$ entry given by
+\be
+\left( \frac{\partial F(S)}{\partial S} \right)_{ijk\ell} = \frac{\partial F(S)_{ij}}{\partial S_{k\ell}} \,.
+\ee
+The following identity holds for the matrix derivative of $S^{-T}$ with respect to $S$:
+\be
+\Aboxed{\left( \frac{\partial S^{-T}}{\partial S} \right)_{ijk\ell} = - S^{-1}_{li} S^{-1}_{jk}}\,.
+\ee
+
+\section{Gradient of $I_h$}
+
+The gradient of $I_h$ is given by
+\be
+\begin{align*}
+\nabla_{\vec{R}} I_h(\vec{R}) &= \sum_{c=1}^{N\text{cells}} \int_{\hat{\Omega}_c}  \nabla_{\vec{R}} E_\theta (S_c(\vec{R})) d \vec{\xi} \\
+&= \sum_{c=1}^{N\text{cells}} \int_{\hat{\Omega}_c}  \left( (1 - \theta) \nabla_{\vec{R}} \beta (S_c(\vec{R})) + \theta \nabla_{\vec{R}} \mu (S_c(\vec{R})) \right) d \vec{\xi} \,.
+\end{align*}
+\ee
+It follows that we need to compute $\nabla_{\vec{R}} \beta$ and $\nabla_{\vec{R}} \mu$.
+
+\subsection{$\nabla_{\vec{R}} \beta$}
+\label{sec:grad_beta}
+
+By definition,
+\be
+\nabla_{\vec{R}} \beta(\vec{R}) = \nabla_{\vec{R}} \frac{\left(\frac{1}{n} \text{tr}(S^TS(\vec{R}))\right)^{\frac{n}{2}}}{\chi_\epsilon(|S(\vec{R})|)} \,.
+\ee
+Denoting the gradient with respect to $\vec{R}$ (i.e., $\nabla_{\vec{R}}$) by $\partial / \partial \vec{R}$, and employing chain rule,
+\be \label{eq:grad_beta}
+\begin{align*}
+\nabla_{\vec{R}} \beta(\vec{R}) &= \frac{\partial}{\partial \vec{R}} \beta(\vec{R}) \\
+&= \frac{\partial \beta(\vec{R})}{\partial S} \frac{\partial S}{\partial \vec{R}} \,,
+\end{align*}
+\ee
+or element-wise,
+\be \label{eq:grad_beta_element}
+\begin{align*}
+\nabla_{\vec{R}_\ell} \beta(\vec{R}) &= \frac{\partial}{\partial \vec{R}_\ell} \beta(\vec{R}) \\
+&= \sum_a \sum_b \frac{\partial \beta(\vec{R})}{\partial S_{ab}} \frac{\partial S_{ab}}{\partial \vec{R}_\ell} \,.
+\end{align*}
+\ee
+
+First, we will compute the term $\partial S / \partial \vec{R}$.
+In libMesh, the Jacobian matrix within cell $c$, $S(\vec{R}_c)$, has the following representation:
+\be
+S(\vec{R}_c) = \sum_{m=1}^{N_{\text{nodes}, c}} \vec{R}_{c,m} (\nabla_{\vec{\xi}} \phi_m(\vec{\xi}))^T \,,
+\ee
+where $\vec{R}_{c,m} \in \mathcal{R}^n$ are the physical coordinates of the $m$-th node in cell $c$ and $\phi_m$ is the spatial basis function for the $m$-th node.
+Note that this Jacobian matrix is of shape $(n, n)$.
+The expression for element $i,j$ is:
+\be
+S(\vec{R}_c)_{ij} = \sum_{m=1}^{N_{\text{nodes},c}} R_{c,m,i} \partial_{\xi_j} \phi_m(\vec{\xi}) \,,
+\ee
+where $R_{c,m,i}$ denotes the coordinate in the $i$-th dimension of node $\vec{R}_{c,m}$ and $\partial_{\xi_j}$ denotes the $j$-th component of the gradient operator $\nabla_\vec{\xi}$.
+Using this definition, we see that
+\be \label{eq:del_S_del_R}
+\Aboxed{\frac{\partial S(\vec{R}_c)_{i,j}}{\partial R_{c,m,k}} = \delta_{ik} \partial_{\xi_j} \phi_m(\vec{\xi})} \,.
+\ee
+Because \Eq{eq:del_S_del_R} holds for $i,j \in [0, n)$ and $k \in [0, n \times N_\text{nodes})$, $\partial S / \partial \vec{R}$ is a third-order tensor (i.e., the derivative of a matrix with respect to a vector).
+
+Next, we will compute the $\partial \beta / \partial S$ term.
+Note that in all derivations, we use product + chain rules as opposed to quotient rule because quotient rule sucks.
+Quotient rule is fake math invented by Big Mathematics so they had extra material to put in textbooks and sell them for more.
+On top of that, anyone who prefers to use quotient rule instead of writing $1 / \chi_\epsilon = \chi_\epsilon^{-1}$ is obviously delusional and should not be trusted.
+Also note that we utilized the identities from Section \ref{sec:matrix_calculus_identities} when using chain rule.
+\be \label{eq:del_beta_del_S}
+\begin{align*}
+\frac{\partial \beta}{\partial S} &= \frac{\partial}{\partial S} \frac{\left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}}}{\chi_\epsilon} \\
+&= \frac{\frac{n}{2} \left( \frac{1}{n} \text{tr}(S^TS) \right)^{\frac{n}{2}-1} \frac{1}{n} 2S}{\chi_\epsilon} - \frac{\left( \frac{1}{n} \text{tr}(S^TS) \right)^{\frac{n}{2}}}{\chi_\epsilon^2} \frac{\partial \chi_\epsilon (|S|)}{\partial S} \\
+&= \Aboxed{\left( \frac{\left( \frac{1}{n} \text{tr}(S^TS) \right)^{\frac{n}{2} - 1}}{\chi_\epsilon} \right) S - \left( \frac{\left( \frac{1}{n} \text{tr}(S^TS) \right)^\frac{n}{2}}{\chi_\epsilon^2} \chi_\epsilon^\prime |S| \right) S^{-T}} \,, \\
+\end{align*}
+\ee
+where we have used
+\be \label{eq:chi_prime}
+\Aboxed{\frac{\partial \chi_\epsilon}{\partial S} = \underbrace{\frac{1}{2} \left( 1 + \frac{|S|}{\sqrt{\epsilon^2 + |S|^2}} \right)}_{\chi_\epsilon^\prime} |S|S^{-T}} \,.
+\ee
+
+The results of Eqs.~\eqref{eq:del_S_del_R} and \eqref{eq:del_beta_del_S} can be substituted into \Eq{eq:grad_beta} and \Eq{eq:grad_beta_element} to obtain $\nabla_{\vec{R}} \beta(\vec{R})$ in terms of $S$ and $\phi_l$.
+Note that \Eq{eq:del_S_del_R} is a rank 3 tensor of dimension $(n, n, n \times N_\text{nodes})$ and \Eq{eq:del_beta_del_S} is a matrix of dimension $(n, n)$:
+\be
+\nabla_{\vec{R}} \beta(\vec{R}) = \underbrace{\frac{\partial \beta(\vec{R})}{\partial S}}_{(n, n)} \underbrace{\frac{\partial S}{\partial \vec{R}}}_{(n, n, n \times N_\text{nodes})}
+\ee
+The expected result for the gradient of a scalar function is a vector, which can be obtained by first multiplying common dimensions together and then summing over them to obtain a vector of length $n \times N_\text{nodes}$.
+Using Einstein notation, the $\ell$-th entry of this vector is given by
+\be
+\Aboxed{\left( \nabla_{\vec{R}} \beta \right)_\ell = \left( \frac{\partial \beta}{\partial S} \right)_{ab} \left( \frac{\partial S}{\partial \vec{R}} \right)_{ab \ell}} \,.
+\ee
+This result is in agreement with \Eq{eq:grad_beta_element}.
+
+\subsection{$\nabla_{\vec{R}} \mu$}
+\label{sec:grad_mu}
+
+By definition,
+\be
+\nabla_{\vec{R}} \mu(\vec{R}) = \nabla_{\vec{R}} \frac{v + \frac{|S(\vec{R})|^2}{v}}{2\chi_\epsilon(|S(\vec{R})|)} \,.
+\ee
+Using chain rule in the same manner as the previous section,
+\be \label{eq:grad_mu}
+\begin{align*}
+\nabla_{\vec{R}} \mu(\vec{R}) &= \frac{\partial}{\partial \vec{R}} \mu(\vec{R}) \\
+&= \frac{\partial \mu(\vec{R})}{\partial S} \frac{\partial S}{\partial \vec{R}} \,.
+\end{align*}
+\ee
+
+The $\partial S / \partial \vec{R}$ term is given by \Eq{eq:del_S_del_R}.
+Using product rule and the Section \ref{sec:matrix_calculus_identities} identities for chain rule,
+\be \label{eq:del_mu_del_S}
+\begin{align*}
+\frac{\partial \mu}{\partial S} &= \frac{\partial}{\partial S} \left( \frac{v + \frac{|S|^2}{v}}{2\chi_\epsilon} \right) \\
+				&= \left( \frac{|S|^2 }{v\chi_\epsilon} \right) S^{-T} - \left[ \frac{v + \frac{|S|^2}{v}}{2 \chi_\epsilon^2} \right] \frac{\partial \chi_\epsilon}{\partial S}  \\
+				&= \left( \frac{|S|^2 }{v\chi_\epsilon} \right) S^{-T} - \left( \left[ \frac{v + \frac{|S|^2}{v}}{2 \chi_\epsilon^2} \right] \chi_\epsilon^\prime |S| \right) S^{-T} \\
+				&= \frac{|S|}{\chi_\epsilon} \left( \frac{|S| }{v} - \left[ \frac{v + \frac{|S|^2}{v}}{2 \chi_\epsilon} \right] \chi_\epsilon^\prime \right) S^{-T} \\
+				&= \Aboxed{ \underbrace{\frac{1}{2v \chi_\epsilon} \left( -\chi_\epsilon^\prime |S|^3 + 2 \chi_\epsilon |S|^2 - v^2 \chi_\epsilon^\prime |S| \right)}_{:= \alpha(S)}  S^{-T} } \,,
+\end{align*}
+\ee
+where $\chi_\epsilon^\prime$ is given by \Eq{eq:chi_prime}.
+The results of Eqs.~\eqref{eq:del_S_del_R} and \eqref{eq:del_mu_del_S} can be substituted into \Eq{eq:grad_mu} to obtain $\nabla_{\vec{R}} \mu(\vec{R})$ in terms of $S$ and $\phi_l$.
+Note that \Eq{eq:del_S_del_R} is a rank 3 tensor of dimension $(n, n, n \times N_\text{nodes})$ and \Eq{eq:del_beta_del_S} is a matrix of dimension $(n, n)$:
+\be
+\nabla_{\vec{R}} \mu(\vec{R}) = \underbrace{\frac{\partial \mu(\vec{R})}{\partial S}}_{(n,n)} \underbrace{\frac{\partial S}{\partial \vec{R}}}_{(n,n,n \times N_\text{nodes})} \,.
+\ee
+The expected result for the gradient of a scalar function is a vector, which can be obtained by first multiplying common dimensions together and then summing over them to obtain a vector of length $n \times N_\text{nodes}$.
+Using Einstein notation, the $\ell$-th entry of this vector is given by
+\be
+\Aboxed{\left( \nabla_{\vec{R}} \mu \right)_\ell = \left( \frac{\partial \mu}{\partial S} \right)_{ab} \left( \frac{\partial S}{\partial \vec{R}} \right)_{ab \ell}} \,.
+\ee
+
+\section{Hessian of $I_h$}
+
+The Hessian of $I_h$ is given by
+\be
+\begin{align*}
+	H(I_h(\vec{R})) &= \sum_{c=1}^{N\text{cells}} \int_{\hat{\Omega}_c}  H(E_\theta (S_c(\vec{R}))) d \vec{\xi} \\
+	&= \sum_{c=1}^{N\text{cells}} \int_{\hat{\Omega}_c}  \left( (1 - \theta) H(\beta (S_c(\vec{R}))) + \theta H(\mu (S_c(\vec{R}))) \right) d \vec{\xi} \,.
+\end{align*}
+\ee
+Computing the Hessian of $I_h$ entails the computation of the Jacobian of the gradient of $I_h$, or loosely speaking,
+\be
+H(I_h) = \nabla_{\vec{R}} \nabla_{\vec{R}} I_h \,.
+\ee
+We computed the gradient of $I_h$ ($\nabla_{\vec{R}} I_h$) in the previous section.
+To compute the Hessian, we simply need to take the Jacobian of those results.
+
+\subsection{$\nabla_{\vec{R}} \nabla_{\vec{R}} \beta$}
+
+From Section~\ref{sec:grad_beta}, we have
+\be
+\begin{align*}
+\nabla_{\vec{R}} \beta(\vec{R}) &= \frac{\partial \beta(\vec{R})}{\partial S} \frac{\partial S}{\partial \vec{R}} \,, \\
+\frac{\partial S(\vec{R}_c)_{i,j}}{\partial R_{c,m,k}} &= \delta_{ik} \partial_{\xi_j} \phi_m(\vec{\xi}) \,, \\
+\frac{\partial \beta(\vec{R})}{\partial S_{k \ell}} &= \left( \frac{\left( \frac{1}{n} \text{tr}(S^TS) \right)^{\frac{n}{2} - 1}}{\chi_\epsilon} \right) S_{k \ell} - \left( \frac{\left( \frac{1}{n} \text{tr}(S^TS) \right)^\frac{n}{2}}{\chi_\epsilon^2} \chi_\epsilon^\prime |S| \right) S^{-T}_{k \ell} \,.
+\end{align*}
+\ee
+Applying another derivative with respect to $\vec{R}$, the Hessian of $\beta$ is expressed as:
+\be
+\label{eq:hessian_beta}
+\begin{align*}
+	H(\beta(\vec{R})) &= \frac{\partial}{\partial \vec{R}} \left( \frac{\partial \beta(\vec{R})}{\partial S} \frac{\partial S}{\partial \vec{R}} \right) \\
+	&= \frac{\partial}{\partial \vec{R}} \left( \frac{\partial \beta(\vec{R})}{\partial S} \right) \frac{\partial S}{\partial \vec{R}} + \frac{\partial \beta(\vec{R})}{\partial S} \frac{\partial}{\partial \vec{R}} \left( \frac{\partial S}{\partial \vec{R}} \right) \\
+	&= \frac{\partial}{\partial S} \left( \frac{\partial \beta(\vec{R})}{\partial S} \right) \frac{\partial S}{\partial \vec{R}} \frac{\partial S}{\partial \vec{R}} + \frac{\partial \beta(\vec{R})}{\partial S} \underbrace{\frac{\partial^2 S}{\partial \vec{R}^2}}_{= 0 \text{ by } \Eq{eq:del_S_del_R}} \\
+	&= \frac{\partial^2 \beta(\vec{R})}{\partial S^2} \frac{\partial S}{\partial \vec{R}} \frac{\partial S}{\partial \vec{R}} \,.
+\end{align*}
+\ee
+Entry-wise, this is
+\be
+\label{eq:hessian_beta_element}
+\begin{align*}
+	H(\beta(\vec{R}))_{\ell p}  &= \left( \frac{\partial}{\partial \vec{R}} \left( \frac{\partial}{\partial \vec{R}} \beta(\vec{R}) \right)_\ell \right)_p \\
+	&= \frac{\partial}{\partial R_p} \frac{\partial}{\partial R_\ell} \beta(\vec{R}) \\
+	&= \frac{\partial}{\partial R_p} \sum_a \sum_b \left( \frac{\partial \beta(\vec{R})}{\partial S_{ab}} \frac{\partial S_{ab}}{\partial R_\ell} \right) \\
+	&= \sum_a \sum_b \left[ \frac{\partial}{\partial R_p} \left( \frac{\partial \beta(\vec{R})}{\partial S_{ab}} \right) \frac{\partial S_{ab}}{\partial R_\ell} + \frac{\partial \beta(\vec{R})}{\partial S_{ab}} \frac{\partial}{\partial R_p} \left( \frac{\partial S_{ab}}{\partial R_\ell} \right) \right] \\
+	&= \sum_a \sum_b \left[ \sum_i \sum_j \frac{\partial}{\partial S_{ij}} \left( \frac{\partial \beta(\vec{R})}{\partial S_{ab}} \right) \frac{\partial S_{ab}}{\partial R_\ell} \frac{\partial S_{ij}}{\partial R_p} + \frac{\partial \beta(\vec{R})}{\partial S_{ab}} \underbrace{\frac{\partial^2 S_{ab}}{\partial R_p \partial R_\ell}}_{= 0 \text{ by } \Eq{eq:del_S_del_R}} \right] \\
+	&= \sum_a \sum_b \frac{\partial S_{ab}}{\partial R_\ell} \sum_i \sum_j \left( \frac{\partial^2 \beta(\vec{R})}{\partial S_{ij} \partial S_{ab}} \right) \left( \frac{\partial S_{ij}}{\partial R_p} \right) \,.
+\end{align*}
+\ee
+The term $\partial S / \partial \vec{R}$ is given by \Eq{eq:del_S_del_R}.
+The term $\partial^2 \beta / \partial S^2$ is given by differentiating \Eq{eq:del_beta_del_S} with respect to $S$.
+Using the identities from Section \ref{sec:matrix_calculus_identities},
+\be
+\begin{align*}
+	\frac{\partial^2 \beta(\vec{R})}{\partial S_{ab} \partial S_{ij}}
+&= \frac{\partial}{\partial S_{ab}} \left[ \left( \frac{\left( \frac{1}{n} \text{tr}(S^TS) \right)^{\frac{n}{2} - 1}}{\chi_\epsilon} \right) S_{ij} - \left( \frac{\left( \frac{1}{n} \text{tr}(S^TS) \right)^\frac{n}{2}}{\chi_\epsilon^2} \chi_\epsilon^\prime |S| \right) S^{-T}_{ij} \right] \\
+&= \frac{1}{\chi_\epsilon} \left[ \frac{n-2}{2} \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}-2} \frac{2S_{ab}}{n} S_{ij} + \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}-1} I_{ia} I_{jb} \right] \\
+&- \frac{1}{\chi_\epsilon^2} \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}-1} \chi_\epsilon^\prime |S| S^{-T}_{ab} S_{ij} \\
+&- \frac{1}{\chi_\epsilon^2} \left[ \frac{n}{2} \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}-1} \frac{2S_{ab}}{n}  \chi_\epsilon^\prime |S| S^{-T}_{ij} \right. \\
+&+ \left. \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}} \chi_\epsilon^{\prime \prime} |S|^2 S^{-T}_{ab} S^{-T}_{ij} \right. \\
+&+ \left. \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}} \chi_\epsilon^\prime |S| S^{-T}_{ab} S^{-T}_{ij} \right] \\
+&+ \frac{2}{\chi_\epsilon^3} \left[ \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}} \chi_\epsilon^\prime |S| S^{-T}_{ab} \chi_\epsilon^\prime |S| S^{-T}_{ij} \right] \\
+&+ \left( \frac{\left( \frac{1}{n} \text{tr}(S^TS) \right)^\frac{n}{2}}{\chi_\epsilon^2} \chi_\epsilon^\prime |S| \right) S^{-1}_{bi} S^{-1}_{ja} \\
+	\Aboxed{&= \left[ \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}-1} \frac{1}{\chi_\epsilon} \right] I_{ia} I_{jb} + \left[ \frac{n-2}{n \chi_\epsilon} \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}-2} \right] S_{ab} S_{ij}} \\
+\Aboxed{&- \left[ \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}-1}  \frac{\chi_\epsilon^\prime |S|}{\chi_\epsilon^2} \right] S^{-1}_{ba} S_{ij}
+- \left[ \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}-1} \frac{\chi_\epsilon^\prime |S|}{\chi_\epsilon^2} \right] S_{ab} S^{-1}_{ji}} \\
+\Aboxed{&+ \left(\frac{1}{n} \text{tr}(S^TS)\right)^{\frac{n}{2}} \left( \frac{|S|}{\chi_\epsilon^2} \right) \left[ \frac{2 \chi_\epsilon^\prime^2 |S|}{\chi_\epsilon} 
+- \chi_\epsilon^{\prime \prime} |S|
+- \chi_\epsilon^\prime \right] S^{-1}_{ba} S^{-1}_{ji}} \\
+\Aboxed{&- \left( \frac{\left( \frac{1}{n} \text{tr}(S^TS) \right)^\frac{n}{2}}{\chi_\epsilon^2} \chi_\epsilon^\prime |S| \right) S^{-1}_{bi} S^{-1}_{ja}} \,.
+\end{align*}
+\ee
+where
+\be
+\Aboxed{\chi_\epsilon^{\prime \prime} = \frac{1}{2} \left( \frac{1}{\sqrt{\epsilon^2 + |S|^2}} - \frac{|S|^2}{(\epsilon^2 + |S|^2)^{3/2}} \right)} \,.
+\ee
+
+\subsection{$\nabla_{\vec{R}} \nabla_{\vec{R}} \mu$}
+
+From Section~\ref{sec:grad_mu}, we have
+\be
+\begin{align*}
+\nabla_{\vec{R}} \mu(\vec{R}) &= \frac{\partial \mu(\vec{R})}{\partial S} \frac{\partial S}{\partial \vec{R}} \,, \\
+\frac{\partial S(\vec{R}_c)_{i,j}}{\partial R_{c,m,k}} &= \delta_{ik} \partial_{\xi_j} \phi_m(\vec{\xi}) \,, \\
+\frac{\partial \mu(\vec{R})}{\partial S} &= \alpha(S) S^{-T} \,, \\
+\alpha(S) &= \frac{1}{2v \chi_\epsilon} \left( -\chi_\epsilon^\prime |S|^3 + 2 \chi_\epsilon |S|^2 - v^2 \chi_\epsilon^\prime |S| \right) \,.
+\end{align*}
+\ee
+Applying another derivative with respect to $\vec{R}$, the Hessian of $\mu$ is expressed as:
+\be
+\label{eq:hessian_mu}
+\begin{align*}
+	H(\mu(\vec{R})) &= \frac{\partial}{\partial \vec{R}} \left( \frac{\partial \mu(\vec{R})}{\partial S} \frac{\partial S}{\partial \vec{R}} \right) \\
+	&= \frac{\partial}{\partial \vec{R}} \left( \frac{\partial \mu(\vec{R})}{\partial S} \right) \frac{\partial S}{\partial \vec{R}} + \frac{\partial \mu(\vec{R})}{\partial S} \frac{\partial}{\partial \vec{R}} \left( \frac{\partial S}{\partial \vec{R}} \right) \\
+	&= \frac{\partial}{\partial S} \left( \frac{\partial \mu(\vec{R})}{\partial S} \right) \frac{\partial S}{\partial \vec{R}} \frac{\partial S}{\partial \vec{R}} + \frac{\partial \mu(\vec{R})}{\partial S} \underbrace{\frac{\partial^2 S}{\partial \vec{R}^2}}_{= 0 \text{ by } \Eq{eq:del_S_del_R}} \\
+	&= \frac{\partial^2 \mu(\vec{R})}{\partial S^2} \frac{\partial S}{\partial \vec{R}} \frac{\partial S}{\partial \vec{R}} \,.
+\end{align*}
+\ee
+Entry-wise, this is
+\be
+\label{eq:hessian_mu_element}
+\begin{align*}
+	H(\mu(\vec{R}))_{\ell p}  &= \left( \frac{\partial}{\partial \vec{R}} \left( \frac{\partial}{\partial \vec{R}} \mu(\vec{R}) \right)_\ell \right)_p \\
+	&= \frac{\partial}{\partial R_p} \frac{\partial}{\partial R_\ell} \mu(\vec{R}) \\
+	&= \frac{\partial}{\partial R_p} \sum_a \sum_b \left( \frac{\partial \mu(\vec{R})}{\partial S_{ab}} \frac{\partial S_{ab}}{\partial R_\ell} \right) \\
+	&= \sum_a \sum_b \left[ \frac{\partial}{\partial R_p} \left( \frac{\partial \mu(\vec{R})}{\partial S_{ab}} \right) \frac{\partial S_{ab}}{\partial R_\ell} + \frac{\partial \mu(\vec{R})}{\partial S_{ab}} \frac{\partial}{\partial R_p} \left( \frac{\partial S_{ab}}{\partial R_\ell} \right) \right] \\
+	&= \sum_a \sum_b \left[ \sum_i \sum_j \frac{\partial}{\partial S_{ij}} \left( \frac{\partial \mu(\vec{R})}{\partial S_{ab}} \right) \frac{\partial S_{ab}}{\partial R_\ell} \frac{\partial S_{ij}}{\partial R_p} + \frac{\partial \mu(\vec{R})}{\partial S_{ab}} \underbrace{\frac{\partial^2 S_{ab}}{\partial R_p \partial R_\ell}}_{= 0 \text{ by } \Eq{eq:del_S_del_R}} \right] \\
+	&= \sum_a \sum_b \frac{\partial S_{ab}}{\partial R_\ell} \sum_i \sum_j \left( \frac{\partial^2 \mu(\vec{R})}{\partial S_{ij} \partial S_{ab}} \right) \left( \frac{\partial S_{ij}}{\partial R_p} \right) \,.
+\end{align*}
+\ee
+The term $\partial S / \partial \vec{R}$ is given by \Eq{eq:del_S_del_R}.
+The term $\partial^2 \mu / \partial S^2$ is given by differentiating \Eq{eq:del_mu_del_S} with respect to $S$.
+Using the identities from Section \ref{sec:matrix_calculus_identities},
+\be
+\begin{align*}
+\frac{\partial^2 \mu(\vec{R})}{\partial S_{ab} \partial S_{ij}}
+&= \frac{\partial}{\partial S_{ab}} \alpha(S) S^{-T}_{ij} \right) \\
+&= \left( \frac{\partial}{\partial S_{ab}} \alpha(S) \right) S^{-T}_{ij} + \alpha(S) \frac{\partial}{\partial S_{ab}} S^{-T}_{ij} \\
+&= \frac{\partial}{\partial S_{ab}} \left( \frac{1}{2v \chi_\epsilon} \left( -\chi_\epsilon^\prime |S|^3 + 2 \chi_\epsilon |S|^2 - v^2 \chi_\epsilon^\prime |S| \right) \right) S^{-T}_{ij} + \alpha(S) S^{-1}_{bi} S^{-1}_{ja} \\
+&= \left( -\frac{2 \alpha(S) \chi_\epsilon^\prime |S| S^{-T}_{ab}}{\chi_\epsilon} + \frac{1}{2v \chi_\epsilon^2} \big( -\chi_\epsilon^{\prime\prime} |S|^4 S^{-T}_{ab} - 3 \chi_\epsilon^\prime |S|^3 S^{-T}_{ab} + 2 \chi_\epsilon^\prime |S|^3 S^{-T}_{ab} \right. \\
+&+ \left. 4 \chi_\epsilon |S|^2 S^{-T}_{ab} - v^2 \chi_\epsilon^\prime |S| S^{-T}_{ab} - v^2 |S|^2 \chi_\epsilon^{\prime\prime} S^{-T}_{ab} \vphantom{\frac{1}{2v \chi_\epsilon}} \big) \right) S^{-T}_{ij} + \alpha(S) S^{-1}_{bi} S^{-1}_{ja} \\
+\Aboxed{&= \frac{|S|}{2v \chi_\epsilon^2} \Big( -4v \alpha(S) \chi_\epsilon \chi_\epsilon^\prime - \chi_\epsilon^{\prime\prime} |S|^3 - \chi_\epsilon^\prime |S|^2 + 4 \chi_\epsilon |S| - v^2 \left( \chi_\epsilon^\prime + |S| \chi_\epsilon^{\prime\prime} \right) \Big) S^{-1}_{ba} S^{-1}_{ji}} \\
+\Aboxed{&+ \alpha(S) S^{-1}_{bi} S^{-1}_{ja}} \,.
+\end{align*}
+\ee
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Use \section commands to start a section
+%\section{Example Section}
+%\label{sec1}
+%%% Labels are used to cross-reference an item using \ref command.
+%
+%Section text. See Subsection \ref{subsec1}.
+%
+%%% Use \subsection commands to start a subsection.
+%\subsection{Example Subsection}
+%\label{subsec1}
+%
+%Subsection text.
+
+%% Use \subsubsection, \paragraph, \subparagraph commands to 
+%% start 3rd, 4th and 5th level sections.
+%% Refer following link for more details.
+%% https://en.wikibooks.org/wiki/LaTeX/Document_Structure#Sectioning_commands
+
+
+%% Refer following link for more details.
+%% https://en.wikibooks.org/wiki/LaTeX/Mathematics
+%% https://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics
+
+%%% Use a table environment to create tables.
+%%% Refer following link for more details.
+%%% https://en.wikibooks.org/wiki/LaTeX/Tables
+%\begin{table}[t]%% placement specifier
+%%% Use tabular environment to tag the tabular data.
+%%% https://en.wikibooks.org/wiki/LaTeX/Tables#The_tabular_environment
+%\centering%% For centre alignment of tabular.
+%\begin{tabular}{l c r}%% Table column specifiers
+%%% Tabular cells are separated by &
+%  1 & 2 & 3 \\ %% A tabular row ends with \\
+%  4 & 5 & 6 \\
+%  7 & 8 & 9 \\
+%\end{tabular}
+%%% Use \caption command for table caption and label.
+%\caption{Table Caption}\label{fig1}
+%\end{table}
+
+
+%%% Use figure environment to create figures
+%%% Refer following link for more details.
+%%% https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
+%\begin{figure}[t]%% placement specifier
+%%% Use \includegraphics command to insert graphic files. Place graphics files in 
+%%% working directory.
+%\centering%% For centre alignment of image.
+%\includegraphics{example-image-a}
+%%% Use \caption command for figure caption and label.
+%\caption{Figure Caption}\label{fig1}
+%%% https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics#Importing_external_graphics
+%\end{figure}
+
+
+%%% The Appendices part is started with the command \appendix;
+%%% appendix sections are then done as normal sections
+%\appendix
+
+%%% For citations use: 
+%%%       \cite{<label>} ==> [1]
+%
+%%%
+%Example citation, See \cite{lamport94}.
+
+%% If you have bib database file and want bibtex to generate the
+%% bibitems, please use
+%%
+%\bibliographystyle{elsarticle-num} 
+%\bibliography{references}
+
+
+\end{document}
+
+\endinput
+%%
+%% End of file `elsarticle-template-num.tex'.
