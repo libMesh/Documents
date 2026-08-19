@@ -1,5 +1,5 @@
 %%
-%% Copyright 2007, 2008, 2009 Elsevier Ltd
+%% Copyright 2026 Elsevier Ltd
 %%
 %% This file is part of the 'Elsarticle Bundle'.
 %% ---------------------------------------------
@@ -35,11 +35,6 @@
 %% The amsthm package provides extended theorem environments
 %% \usepackage{amsthm}
 
-%% The lineno packages adds line numbers. Start line numbering with
-%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
-%% for the whole article with \linenumbers.
-%\usepackage{lineno}
-
 \journal{SoftwareX}
 
 \begin{document}
@@ -64,216 +59,298 @@ Email our editorial team at softwarex@elsevier.com.
 Once you have completed the template, delete these instructions. In addition, please delete the instructions in the template (the text written in italics).}
 %--- END OF INSTRUCTIONS TO BE DELETED OR COMMENTED BEFORE SUBMISSION
 
-%% Title, authors and addresses
+\title{libMesh: A C++ Library for Finite Element and Finite Volume Based Multiphysics}
 
-%% use the tnoteref command within \title for footnotes;
-%% use the tnotetext command for theassociated footnote;
-%% use the fnref command within \author or \address for footnotes;
-%% use the fntext command for theassociated footnote;
-%% use the corref command within \author for corresponding author footnotes;
-%% use the cortext command for theassociated footnote;
-%% use the ead command for the email address,
-%% and the form \ead[url] for the home page:
-%% \title{Title\tnoteref{label1}}
-%% \tnotetext[label1]{}
-%% \author{Name\corref{cor1}\fnref{label2}}
-%% \ead{email address}
-%% \ead[url]{home page}
-%% \fntext[label2]{}
-%% \cortext[cor1]{}
-%% \address{Address\fnref{label3}}
-%% \fntext[label3]{}
+\author[inl]{Roy H. Stogner}
+\author[akselos]{John W. Peterson}
+\author[inl]{Alexander D. Lindsay}
+\author[akselos]{David J. Knezevic}
+\author[hartree]{Nuno Nobre}
+\author[inl]{Logan Harbour}
+\author[inl]{Guillaume L. Giudicelli}
+\author[inl]{Derek R. Gaston}
+\author[inl]{Cody J. Permann}
 
-\title{libMesh: A Flexible Finite Element Library}
-
-%% use optional labels to link authors explicitly to addresses:
-%% \author[label1,label2]{}
-%% \address[label1]{}
-%% \address[label2]{}
-
-\author[label1]{Roy Stogner}
-\author[label1]{Alexander Lindsay}
-\author[label2]{John Peterson}
-\address[label1]{Idaho National Laboratory}
-\address[label2]{Akselos}
+\address[inl]{Idaho National Laboratory, Idaho Falls, ID 83415, USA}
+\address[akselos]{Akselos}
+\address[hartree]{Hartree Centre, Science and Technology Facilities Council (STFC), UK}
 
 \begin{abstract}
-%% Text of abstract
-\textit{Ca. 100 words. The abstract is followed by a maximum of six keywords
-and some mandatory and optional metadata.}
-
-\textit{Your main body of text (sections 1-5 below) should be a maximum 6 pages in total (excluding metadata, tables, figures, references) with a 3000-word limit (we ask that more priority is placed on the word limit versus the page count). Though we strictly insist on the author following the template, in exceptional circumstances, we can be flexible with the page numbers and word limit. In such cases, it should be discussed with the managing editor or publisher prior to submission. All queries regarding the same can be reached at softwarex@elsevier.com.}
+libMesh is an open-source C++ library for parallel, spatially adaptive finite element and finite
+volume simulation, previously described in a 2006 publication. In the two decades since, the
+library has grown substantially: it now supports hybridizable discontinuous Galerkin and other
+statically condensed discretizations, isogeometric analysis with rational finite element bases and
+arbitrary trimmed-mesh extraction operators, native polyhedral elements, and a standalone parallel
+communication submodule (TIMPI) implementing modern nonblocking-consensus algorithms. Automatic
+differentiation, certified reduced-basis model order reduction, and adjoint-driven $hp$-adaptivity
+round out a substantially expanded numerical toolkit. This article surveys these capabilities and
+the multiphysics applications they enable.
 \end{abstract}
 
 \begin{keyword}
-%% keywords here, in the form: keyword \sep keyword
-keyword 1 \sep keyword 2 \sep keyword 3
-
-%% PACS codes here, in the form: \PACS code \sep code
-
-%% MSC codes here, in the form: \MSC code \sep code
-%% or \MSC[2008] code \sep code (2000 is the default)
-
+finite elements \sep finite volume \sep parallel computing \sep isogeometric analysis \sep multiphysics \sep adaptive mesh refinement
 \end{keyword}
 
 \end{frontmatter}
 
-%\linenumbers
-
-\section*{Metadata}
+\section*{Required Metadata}
 \label{}
-\textit{The ancillary data table~\ref{codeMetadata} is required for the sub-version of the codebase. Please replace the italicized text in the right column with the correct information about your current code and leave the left column untouched.}
+
+\section*{Current code version}
+\label{}
 
 \begin{table}[!h]
 \begin{tabular}{|l|p{6.5cm}|p{6.5cm}|}
 \hline
 \textbf{Nr.} & \textbf{Code metadata description} & \textbf{Metadata} \\
 \hline
-C1 & Current code version & For example v42 \\
+C1 & Current code version & v1.9.0 development series (confirm exact tag at submission) \\
 \hline
-C2 & Permanent link to code/repository used for this code version & For example: \url{https://github.com/mozart/mozart2} \\
+C2 & Permanent GitHub link to code/repository used for this code version & \url{https://github.com/libMesh/libmesh} \\
 \hline
-C3  & Permanent link to Reproducible Capsule & For example: \url{https://codeocean.com/capsule/0270963/tree/v1}\\
+C3 & Legal Code License & GNU Lesser General Public License v2.1 (LGPL-2.1) \\
 \hline
-C4 & Legal Code License   & All software and code must be released under one of the pre-approved licenses listed in the \href{https://www.elsevier.com/journals/softwarex/2352-7110/guide-for-authors}{Guide for Authors}, such as Apache License, GNU General Public License (GPL) or MIT License. Write the name of the license you’ve chosen here. \\
+C4 & Code versioning system used & git (hosted on GitHub) \\
 \hline
-C5 & Code versioning system used & For example: svn, git, mercurial,
-                                   etc. (put none if none is used) \\
+C5 & Software code languages, tools, and services used & C++ (C++17); MPI; PETSc/SLEPc (optional); TIMPI (bundled, required); MetaPhysicL (bundled, optional); Eigen; TetGen, Netgen, Triangle (bundled); ExodusII/SEACAS; NetCDF; VTK \\
 \hline
-C6 & Software code languages, tools, and services used & For example: C++, python, r, MPI, OpenCL, etc. \\
+C6 & Compilation requirements, operating environments \& dependencies & Autoconf/Automake build (\texttt{configure} \& \texttt{make}); C++17 compiler; MPI implementation (no supported build configuration omits it in practice); TIMPI submodule (required); PETSc strongly recommended for solvers and static condensation \\
 \hline
-C7 & Compilation requirements, operating environments \& dependencies & \\
+C7 & If available Link to developer documentation/manual & \url{https://libmesh.github.io/} \\
 \hline
-C8 & If available Link to developer documentation/manual & For example: \url{http://mozart.github.io/documentation/} \\
-\hline
-C9 & Support email for questions & \\
+C8 & Support email for questions & \url{https://github.com/libmesh/libmesh/discussions} \\
 \hline
 \end{tabular}
 \caption{Code metadata (mandatory)}
-\label{codeMetadata}
+\label{tab:metadata}
 \end{table}
 
 \textit{Optionally, you can provide information about the current executable
 software version filling in the left column of
-Table~\ref{executabelMetadata}. Please leave the first column as it is.}
+Table~\ref{tab:metadata}. Please leave the first column as it is.}
 
-\begin{table}[!h]
-\begin{tabular}{|l|p{6.5cm}|p{6.5cm}|}
-\hline
-\textbf{Nr.} & \textbf{(Executable) software metadata description} & \textbf{Please fill in this column} \\
-\hline
-S1 & Current software version & For example 1.1, 2.4 etc. \\
-\hline
-S2 & Permanent link to executables of this version  & For example: \url{https://github.com/combogenomics/DuctApe/releases/tag/DuctApe-0.16.4} \\
-\hline
-S3  & Permanent link to Reproducible Capsule & \\
-\hline
-S4 & Legal Software License & List one of the approved licenses \\
-\hline
-S5 & Computing platforms/Operating Systems & For example Android, BSD, iOS, Linux, OS X, Microsoft Windows, Unix-like , IBM z/OS, distributed/web based etc. \\
-\hline
-S6 & Installation requirements \& dependencies & \\
-\hline
-S7 & If available, link to user manual - if formally published include a reference to the publication in the reference list & For example: \url{http://mozart.github.io/documentation/} \\
-\hline
-S8 & Support email for questions & \\
-\hline
-\end{tabular}
-\caption{Software metadata (optional)}
-\label{executabelMetadata}
-\end{table}
+\begin{enumerate}
 
+\item Motivation and significance
 
-\section{Motivation and significance}
-\textit{In this section, we want you to introduce the scientific background and the motivation for developing the software.}
+libMesh is an open-source C++ library that provides a general, physics-independent
+infrastructure for parallel, spatially adaptive finite element -- and, increasingly, finite
+volume -- simulation. An earlier publication described the library's architecture as of 2006: a
+mesh and degree-of-freedom data model, $h$-adaptive refinement and coarsening with hanging-node
+constraints, and a domain-decomposition-based parallel model built atop third-party solver
+libraries such as PETSc~\cite{kirk2006libmesh}. That description, while still broadly applicable
+to the library's core design, predates nearly all of the capabilities surveyed in this article.
 
-\begin{itemize}
-    \item \textit{Explain why the software is important and describe the exact (scientific) problem(s) it solves.}
-    \item \textit{Indicate in what way the software has contributed (or will contribute in the future) to the process of scientific discovery; if available, please cite a research paper using the software.}
-    \item \textit{Provide a description of the experimental setting. (How does the user use the software?)}
-    \item \textit{Introduce related work in literature (cite or list algorithms used, other software etc.).}
-\end{itemize}
+In the twenty years since, libMesh has remained under active, continuous development -- the
+codebase now spans tens of thousands of commits from a broad developer community -- and has grown
+well beyond its original scope. Applications built on libMesh increasingly require discretizations
+and geometric representations unavailable in 2006: hybridizable and other statically condensed
+formulations well suited to advection-dominated transport problems, isogeometric meshes derived
+from trimmed or piecewise-rational-spline CAD geometry, and general polyhedral cells that are a
+much better fit for finite-volume-style discretizations than the fixed simplicial and
+tensor-product element types available previously. The library's parallel communication layer has
+also been substantially reworked, and new numerical infrastructure -- automatic differentiation,
+certified reduced-order modeling, and goal-oriented adaptivity -- has been added.
 
-\section{Software description}
+These capabilities are motivated by, and used in, two largely independent application
+communities. The MOOSE multiphysics framework~\cite{permann2020moose}, developed at Idaho National
+Laboratory (INL), relies on libMesh for both finite element and, through the discontinuous/monomial
+discretizations and generalized ghosting infrastructure described in Section 2, finite-volume-style
+capabilities across INL's fission and fusion reactor multiphysics work; a comparable MOOSE-based
+fusion-device multiphysics effort is under way in the UK, where the Hartree Centre (STFC)
+collaborates closely with the UK Atomic Energy Authority. Independently, Akselos builds commercial
+reduced-order-modeling and digital-twin engineering-analysis products directly on libMesh's
+certified reduced-basis infrastructure, a use case with no dependency on MOOSE. This article
+surveys the library-level capabilities underlying both communities.
 
-\textit{Describe the software. Provide enough detail to help the reader understand its impact. }
-\cite{libMeshPaper}
+\item Software description
 
-\subsection{Software architecture}
-\textit{  Give a short overview of the overall software architecture; provide a pictorial overview where possible; for example, an image showing the components. If necessary, provide implementation details.}
+\begin{enumerate}
 
- \subsection{Software functionalities}
-\textit{  Present the major functionalities of the software.}
+\item Software architecture
 
- \subsection{Sample code snippets analysis (optional)}
+libMesh is organized around a small set of core abstractions -- \texttt{Mesh}, \texttt{Elem},
+\texttt{DofMap}, \texttt{System}, and finite element (\texttt{FEBase}) classes -- that are
+deliberately physics-independent: an application supplies the equations to be solved, and libMesh
+supplies mesh management, degree-of-freedom numbering, adaptivity, and parallel communication
+around that specification. The capabilities described below extend this same architecture rather
+than replacing it: new finite element families, element types, and mesh constructs plug into the
+existing \texttt{FEBase}/\texttt{Elem} hierarchy, new solver and preconditioning machinery plugs
+into the existing \texttt{System}/\texttt{DofMap} interfaces, and new parallel primitives are
+exposed through the bundled TIMPI submodule rather than through a separate communication layer.
 
+\item Software functionalities
 
-\section{Illustrative examples}
+\textbf{Discretizations for finite element and finite volume multiphysics.} libMesh implements
+hybridization and static condensation through the \texttt{StaticCondensation},
+\texttt{StaticCondensationDofMap}, and \texttt{StaticCondensationPreconditioner} classes, which
+assemble a full elemental system and eliminate element-local degrees of freedom via a local Schur
+complement (using Eigen for the local dense factorizations) before the global solve. Paired with
+the \texttt{SIDE\_HIERARCHIC} finite element family, which represents variables on element facets
+rather than volumetrically, this supports hybridizable discontinuous Galerkin (HDG) discretizations
+for general transport problems, including the advection-dominated regimes in which HDG is used
+downstream in MOOSE-based applications. General polyhedral cells are supported natively through the
+\texttt{Polyhedron} and \texttt{C0Polyhedron} classes, whose topology (number of faces, sides, and
+nodes) is determined at run time rather than fixed at compile time as with libMesh's traditional
+hexahedral, tetrahedral, and prismatic elements; polyhedral cells -- including coarser cells built
+by merging groups of finer elements -- are a substantially better match for finite-volume-style
+stencils than fixed simplicial elements. Finite-volume-style discretizations more broadly are
+enabled by libMesh's discontinuous/monomial finite element spaces together with a generalized
+ghosting-functor framework (\texttt{GhostingFunctor} and its specializations for point-neighbor,
+overlap, non-manifold, and sibling coupling), which lets an application declare exactly which
+off-element data a cell-centered discretization needs without a dedicated finite-volume module
+inside libMesh itself.
 
-\textit{Provide at least one illustrative example to demonstrate the major
-functions of your software/code.}
+\textbf{Isogeometric analysis.} A \texttt{RATIONAL\_BERNSTEIN} finite element family reweights the
+underlying Bernstein/B\'ezier shape functions with per-node NURBS weights, giving the classic
+rational-basis interpolation used in isogeometric analysis (IGA)~\cite{hughes2005iga}; a
+corresponding element mapping type lets the geometric map itself, not only the solution field, use
+the same rational representation, so that meshes derived from piecewise-rational-spline CAD
+geometry can be represented exactly. Arbitrary B\'ezier extraction operators -- needed when a
+traditional, structured IGA mesh is impractical to generate automatically, as with trimmed
+geometry -- are supported by reusing libMesh's existing generic linear-constraint infrastructure:
+extraction coefficients read from ExodusII files are stored as constraint rows relating spline-basis
+degrees of freedom to element-local nodes, requiring no separate, IGA-specific parallel code
+path~\cite{borden2011extraction}.
 
-\textit{\textbf{Optional}: you may include one explanatory  video or screencast that will appear next to your article, in the right hand side panel. Please upload any video as a single supplementary file with your article. Only one MP4 formatted, with 150MB maximum size, video is possible per article. Recommended video dimensions are 640 x 480 at a maximum of 30 frames / second. Prior to submission please test and validate your .mp4 file at  \url{http://elsevier-apps.sciverse.com/GadgetVideoPodcastPlayerWeb/verification} . This tool will display your video exactly in the same way as it will appear on ScienceDirect. }
+\textbf{Meshing and I/O.} A \texttt{MeshTetInterface} abstract base class unifies libMesh's
+interfaces to the bundled TetGen and Netgen tetrahedralization libraries, giving applications a
+common API for generating volume meshes from boundary surfaces regardless of which third-party
+mesher is used. Mesh I/O has grown substantially beyond the formats available in 2006, with
+extended ExodusII/Nemesis, VTK, Abaqus, and NetCDF support, and the element library itself has grown
+to include additional high-order and shell element types together with generic element-quality
+metrics (aspect ratio, minimum/maximum angle, and scaled Jacobian).
 
-\section{Impact}
-\textit{This is the main section of the article and reviewers will weight it appropriately.
-Please indicate:}
-\begin{itemize}
-    \item \textit{Any new research questions that can be pursued as a result of your software.}
-    \item \textit{In what way, and to what extent, your software improves the pursuit of existing research questions.}
-    \item \textit{Any ways in which your software has changed the daily practice of its users.}
-    \item \textit{How widespread the use of the software is within and outside the intended user group (downloads, number of users if your software is a service, citable publications, etc.).}
-    \item \textit{How the software is being used in commercial settings and/or how it has led to the creation of spin-off companies.}
-    \end{itemize}
-\textit{Please note that points 1 and 2 are best demonstrated by
-  references to citable publications.}
+\textbf{Parallel infrastructure.} Parallel communication is now implemented in TIMPI, a submodule
+that began as libMesh-internal code and was split into its own independently versioned and tested
+repository in 2019. TIMPI exposes multiple interchangeable synchronization strategies for
+parallel push/pull-style data exchange, selectable through a \texttt{SyncType} enumeration
+(\texttt{NBX}, \texttt{ALLTOALL\_COUNTS}, \texttt{SENDRECEIVE}); its \texttt{NBX} strategy
+implements the nonblocking-consensus dynamic sparse data exchange algorithm of
+Hoefler et al.~\cite{hoefler2010nbx}, which avoids the all-to-all communication and a priori
+knowledge of message counts that earlier, simpler synchronization schemes required. TIMPI is a
+required dependency of the library, not an optional one.
 
-\section{Conclusions}
+\textbf{Numerics and solvers.} libMesh's core generic numeric types -- \texttt{TypeTensor},
+\texttt{TypeVector}, \texttt{VectorValue}, \texttt{TensorValue}, and \texttt{DenseMatrix}/
+\texttt{DenseVector} -- are templated to work transparently with the dual-number type provided by
+the bundled MetaPhysicL submodule. This is what allows downstream codes, notably
+MOOSE~\cite{lindsay2021metaphysicl}, to build exact-derivative Jacobian assembly on top of libMesh
+without any automatic-differentiation-specific code path inside libMesh itself. A certified
+reduced-basis model-order-reduction capability (offline/online reduced-basis construction, the
+empirical interpolation method for nonaffine operators, and the successive constraint method for
+stability-factor lower bounds) provides the numerical core of Akselos's commercial
+reduced-order-modeling products. Adjoint-based, goal-oriented error estimation and $hp$-adaptive
+refinement strategies extend the simpler flux-jump and patch-recovery indicators available in 2006
+to quantity-of-interest-driven adaptivity.
+
+\item Sample code snippets analysis
+
+The following excerpt, adapted from libMesh's HDG example driver, illustrates how a hybridized
+discretization is declared: an element-interior vector unknown, its scalar components, a facet
+Lagrange multiplier represented with \texttt{SIDE\_HIERARCHIC}, and a global scalar constraint are
+added as ordinary libMesh \texttt{System} variables, after which the \texttt{StaticCondensation}
+matrix class is attached to eliminate the element-interior unknowns before the global solve:
+
+\begin{verbatim}
+system.add_variable("qu", FIRST, L2_LAGRANGE_VEC);
+system.add_variable("vel_x", FIRST, L2_LAGRANGE);
+system.add_variable("lm_u", FIRST, SIDE_HIERARCHIC);
+system.add_variable("lm_v", FIRST, SIDE_HIERARCHIC);
+system.add_variable("pressure", FIRST, L2_LAGRANGE);
+system.add_variable("global_lm", FIRST, SCALAR);
+\end{verbatim}
+
+No new solver, assembly, or parallel-communication code is required for this to run in parallel:
+the same \texttt{DofMap}, ghosting, and TIMPI-based communication infrastructure used by
+conventional continuous finite element systems apply directly to the hybridized system.
+
+\end{enumerate}
+
+\item Illustrative examples
+
+libMesh's \texttt{examples/} tree includes runnable drivers that exercise the capabilities above
+end to end. \texttt{examples/vector\_fe/vector\_fe\_ex9} solves a Stokes-like vector transport
+problem using the HDG formulation described in Section 2.2: an element-interior velocity/pressure
+system is coupled to facet Lagrange multipliers through \texttt{SIDE\_HIERARCHIC} variables, with
+\texttt{StaticCondensation} eliminating the interior unknowns before the global (facet-only) system
+is solved. \texttt{examples/miscellaneous/miscellaneous\_ex6} demonstrates the unified
+tetrahedralization interface, building a convex-hull boundary mesh and handing it to the
+\texttt{TetGenMeshInterface} to produce a constrained-quality volume mesh, illustrating the
+surface-to-volume meshing workflow that the \texttt{MeshTetInterface} abstraction now provides
+uniformly across bundled mesh generators. Isogeometric rational bases and B\'ezier extraction are
+currently exercised through unit and regression tests (\texttt{tests/fe/fe\_rational\_test.C},
+\texttt{tests/fe/fe\_rational\_map.C}, and the two-element IGA regression mesh
+\texttt{tests/meshes/two\_element\_iga\_in.e}) rather than a dedicated example; a minimal example
+driver reading that regression mesh is planned. TIMPI's synchronization strategies are best
+illustrated by the choice of algorithm itself rather than by a single figure: applications select
+among \texttt{NBX}, \texttt{ALLTOALL\_COUNTS}, and \texttt{SENDRECEIVE} through the same
+\texttt{Communicator} interface, and libMesh's own parallel mesh and matrix assembly code paths use
+this abstraction rather than calling MPI directly.
+
+\item Impact
+
+libMesh's expanded capabilities enable classes of problems that were not reachable with the 2006
+codebase: hybridized discretizations for advection-dominated transport, trimmed and
+piecewise-rational-spline isogeometric geometries, finite-volume-style multiphysics on general
+polyhedral meshes, and exact-derivative multiphysics assembly via dual-number-compatible numerics.
+These capabilities are used, with comparable weight, by two independent communities. At INL,
+libMesh underlies the MOOSE multiphysics framework's finite element and finite-volume capabilities
+across fission and fusion reactor applications; a related MOOSE-based fusion-device multiphysics
+effort is under way in the UK through the Hartree Centre's (STFC) collaboration with the UK Atomic
+Energy Authority. Independently, Akselos's commercial reduced-order-modeling and digital-twin
+engineering-analysis products are built directly on libMesh's certified reduced-basis
+infrastructure, without a MOOSE dependency -- a concrete example of libMesh's use in a commercial
+setting distinct from its research and national-laboratory user base. Decoupling TIMPI into its own
+repository has also had a maintenance-level impact: TIMPI is now independently versioned and tested,
+and is reusable by other parallel scientific codes without a dependency on the rest of libMesh.
+
+\item Conclusions
+
+libMesh's original identity as a parallel, adaptive, physics-independent finite element library is
+intact, but the library today spans considerably more ground than its 2006 description: finite
+element and finite-volume multiphysics on general polyhedral meshes, isogeometric analysis on both
+structured and trimmed geometry, hybridized discretizations for advection-dominated transport, and
+supporting parallel, automatic-differentiation, and model-order-reduction infrastructure. Several of
+these capabilities -- native polyhedral elements and continued refinement of the B\'ezier extraction
+machinery -- were added or substantially revised within the past year, evidence that libMesh remains
+an actively developed project responding to the needs of its national-laboratory, academic, and
+commercial user base.
+
+\end{enumerate}
 
 \section*{Acknowledgements}
 \label{}
 \textit{Optional. You can use this section to acknowledge colleagues who don’t qualify as a co-author but helped you in some way. }
 
+\begin{thebibliography}{00}
 
-%% The Appendices part is started with the command \appendix;
-%% appendix sections are then done as normal sections
-%% \appendix
+\bibitem{kirk2006libmesh} B.~S. Kirk, J.~W. Peterson, R.~H. Stogner, G.~F. Carey, libMesh: a C++
+library for parallel adaptive mesh refinement/coarsening simulations, Engineering with Computers
+22 (2006) 237--254.
 
-%% \section{}
-%% \label{}
+\bibitem{permann2020moose} C.~J. Permann, D.~R. Gaston, D.~Andr\v{s}, R.~W. Carlsen, F.~Kong,
+A.~D. Lindsay, J.~M. Miller, J.~W. Peterson, A.~E. Slaughter, R.~H. Stogner, R.~C. Martineau, MOOSE:
+Enabling massively parallel multiphysics simulation, SoftwareX 11 (2020) 100430.
 
-%% References:
-%% If you have bibdatabase file and want bibtex to generate the
-%% bibitems, please use
-\bibliographystyle{elsarticle-num}
-\bibliography{paper}
+\bibitem{hoefler2010nbx} T.~Hoefler, C.~Siebert, A.~Lumsdaine, Scalable communication protocols for
+dynamic sparse data exchange, in: Proceedings of the 15th ACM SIGPLAN Symposium on Principles and
+Practice of Parallel Programming (PPoPP '10), ACM, 2010, pp. 159--168.
 
-%% else use the following coding to input the bibitems directly in the
-%% TeX file.
+\bibitem{hughes2005iga} T.~J.~R. Hughes, J.~A. Cottrell, Y.~Bazilevs, Isogeometric analysis: CAD,
+finite elements, NURBS, exact geometry and mesh refinement, Computer Methods in Applied Mechanics
+and Engineering 194 (39--41) (2005) 4135--4195.
 
-% \begin{thebibliography}{00}
+\bibitem{borden2011extraction} M.~J. Borden, M.~A. Scott, J.~A. Evans, T.~J.~R. Hughes, Isogeometric
+finite element data structures based on B\'ezier extraction of NURBS, International Journal for
+Numerical Methods in Engineering 87 (1--5) (2011) 15--47.
 
-%% \bibitem{label}
-%% Text of bibliographic item
+\bibitem{lindsay2021metaphysicl} A.~D. Lindsay, R.~H. Stogner, D.~R. Gaston, D.~Schwen,
+C.~Matthews, W.~Jiang, L.~K. Aagesen, R.~Carlsen, F.~Kong, A.~E. Slaughter, et al., Automatic
+differentiation in MetaPhysicL and its applications in MOOSE, Nuclear Technology 207 (7) (2021)
+905--922.
 
-% \bibitem{} Use this style of ordering. References in-text should also use a similar style.
-
-% \end{thebibliography}
-
-\textit{If the software repository you used supplied a DOI or another
-Persistent IDentifier (PID), please add a reference for your software
-here. For more guidance on software citation, please see our guide for
-authors or \href{https://f1000research.com/articles/9-1257/v2}{this
-  article on the essentials of software citation by FORCE 11}, of
-which Elsevier is a member.}
-
-\large{\textbf{Reminder: Before you submit, please delete all
-the instructions in this document,
-including this paragraph.
-Thank you!}}
-
-
-
+\end{thebibliography}
 
 \end{document}
 \endinput
