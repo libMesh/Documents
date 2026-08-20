@@ -77,10 +77,8 @@ finite elements \sep finite volume \sep parallel computing \sep isogeometric ana
 \end{frontmatter}
 
 \section*{Required Metadata}
-\label{}
 
 \section*{Current code version}
-\label{}
 
 \begin{table}[!h]
 \begin{tabular}{|l|p{6.5cm}|p{6.5cm}|}
@@ -249,40 +247,59 @@ conventional continuous finite element systems apply directly to the hybridized 
 \item Illustrative examples
 
 libMesh's \texttt{examples/} tree includes runnable drivers that exercise the capabilities above
-end to end. \texttt{examples/vector\_fe/vector\_fe\_ex9} solves a Stokes-like vector transport
-problem using the HDG formulation described in Section 2.2: an element-interior velocity/pressure
-system is coupled to facet Lagrange multipliers through \texttt{SIDE\_HIERARCHIC} variables, with
+end to end, and its test suite exercises capabilities for which a dedicated example does not yet
+exist. Table~\ref{tab:examples} summarizes, for each capability surveyed in Section 2, a
+representative runnable driver or test.
+
+\texttt{examples/vector\_fe/vector\_fe\_ex9} solves a Stokes-like vector transport problem using
+the HDG formulation described in Section 2.2: an element-interior velocity/pressure system is
+coupled to facet Lagrange multipliers through \texttt{SIDE\_HIERARCHIC} variables, with
 \texttt{StaticCondensation} eliminating the interior unknowns before the global (facet-only) system
 is solved. \texttt{examples/miscellaneous/miscellaneous\_ex6} demonstrates the unified
 tetrahedralization interface, building a convex-hull boundary mesh and handing it to the
 \texttt{TetGenMeshInterface} to produce a constrained-quality volume mesh, illustrating the
 surface-to-volume meshing workflow that the \texttt{MeshTetInterface} abstraction now provides
-uniformly across bundled mesh generators. Isogeometric rational bases and B\'ezier extraction are
-currently exercised through unit and regression tests (\texttt{tests/fe/fe\_rational\_test.C},
+uniformly across bundled mesh generators.
+
+\begin{table}[!h]
+\begin{tabular}{|p{4.3cm}|p{8.7cm}|}
+\hline
+\textbf{Capability} & \textbf{Runnable example or test} \\
+\hline
+Hybridization / static condensation (HDG) & \texttt{examples/vector\_fe/vector\_fe\_ex9} \\
+\hline
+Native polyhedral elements & \texttt{tests/geom/volume\_test.C}
+(\texttt{testC0PolyhedronCube}, \texttt{testC0PolyhedronHexagonalPrism}) \\
+\hline
+Isogeometric rational bases \& B\'ezier extraction & \texttt{tests/fe/fe\_rational\_test.C},
 \texttt{tests/fe/fe\_rational\_map.C}, and the two-element IGA regression mesh
-\texttt{tests/meshes/two\_element\_iga\_in.e}) rather than a dedicated example; a minimal example
-driver reading that regression mesh is planned. TIMPI's synchronization strategies are best
-illustrated by the choice of algorithm itself rather than by a single figure: applications select
-among \texttt{NBX}, \texttt{ALLTOALL\_COUNTS}, and \texttt{SENDRECEIVE} through the same
-\texttt{Communicator} interface, and libMesh's own parallel mesh and matrix assembly code paths use
-this abstraction rather than calling MPI directly.
+\texttt{tests/meshes/two\_element\_iga\_in.e}; a dedicated example is planned \\
+\hline
+Unified tetrahedralization (TetGen/Netgen) & \texttt{examples/miscellaneous/miscellaneous\_ex6} \\
+\hline
+TIMPI synchronization strategies (\texttt{NBX}, \texttt{ALLTOALL\_COUNTS},
+\texttt{SENDRECEIVE}) & \texttt{contrib/timpi/test/parallel\_sync\_unit.C} \\
+\hline
+Certified reduced-basis model order reduction & \texttt{examples/reduced\_basis/reduced\_basis\_ex1} \\
+\hline
+Automatic differentiation (dual-number-compatible numerics) & No dedicated libMesh-side example;
+exercised downstream by AD-enabled Jacobian assembly in MOOSE \\
+\hline
+\end{tabular}
+\caption{Runnable examples and tests exercising the capabilities surveyed in Section 2.}
+\label{tab:examples}
+\end{table}
 
 \item Impact
 
 libMesh's expanded capabilities enable classes of problems that were not reachable with the 2006
 codebase: hybridized discretizations for advection-dominated transport, trimmed and
 piecewise-rational-spline isogeometric geometries, finite-volume-style multiphysics on general
-polyhedral meshes, and exact-derivative multiphysics assembly via dual-number-compatible numerics.
-These capabilities are used, with comparable weight, by two independent communities. At INL,
-libMesh underlies the MOOSE multiphysics framework's finite element and finite-volume capabilities
-across fission and fusion reactor applications; a related MOOSE-based fusion-device multiphysics
-effort is under way in the UK through the Hartree Centre's (STFC) collaboration with the UK Atomic
-Energy Authority. Independently, Akselos's commercial reduced-order-modeling and digital-twin
-engineering-analysis products are built directly on libMesh's certified reduced-basis
-infrastructure, without a MOOSE dependency -- a concrete example of libMesh's use in a commercial
-setting distinct from its research and national-laboratory user base. Decoupling TIMPI into its own
-repository has also had a maintenance-level impact: TIMPI is now independently versioned and tested,
-and is reusable by other parallel scientific codes without a dependency on the rest of libMesh.
+polyhedral meshes, and exact-derivative Jacobian assembly via dual-number-compatible numerics.
+These capabilities underlie the two application communities described in Section 1, at comparable
+weight. Decoupling TIMPI into its own repository has also had a maintenance-level impact: TIMPI is
+now independently versioned and tested, and is reusable by other parallel scientific codes without
+a dependency on the rest of libMesh.
 
 \item Conclusions
 
@@ -290,8 +307,9 @@ libMesh's original identity as a parallel, adaptive, physics-independent finite 
 intact, but the library today spans considerably more ground than its 2006 description: finite
 element and finite-volume multiphysics on general polyhedral meshes, isogeometric analysis on both
 structured and trimmed geometry, hybridized discretizations for advection-dominated transport, and
-supporting parallel, automatic-differentiation, and model-order-reduction infrastructure. Several of
-these capabilities -- native polyhedral elements and continued refinement of the B\'ezier extraction
+supporting parallel, automatic-differentiation, and model-order-reduction infrastructure. These
+capabilities are the product of two decades of contributions from a broad developer community;
+several of them -- native polyhedral elements and continued refinement of the B\'ezier extraction
 machinery -- were added or substantially revised within the past year, evidence that libMesh remains
 an actively developed project responding to the needs of its national-laboratory, academic, and
 commercial user base.
@@ -299,8 +317,6 @@ commercial user base.
 \end{enumerate}
 
 \section*{Acknowledgements}
-\label{}
-\textit{Optional. You can use this section to acknowledge colleagues who don’t qualify as a co-author but helped you in some way. }
 
 \begin{thebibliography}{00}
 
