@@ -255,11 +255,34 @@ representative runnable driver or test.
 the HDG formulation described in Section 2.2: an element-interior velocity/pressure system is
 coupled to facet Lagrange multipliers through \texttt{SIDE\_HIERARCHIC} variables, with
 \texttt{StaticCondensation} eliminating the interior unknowns before the global (facet-only) system
-is solved. \texttt{examples/miscellaneous/miscellaneous\_ex6} demonstrates the unified
-tetrahedralization interface, building a convex-hull boundary mesh and handing it to the
-\texttt{TetGenMeshInterface} to produce a constrained-quality volume mesh, illustrating the
-surface-to-volume meshing workflow that the \texttt{MeshTetInterface} abstraction now provides
-uniformly across bundled mesh generators.
+is solved. Figure~\ref{fig:hdg} shows velocity streamlines for the resulting lid-driven-cavity flow,
+colored by speed, exhibiting the expected primary recirculation vortex.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.55\textwidth]{figures/vector_fe_ex9_streamlines.png}
+\caption{Velocity streamlines, colored by speed, for the HDG cavity-flow problem solved by
+\texttt{examples/vector\_fe/vector\_fe\_ex9}, after static condensation of the element-interior
+velocity/pressure unknowns.}
+\label{fig:hdg}
+\end{figure}
+
+The unified tetrahedralization interface is illustrated with a minimal driver, in the same spirit
+as \texttt{examples/miscellaneous/miscellaneous\_ex6}, that attaches a cube-shaped hole to a cubic
+domain and hands both to the \texttt{MeshTetInterface}-derived \texttt{NetGenMeshInterface} to
+produce a constrained-quality volume mesh; Figure~\ref{fig:mesh} shows a clipped view of the
+resulting tetrahedralization, with the interior hole and the fill between it and the outer boundary
+both visible. The same abstraction accepts a \texttt{TetGenMeshInterface} in place of the Netgen
+backend without any change to the calling code, which is the uniformity across bundled mesh
+generators that \texttt{MeshTetInterface} is intended to provide.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.55\textwidth]{figures/netgen_hole_demo.png}
+\caption{Clipped view of a tetrahedralized cubic domain with a cube-shaped interior hole, generated
+via \texttt{MeshTetInterface}'s Netgen backend.}
+\label{fig:mesh}
+\end{figure}
 
 \begin{table}[!h]
 \begin{tabular}{|p{4.3cm}|p{8.7cm}|}
