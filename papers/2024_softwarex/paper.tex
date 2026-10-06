@@ -123,12 +123,11 @@ $h$-adaptive refinement and coarsening with hanging-node constraints, and a doma
 parallel model built atop third-party solver libraries such as PETSc. That core design still
 holds, but nearly every capability surveyed here postdates it.
 
-libMesh has been under continuous development for the twenty years since, accumulating tens of
+libMesh has been under continuous development for the past twenty years, accumulating tens of
 thousands of commits from a broad developer community. Its applications now require
-discretizations and geometric representations unavailable in 2006: hybridizable and other
-statically condensed formulations suited to advection-dominated transport; isogeometric meshes
+discretizations and geometric representations unavailable in 2006: hybridizable discontinuous Galerkin formulations suited to advection-dominated transport; isogeometric meshes
 derived from trimmed or piecewise-rational-spline CAD geometry; and general polyhedral cells, which
-suit finite-volume-style discretizations far better than the fixed simplicial and tensor-product
+suit finite-volume-style discretizations better than the fixed simplicial and tensor-product
 elements previously available. The parallel communication layer has also been substantially
 reworked, and new infrastructure has been added for automatic differentiation, certified
 reduced-order modeling, and goal-oriented adaptivity.
@@ -138,7 +137,7 @@ multiphysics framework~\cite{permann2020moose}, developed at Idaho National Labo
 relies on libMesh for its finite element capabilities and, through the discontinuous/monomial
 discretizations and generalized ghosting infrastructure described in Section 2, for its
 finite-volume-style capabilities. MOOSE underpins INL's fission and fusion reactor multiphysics
-work, and a comparable MOOSE-based fusion-device effort is under way in the UK, where the Hartree
+work; an additional MOOSE-based fusion-device effort is under way in the UK, where the Hartree
 Centre (STFC) collaborates closely with the UK Atomic Energy Authority. Independently of MOOSE,
 Akselos builds commercial reduced-order-modeling and digital-twin engineering-analysis products
 directly on libMesh's certified reduced-basis infrastructure. This article surveys the
@@ -154,7 +153,7 @@ libMesh is organized around a small set of deliberately physics-independent core
 \texttt{Mesh}, \texttt{Elem}, \texttt{DofMap}, \texttt{System}, and the finite element
 (\texttt{FEBase}) classes. An application supplies the equations; libMesh supplies mesh
 management, degree-of-freedom numbering, adaptivity, and parallel communication. The capabilities
-described below extend this architecture without replacing it: new finite element families,
+described below extend this architecture: new finite element families,
 element types, and mesh constructs plug into the existing \texttt{FEBase}/\texttt{Elem} hierarchy;
 new solver and preconditioning machinery plugs into the existing \texttt{System}/\texttt{DofMap}
 interfaces; and new parallel primitives are exposed through the bundled TIMPI submodule.
@@ -168,8 +167,8 @@ they assemble the full elemental system, then eliminate element-local degrees of
 local Schur complement before the global solve, using Eigen for the local dense factorizations.
 Paired with the \texttt{SIDE\_HIERARCHIC} finite element family, which represents variables on
 element facets, this supports hybridizable discontinuous Galerkin (HDG) discretizations for general
-transport problems, including the advection-dominated regimes in which downstream MOOSE-based
-applications use HDG.
+transport problems, including advection-dominated regimes modeled by the MOOSE \texttt{navier_stokes}
+module.
 
 General polyhedral cells are supported natively through the \texttt{Polyhedron} and
 \texttt{C0Polyhedron} classes, whose topology (number of faces, sides, and nodes) is determined at
@@ -213,7 +212,7 @@ schemes required.
 \texttt{TypeTensor}, \texttt{VectorValue}, \texttt{TensorValue}, \texttt{DenseVector}, and
 \texttt{DenseMatrix}) are templated to work transparently with the dual-number type from the
 bundled MetaPhysicL submodule. Downstream codes, notably MOOSE~\cite{lindsay2021metaphysicl}, can
-therefore build exact-derivative Jacobian assembly on libMesh without any
+therefore build exact-derivative Jacobian assembly without any
 automatic-differentiation-specific code path in libMesh itself. The certified reduced-basis model
 order reduction capability -- offline/online reduced-basis construction, the empirical
 interpolation method for nonaffine operators, and the successive constraint method for
@@ -247,9 +246,8 @@ element systems applies directly.
 
 \item Illustrative examples
 
-libMesh's \texttt{examples/} tree includes runnable drivers that exercise these capabilities end to
-end; the test suite covers capabilities that lack a dedicated example. Table~\ref{tab:examples}
-lists a representative driver or test for each capability surveyed in Section 2.
+libMesh's \texttt{examples/} tree includes runnable drivers that exercise the key capabilities outlined above. Unit-sized tests are included in the CppUnit-based \texttt{tests/} directory. Table~\ref{tab:examples}
+lists a representative example or test for each capability surveyed in Section 2.
 
 \texttt{examples/vector\_fe/vector\_fe\_ex9} solves a Stokes-like vector transport problem with the
 HDG formulation of Section 2.2: element-interior velocity and pressure unknowns are coupled to
@@ -315,10 +313,9 @@ exercised downstream by AD-enabled Jacobian assembly in MOOSE \\
 \item Impact
 
 libMesh's new capabilities open problem classes beyond the reach of the 2006 codebase: hybridized
-discretizations for advection-dominated transport, trimmed and piecewise-rational-spline
+DG discretizations targeting advection-dominated transport, trimmed and piecewise-rational-spline
 isogeometric geometries, finite-volume-style multiphysics on general polyhedral meshes, and
-exact-derivative Jacobian assembly via dual-number-compatible numerics. They underpin both
-application communities described in Section 1 in comparable measure. Splitting TIMPI into its
+exact-derivative Jacobian assembly via dual-number-compatible numerics. Splitting TIMPI into its
 own repository has also improved maintainability: TIMPI is now independently versioned and tested,
 and other parallel scientific codes can reuse it without depending on the rest of libMesh.
 
@@ -327,7 +324,7 @@ and other parallel scientific codes can reuse it without depending on the rest o
 libMesh remains a parallel, adaptive, physics-independent finite element library, but it now spans
 considerably more ground than its 2006 description: finite element and finite volume multiphysics
 on general polyhedral meshes, isogeometric analysis on structured and trimmed geometry, hybridized
-discretizations for advection-dominated transport, and supporting infrastructure for parallel
+DG discretizations for advection-dominated transport, and supporting infrastructure for parallel
 communication, automatic differentiation, and model order reduction. These capabilities reflect two
 decades of contributions from a broad developer community. Several, including native polyhedral
 elements and refinements to the B\'ezier extraction machinery, were added or substantially revised
