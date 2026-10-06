@@ -67,14 +67,13 @@
 
 \begin{abstract}
 libMesh is an open-source C++ library for parallel, spatially adaptive finite element and finite
-volume simulation, previously described in a 2006 publication. In the two decades since, the
-library has grown substantially: it now supports hybridizable discontinuous Galerkin and other
-statically condensed discretizations, isogeometric analysis with rational finite element bases and
-arbitrary trimmed-mesh extraction operators, native polyhedral elements, and a standalone parallel
-communication submodule (TIMPI) implementing modern nonblocking-consensus algorithms. Automatic
-differentiation, certified reduced-basis model order reduction, and adjoint-driven $hp$-adaptivity
-round out a substantially expanded numerical toolkit. This article surveys these capabilities and
-the multiphysics applications they enable.
+volume simulation, last described in detail in 2006. Since then, the library has added
+hybridizable discontinuous Galerkin and other statically condensable discretizations; isogeometric
+analysis with rational bases and arbitrary B\'ezier extraction operators for trimmed geometry;
+native polyhedral elements; and TIMPI, a standalone parallel communication submodule implementing
+modern nonblocking-exchange algorithms. Automatic differentiation, certified reduced-basis model
+order reduction, and adjoint-driven $hp$-adaptivity round out the expanded numerical toolkit. This
+article surveys these capabilities and the multiphysics applications they enable.
 \end{abstract}
 
 \begin{keyword}
@@ -117,35 +116,33 @@ C8 & Support email for questions & \url{https://github.com/libmesh/libmesh/discu
 
 \item Motivation and significance
 
-libMesh is an open-source C++ library that provides a general, physics-independent
-infrastructure for parallel, spatially adaptive finite element -- and, increasingly, finite
-volume -- simulation. An earlier publication described the library's architecture as of 2006: a
-mesh and degree-of-freedom data model, $h$-adaptive refinement and coarsening with hanging-node
-constraints, and a domain-decomposition-based parallel model built atop third-party solver
-libraries such as PETSc~\cite{kirk2006libmesh}. That description, while still broadly applicable
-to the library's core design, predates nearly all of the capabilities surveyed in this article.
+libMesh is an open-source C++ library providing general, physics-independent infrastructure for
+parallel, spatially adaptive finite element -- and, increasingly, finite volume -- simulation. Its
+2006 description~\cite{kirk2006libmesh} covered a mesh and degree-of-freedom data model,
+$h$-adaptive refinement and coarsening with hanging-node constraints, and a domain-decomposition
+parallel model built atop third-party solver libraries such as PETSc. That core design still
+holds, but nearly every capability surveyed here postdates it.
 
-In the twenty years since, libMesh has remained under active, continuous development -- the
-codebase now spans tens of thousands of commits from a broad developer community -- and has grown
-well beyond its original scope. Applications built on libMesh increasingly require discretizations
-and geometric representations unavailable in 2006: hybridizable and other statically condensed
-formulations well suited to advection-dominated transport problems, isogeometric meshes derived
-from trimmed or piecewise-rational-spline CAD geometry, and general polyhedral cells that are a
-much better fit for finite-volume-style discretizations than the fixed simplicial and
-tensor-product element types available previously. The library's parallel communication layer has
-also been substantially reworked, and new numerical infrastructure -- automatic differentiation,
-certified reduced-order modeling, and goal-oriented adaptivity -- has been added.
+libMesh has been under continuous development for the twenty years since, accumulating tens of
+thousands of commits from a broad developer community. Its applications now require
+discretizations and geometric representations unavailable in 2006: hybridizable and other
+statically condensed formulations suited to advection-dominated transport; isogeometric meshes
+derived from trimmed or piecewise-rational-spline CAD geometry; and general polyhedral cells, which
+suit finite-volume-style discretizations far better than the fixed simplicial and tensor-product
+elements previously available. The parallel communication layer has also been substantially
+reworked, and new infrastructure has been added for automatic differentiation, certified
+reduced-order modeling, and goal-oriented adaptivity.
 
-These capabilities are motivated by, and used in, two largely independent application
-communities. The MOOSE multiphysics framework~\cite{permann2020moose}, developed at Idaho National
-Laboratory (INL), relies on libMesh for both finite element and, through the discontinuous/monomial
-discretizations and generalized ghosting infrastructure described in Section 2, finite-volume-style
-capabilities across INL's fission and fusion reactor multiphysics work; a comparable MOOSE-based
-fusion-device multiphysics effort is under way in the UK, where the Hartree Centre (STFC)
-collaborates closely with the UK Atomic Energy Authority. Independently, Akselos builds commercial
-reduced-order-modeling and digital-twin engineering-analysis products directly on libMesh's
-certified reduced-basis infrastructure, a use case with no dependency on MOOSE. This article
-surveys the library-level capabilities underlying both communities.
+Two largely independent application communities motivate and use these capabilities. The MOOSE
+multiphysics framework~\cite{permann2020moose}, developed at Idaho National Laboratory (INL),
+relies on libMesh for its finite element capabilities and, through the discontinuous/monomial
+discretizations and generalized ghosting infrastructure described in Section 2, for its
+finite-volume-style capabilities. MOOSE underpins INL's fission and fusion reactor multiphysics
+work, and a comparable MOOSE-based fusion-device effort is under way in the UK, where the Hartree
+Centre (STFC) collaborates closely with the UK Atomic Energy Authority. Independently of MOOSE,
+Akselos builds commercial reduced-order-modeling and digital-twin engineering-analysis products
+directly on libMesh's certified reduced-basis infrastructure. This article surveys the
+library-level capabilities underlying both communities.
 
 \item Software description
 
@@ -153,88 +150,85 @@ surveys the library-level capabilities underlying both communities.
 
 \item Software architecture
 
-libMesh is organized around a small set of core abstractions -- \texttt{Mesh}, \texttt{Elem},
-\texttt{DofMap}, \texttt{System}, and finite element (\texttt{FEBase}) classes -- that are
-deliberately physics-independent: an application supplies the equations to be solved, and libMesh
-supplies mesh management, degree-of-freedom numbering, adaptivity, and parallel communication
-around that specification. The capabilities described below extend this same architecture rather
-than replacing it: new finite element families, element types, and mesh constructs plug into the
-existing \texttt{FEBase}/\texttt{Elem} hierarchy, new solver and preconditioning machinery plugs
-into the existing \texttt{System}/\texttt{DofMap} interfaces, and new parallel primitives are
-exposed through the bundled TIMPI submodule rather than through a separate communication layer.
+libMesh is organized around a small set of deliberately physics-independent core abstractions:
+\texttt{Mesh}, \texttt{Elem}, \texttt{DofMap}, \texttt{System}, and the finite element
+(\texttt{FEBase}) classes. An application supplies the equations; libMesh supplies mesh
+management, degree-of-freedom numbering, adaptivity, and parallel communication. The capabilities
+described below extend this architecture without replacing it: new finite element families,
+element types, and mesh constructs plug into the existing \texttt{FEBase}/\texttt{Elem} hierarchy;
+new solver and preconditioning machinery plugs into the existing \texttt{System}/\texttt{DofMap}
+interfaces; and new parallel primitives are exposed through the bundled TIMPI submodule.
 
 \item Software functionalities
 
-\textbf{Discretizations for finite element and finite volume multiphysics.} libMesh implements
-hybridization and static condensation through the \texttt{StaticCondensation},
-\texttt{StaticCondensationDofMap}, and \texttt{StaticCondensationPreconditioner} classes, which
-assemble a full elemental system and eliminate element-local degrees of freedom via a local Schur
-complement (using Eigen for the local dense factorizations) before the global solve. Paired with
-the \texttt{SIDE\_HIERARCHIC} finite element family, which represents variables on element facets
-rather than volumetrically, this supports hybridizable discontinuous Galerkin (HDG) discretizations
-for general transport problems, including the advection-dominated regimes in which HDG is used
-downstream in MOOSE-based applications. General polyhedral cells are supported natively through the
-\texttt{Polyhedron} and \texttt{C0Polyhedron} classes, whose topology (number of faces, sides, and
-nodes) is determined at run time rather than fixed at compile time as with libMesh's traditional
-hexahedral, tetrahedral, and prismatic elements; polyhedral cells -- including coarser cells built
-by merging groups of finer elements -- are a substantially better match for finite-volume-style
-stencils than fixed simplicial elements. Finite-volume-style discretizations more broadly are
-enabled by libMesh's discontinuous/monomial finite element spaces together with a generalized
-ghosting-functor framework (\texttt{GhostingFunctor} and its specializations for point-neighbor,
-overlap, non-manifold, and sibling coupling), which lets an application declare exactly which
-off-element data a cell-centered discretization needs without a dedicated finite-volume module
-inside libMesh itself.
+\textbf{Discretizations for finite element and finite volume multiphysics.} The
+\texttt{StaticCondensation}, \texttt{StaticCondensationDofMap}, and
+\texttt{StaticCondensationPreconditioner} classes implement hybridization and static condensation:
+they assemble the full elemental system, then eliminate element-local degrees of freedom through a
+local Schur complement before the global solve, using Eigen for the local dense factorizations.
+Paired with the \texttt{SIDE\_HIERARCHIC} finite element family, which represents variables on
+element facets, this supports hybridizable discontinuous Galerkin (HDG) discretizations for general
+transport problems, including the advection-dominated regimes in which downstream MOOSE-based
+applications use HDG.
 
-\textbf{Isogeometric analysis.} A \texttt{RATIONAL\_BERNSTEIN} finite element family reweights the
-underlying Bernstein/B\'ezier shape functions with per-node NURBS weights, giving the classic
-rational-basis interpolation used in isogeometric analysis (IGA)~\cite{hughes2005iga}; a
-corresponding element mapping type lets the geometric map itself, not only the solution field, use
-the same rational representation, so that meshes derived from piecewise-rational-spline CAD
-geometry can be represented exactly. Arbitrary B\'ezier extraction operators -- needed when a
-traditional, structured IGA mesh is impractical to generate automatically, as with trimmed
-geometry -- are supported by reusing libMesh's existing generic linear-constraint infrastructure:
-extraction coefficients read from ExodusII files are stored as constraint rows relating spline-basis
-degrees of freedom to element-local nodes, requiring no separate, IGA-specific parallel code
-path~\cite{borden2011extraction}.
+General polyhedral cells are supported natively through the \texttt{Polyhedron} and
+\texttt{C0Polyhedron} classes, whose topology (number of faces, sides, and nodes) is determined at
+run time; libMesh's traditional hexahedral, tetrahedral, and prismatic elements fix their topology
+at compile time. Polyhedral cells, including coarse cells formed by merging groups of finer
+elements, match finite-volume-style stencils substantially better than fixed simplicial elements.
+More broadly, finite-volume-style discretizations are enabled by libMesh's discontinuous/monomial
+finite element spaces together with a generalized ghosting-functor framework
+(\texttt{GhostingFunctor} and its specializations for point-neighbor, overlap, non-manifold, and
+sibling coupling). This framework lets an application declare exactly which off-element data a
+cell-centered discretization needs, so libMesh requires no dedicated finite-volume module.
 
-\textbf{Meshing and I/O.} A \texttt{MeshTetInterface} abstract base class unifies libMesh's
-interfaces to the bundled TetGen and Netgen tetrahedralization libraries, giving applications a
-common API for generating volume meshes from boundary surfaces regardless of which third-party
-mesher is used. Mesh I/O has grown substantially beyond the formats available in 2006, with
-extended ExodusII/Nemesis, VTK, Abaqus, and NetCDF support, and the element library itself has grown
-to include additional high-order and shell element types together with generic element-quality
-metrics (aspect ratio, minimum/maximum angle, and scaled Jacobian).
+\textbf{Isogeometric analysis.} The \texttt{RATIONAL\_BERNSTEIN} finite element family reweights
+Bernstein/B\'ezier shape functions with per-node NURBS weights, giving the rational basis used in
+isogeometric analysis (IGA)~\cite{hughes2005iga}. A corresponding element mapping type applies the
+same rational representation to the geometric map itself, so meshes derived from
+piecewise-rational-spline CAD geometry are represented exactly. Arbitrary B\'ezier extraction
+operators~\cite{borden2011extraction}, needed when a structured IGA mesh is impractical to generate
+automatically (as with trimmed geometry), reuse libMesh's generic linear-constraint infrastructure:
+extraction coefficients read from ExodusII files are stored as constraint rows relating
+spline-basis degrees of freedom to element-local nodes, so no IGA-specific parallel code path is
+required.
 
-\textbf{Parallel infrastructure.} Parallel communication is now implemented in TIMPI, a submodule
-that began as libMesh-internal code and was split into its own independently versioned and tested
-repository in 2019. TIMPI exposes multiple interchangeable synchronization strategies for
-parallel push/pull-style data exchange, selectable through a \texttt{SyncType} enumeration
-(\texttt{NBX}, \texttt{ALLTOALL\_COUNTS}, \texttt{SENDRECEIVE}); its \texttt{NBX} strategy
-implements the nonblocking-consensus dynamic sparse data exchange algorithm of
-Hoefler et al.~\cite{hoefler2010nbx}, which avoids the all-to-all communication and a priori
-knowledge of message counts that earlier, simpler synchronization schemes required. TIMPI is a
-required dependency of the library, not an optional one.
+\textbf{Meshing and I/O.} The \texttt{MeshTetInterface} abstract base class unifies libMesh's
+interfaces to the bundled TetGen and Netgen tetrahedralizers, giving applications a single API for
+generating volume meshes from boundary surfaces. Mesh I/O has expanded well beyond the 2006
+formats to include extended ExodusII/Nemesis, VTK, Abaqus, and NetCDF support. The element library
+has added high-order and shell element types, along with generic element-quality metrics (aspect
+ratio, minimum/maximum angle, and scaled Jacobian).
 
-\textbf{Numerics and solvers.} libMesh's core generic numeric types -- \texttt{TypeTensor},
-\texttt{TypeVector}, \texttt{VectorValue}, \texttt{TensorValue}, and \texttt{DenseMatrix}/
-\texttt{DenseVector} -- are templated to work transparently with the dual-number type provided by
-the bundled MetaPhysicL submodule. This is what allows downstream codes, notably
-MOOSE~\cite{lindsay2021metaphysicl}, to build exact-derivative Jacobian assembly on top of libMesh
-without any automatic-differentiation-specific code path inside libMesh itself. A certified
-reduced-basis model-order-reduction capability (offline/online reduced-basis construction, the
-empirical interpolation method for nonaffine operators, and the successive constraint method for
-stability-factor lower bounds) provides the numerical core of Akselos's commercial
-reduced-order-modeling products. Adjoint-based, goal-oriented error estimation and $hp$-adaptive
-refinement strategies extend the simpler flux-jump and patch-recovery indicators available in 2006
-to quantity-of-interest-driven adaptivity.
+\textbf{Parallel infrastructure.} Parallel communication is now implemented in TIMPI, a required
+dependency that began as libMesh-internal code and was split into its own independently versioned
+and tested repository in 2019. TIMPI offers interchangeable strategies for push/pull-style parallel
+data exchange, selected through the \texttt{SyncType} enumeration (\texttt{NBX},
+\texttt{ALLTOALL\_COUNTS}, \texttt{SENDRECEIVE}). The \texttt{NBX} strategy implements the
+nonblocking dynamic sparse data exchange algorithm of Hoefler et al.~\cite{hoefler2010nbx}, which
+avoids the all-to-all communication and a priori knowledge of message counts that earlier, simpler
+schemes required.
+
+\textbf{Numerics and solvers.} libMesh's generic numeric types (\texttt{TypeVector},
+\texttt{TypeTensor}, \texttt{VectorValue}, \texttt{TensorValue}, \texttt{DenseVector}, and
+\texttt{DenseMatrix}) are templated to work transparently with the dual-number type from the
+bundled MetaPhysicL submodule. Downstream codes, notably MOOSE~\cite{lindsay2021metaphysicl}, can
+therefore build exact-derivative Jacobian assembly on libMesh without any
+automatic-differentiation-specific code path in libMesh itself. The certified reduced-basis model
+order reduction capability -- offline/online reduced-basis construction, the empirical
+interpolation method for nonaffine operators, and the successive constraint method for
+stability-factor lower bounds -- is the numerical core of Akselos's commercial
+reduced-order-modeling products. Finally, adjoint-based, goal-oriented error estimation and
+$hp$-adaptive refinement strategies extend the flux-jump and patch-recovery indicators available
+in 2006 to quantity-of-interest-driven adaptivity.
 
 \item Sample code snippets analysis
 
-The following excerpt, adapted from libMesh's HDG example driver, illustrates how a hybridized
-discretization is declared: an element-interior vector unknown, its scalar components, a facet
-Lagrange multiplier represented with \texttt{SIDE\_HIERARCHIC}, and a global scalar constraint are
-added as ordinary libMesh \texttt{System} variables, after which the \texttt{StaticCondensation}
-matrix class is attached to eliminate the element-interior unknowns before the global solve:
+The following excerpt, adapted from libMesh's HDG example driver, shows how a hybridized
+discretization is declared. An element-interior vector unknown, its scalar components, facet
+Lagrange multipliers (\texttt{SIDE\_HIERARCHIC}), and a global scalar constraint are added as
+ordinary \texttt{System} variables; the \texttt{StaticCondensation} matrix class is then attached
+to eliminate the element-interior unknowns before the global solve:
 
 \begin{verbatim}
 system.add_variable("qu", FIRST, L2_LAGRANGE_VEC);
@@ -245,25 +239,24 @@ system.add_variable("pressure", FIRST, L2_LAGRANGE);
 system.add_variable("global_lm", FIRST, SCALAR);
 \end{verbatim}
 
-No new solver, assembly, or parallel-communication code is required for this to run in parallel:
-the same \texttt{DofMap}, ghosting, and TIMPI-based communication infrastructure used by
-conventional continuous finite element systems apply directly to the hybridized system.
+Running this system in parallel requires no new solver, assembly, or communication code: the
+\texttt{DofMap}, ghosting, and TIMPI-based infrastructure used by conventional continuous finite
+element systems applies directly.
 
 \end{enumerate}
 
 \item Illustrative examples
 
-libMesh's \texttt{examples/} tree includes runnable drivers that exercise the capabilities above
-end to end, and its test suite exercises capabilities for which a dedicated example does not yet
-exist. Table~\ref{tab:examples} summarizes, for each capability surveyed in Section 2, a
-representative runnable driver or test.
+libMesh's \texttt{examples/} tree includes runnable drivers that exercise these capabilities end to
+end; the test suite covers capabilities that lack a dedicated example. Table~\ref{tab:examples}
+lists a representative driver or test for each capability surveyed in Section 2.
 
-\texttt{examples/vector\_fe/vector\_fe\_ex9} solves a Stokes-like vector transport problem using
-the HDG formulation described in Section 2.2: an element-interior velocity/pressure system is
-coupled to facet Lagrange multipliers through \texttt{SIDE\_HIERARCHIC} variables, with
-\texttt{StaticCondensation} eliminating the interior unknowns before the global (facet-only) system
-is solved. Figure~\ref{fig:hdg} shows velocity streamlines for the resulting lid-driven-cavity flow,
-colored by speed, exhibiting the expected primary recirculation vortex.
+\texttt{examples/vector\_fe/vector\_fe\_ex9} solves a Stokes-like vector transport problem with the
+HDG formulation of Section 2.2: element-interior velocity and pressure unknowns are coupled to
+facet Lagrange multipliers (\texttt{SIDE\_HIERARCHIC} variables), and \texttt{StaticCondensation}
+eliminates the interior unknowns before the global, facet-only system is solved.
+Figure~\ref{fig:hdg} shows the resulting lid-driven-cavity velocity streamlines, colored by speed,
+with the expected primary recirculation vortex.
 
 \begin{figure}[!h]
 \centering
@@ -274,14 +267,13 @@ velocity/pressure unknowns.}
 \label{fig:hdg}
 \end{figure}
 
-The unified tetrahedralization interface is illustrated with a minimal driver, in the same spirit
-as \texttt{examples/miscellaneous/miscellaneous\_ex6}, that attaches a cube-shaped hole to a cubic
-domain and hands both to the \texttt{MeshTetInterface}-derived \texttt{NetGenMeshInterface} to
-produce a constrained-quality volume mesh; Figure~\ref{fig:mesh} shows a clipped view of the
-resulting tetrahedralization, with the interior hole and the fill between it and the outer boundary
-both visible. The same abstraction accepts a \texttt{TetGenMeshInterface} in place of the Netgen
-backend without any change to the calling code, which is the uniformity across bundled mesh
-generators that \texttt{MeshTetInterface} is intended to provide.
+A minimal driver in the spirit of \texttt{examples/miscellaneous/miscellaneous\_ex6} illustrates
+the unified tetrahedralization interface: it attaches a cube-shaped hole to a cubic domain and
+passes both to \texttt{NetGenMeshInterface}, a \texttt{MeshTetInterface} subclass, to produce a
+quality-constrained volume mesh. Figure~\ref{fig:mesh} shows a clipped view of the result, with
+the interior hole and the surrounding fill both visible. The calling code works unchanged with
+\texttt{TetGenMeshInterface} in place of the Netgen backend, which is precisely the uniformity
+\texttt{MeshTetInterface} is meant to provide.
 
 \begin{figure}[!h]
 \centering
@@ -322,27 +314,25 @@ exercised downstream by AD-enabled Jacobian assembly in MOOSE \\
 
 \item Impact
 
-libMesh's expanded capabilities enable classes of problems that were not reachable with the 2006
-codebase: hybridized discretizations for advection-dominated transport, trimmed and
-piecewise-rational-spline isogeometric geometries, finite-volume-style multiphysics on general
-polyhedral meshes, and exact-derivative Jacobian assembly via dual-number-compatible numerics.
-These capabilities underlie the two application communities described in Section 1, at comparable
-weight. Decoupling TIMPI into its own repository has also had a maintenance-level impact: TIMPI is
-now independently versioned and tested, and is reusable by other parallel scientific codes without
-a dependency on the rest of libMesh.
+libMesh's new capabilities open problem classes beyond the reach of the 2006 codebase: hybridized
+discretizations for advection-dominated transport, trimmed and piecewise-rational-spline
+isogeometric geometries, finite-volume-style multiphysics on general polyhedral meshes, and
+exact-derivative Jacobian assembly via dual-number-compatible numerics. They underpin both
+application communities described in Section 1 in comparable measure. Splitting TIMPI into its
+own repository has also improved maintainability: TIMPI is now independently versioned and tested,
+and other parallel scientific codes can reuse it without depending on the rest of libMesh.
 
 \item Conclusions
 
-libMesh's original identity as a parallel, adaptive, physics-independent finite element library is
-intact, but the library today spans considerably more ground than its 2006 description: finite
-element and finite-volume multiphysics on general polyhedral meshes, isogeometric analysis on both
-structured and trimmed geometry, hybridized discretizations for advection-dominated transport, and
-supporting parallel, automatic-differentiation, and model-order-reduction infrastructure. These
-capabilities are the product of two decades of contributions from a broad developer community;
-several of them -- native polyhedral elements and continued refinement of the B\'ezier extraction
-machinery -- were added or substantially revised within the past year, evidence that libMesh remains
-an actively developed project responding to the needs of its national-laboratory, academic, and
-commercial user base.
+libMesh remains a parallel, adaptive, physics-independent finite element library, but it now spans
+considerably more ground than its 2006 description: finite element and finite volume multiphysics
+on general polyhedral meshes, isogeometric analysis on structured and trimmed geometry, hybridized
+discretizations for advection-dominated transport, and supporting infrastructure for parallel
+communication, automatic differentiation, and model order reduction. These capabilities reflect two
+decades of contributions from a broad developer community. Several, including native polyhedral
+elements and refinements to the B\'ezier extraction machinery, were added or substantially revised
+within the past year, evidence that libMesh continues to evolve with the needs of its
+national-laboratory, academic, and commercial users.
 
 \end{enumerate}
 
