@@ -7,3 +7,9 @@
 *.snm
 *.toc
 *.vrb
+*.fdb_latexmk
+*.fls
+*.pdf
+*.spl
+*.bbl
+*.blg
