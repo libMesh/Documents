@@ -273,7 +273,14 @@ reduced-basis construction, the empirical interpolation method for nonaffine ope
 successive constraint method for stability-factor lower bounds -- is the numerical core of
 Akselos's commercial reduced-order-modeling products. Adjoint-based, goal-oriented error
 estimation and $hp$-adaptive refinement strategies extend the flux-jump and patch-recovery
-indicators to quantity-of-interest-driven adaptivity.
+indicators to quantity-of-interest-driven adaptivity. Projections onto finite element
+spaces -- of solutions between refined and coarsened meshes, of analytic or user-supplied
+functions such as initial conditions, and the construction of projection matrices -- share the
+\texttt{GenericProjector} class template. It interpolates values at vertices, then projects onto
+edges, sides, and interiors in turn, which preserves inter-element continuity for $C^0$ and $C^1$
+families. Its input and output functors are template
+parameters, so new data sources and destinations reuse the same algorithm, which supports distributed- and
+shared-memory parallelism.
 
 \textbf{System assembly.} libMesh's generic numeric types (\texttt{TypeVector},
 \texttt{TypeTensor}, \texttt{VectorValue}, \texttt{TensorValue}, \texttt{DenseVector}, and
@@ -309,7 +316,10 @@ serial, in parallel, with distributed meshes, and with checkpoint recovery. Many
 each check on randomly permuted, rotated, and skewed elements, catching errors that depend on node
 ordering or element orientation. Deprecated interfaces emit warnings before they are removed, and
 a \texttt{--disable-deprecated} build turns those warnings into errors so applications can find
-deprecated calls ahead of time.
+deprecated calls ahead of time. libMesh builds with Autoconf, Automake, and Libtool; a single
+\texttt{configure} invocation detects optional dependencies and can build optimized, debug, and
+other variants side by side, and the installed \texttt{libmesh-config} script and
+\texttt{pkg-config} files give downstream codes the matching compiler and linker flags.
 
 \item Sample code snippets analysis
 
