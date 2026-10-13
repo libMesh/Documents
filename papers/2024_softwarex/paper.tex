@@ -1,0 +1,550 @@
+%%
+%% Copyright 2026 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%%
+
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%% SP 2008/03/01
+
+\documentclass[preprint,12pt, a4paper]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+\usepackage{hyperref}
+\setlength{\parindent}{0pt}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+\journal{SoftwareX}
+
+%% SoftwareX limits original software publications to 4,000 words. Check the count with
+%% `texcount -total paper.tex` before submitting.
+
+\begin{document}
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}}
+
+\begin{frontmatter}
+
+\title{libMesh: A C++ Library for Finite Element and Finite Volume Based Multiphysics}
+
+\author[inl]{Roy H. Stogner}
+\author[akselos]{John W. Peterson}
+\author[inl]{Alexander D. Lindsay}
+\author[akselos]{David J. Knezevic}
+\author[hartree]{Nuno Nobre}
+\author[inl]{Logan Harbour}
+\author[inl]{Guillaume L. Giudicelli}
+\author[inl]{Derek R. Gaston}
+\author[inl]{Cody J. Permann}
+\author[ub]{Paul T. Bauman}
+\author[inlcmm]{Daniel Schwen}
+\author[inl]{Patrick Behne}
+\author[ut]{Benjamin Kirk}
+
+\address[inl]{Computational Frameworks, Idaho National Laboratory, Idaho Falls, ID 83415, USA}
+\address[akselos]{Akselos}
+\address[hartree]{Hartree Centre, Science and Technology Facilities Council (STFC), UK}
+\address[ub]{University at Buffalo, Department of Mechanical and Aerospace Engineering, Buffalo, NY, USA}
+\address[inlcmm]{Computational Mechanics and Materials, Idaho National Laboratory, Idaho Falls, ID 83415, USA}
+\address[ut]{Department of Aerospace Engineering and Engineering Mechanics (ASE), University of Texas at Austin, Austin, TX, USA}
+
+\begin{abstract}
+libMesh is an open-source C++ library for parallel, spatially adaptive finite element and finite
+volume simulation. Over two decades of development, the library has added
+hybridizable discontinuous Galerkin and other statically condensable discretizations; isogeometric
+analysis with rational bases and arbitrary B\'ezier extraction operators for trimmed geometry;
+native polyhedral elements; and TIMPI, a standalone parallel communication submodule implementing
+modern nonblocking-exchange algorithms. Automatic differentiation, certified reduced-basis model
+order reduction, and adjoint-driven $hp$-adaptivity round out the expanded numerical toolkit. This
+article surveys these capabilities and the multiphysics applications they enable.
+\end{abstract}
+
+\begin{keyword}
+finite elements \sep finite volume \sep parallel computing \sep isogeometric analysis \sep multiphysics \sep adaptive mesh refinement
+\end{keyword}
+
+\end{frontmatter}
+
+\section*{Required Metadata}
+
+\section*{Current code version}
+
+\begin{table}[!h]
+\begin{tabular}{|l|p{6.5cm}|p{6.5cm}|}
+\hline
+\textbf{Nr.} & \textbf{Code metadata description} & \textbf{Metadata} \\
+\hline
+C1 & Current code version & v1.9.0 development series (confirm exact tag at submission) \\
+\hline
+C2 & Permanent GitHub link to code/repository used for this code version & \url{https://github.com/libMesh/libmesh} \\
+\hline
+C3 & Legal Code License & GNU Lesser General Public License v2.1 (LGPL-2.1) \\
+\hline
+C4 & Code versioning system used & git (hosted on GitHub) \\
+\hline
+C5 & Software code languages, tools, and services used & C++ (C++17); MPI; PETSc/SLEPc (optional); TIMPI (bundled, required); MetaPhysicL (bundled, optional); Eigen; TetGen, Netgen, Triangle (bundled); ExodusII/SEACAS; NetCDF; VTK \\
+\hline
+C6 & Compilation requirements, operating environments \& dependencies & Autoconf/Automake build (\texttt{configure} \& \texttt{make}); C++17 compiler; MPI implementation (no supported build configuration omits it in practice); TIMPI submodule (required); PETSc strongly recommended for solvers and static condensation \\
+\hline
+C7 & If available Link to developer documentation/manual & \url{https://libmesh.github.io/} \\
+\hline
+C8 & Support email for questions & \url{https://github.com/libmesh/libmesh/discussions} \\
+\hline
+\end{tabular}
+\caption{Code metadata (mandatory)}
+\label{tab:metadata}
+\end{table}
+
+\begin{enumerate}
+
+\item Motivation and significance
+
+libMesh is an open-source C++ library providing general, physics-independent infrastructure for
+parallel, spatially adaptive finite element -- and, increasingly, finite volume -- simulation. Its
+2006 description~\cite{kirk2006libmesh} covered a mesh and degree-of-freedom data model,
+$h$-adaptive refinement and coarsening with hanging-node constraints, and a domain-decomposition
+parallel model built atop third-party solver libraries such as PETSc. That core design still
+holds; this article describes the capabilities added since.
+
+libMesh has been under continuous development for the past twenty years, accumulating tens of
+thousands of commits from a broad developer community. Its applications now require
+discretizations and geometric representations unavailable in 2006: hybridizable discontinuous Galerkin formulations for general transport problems; isogeometric meshes
+derived from trimmed or piecewise-rational-spline CAD geometry; and general polyhedral cells, which
+reduce the mesh non-orthogonality that degrades finite volume flux approximations on tetrahedral
+meshes. The parallel communication layer has also been substantially
+reworked, and new infrastructure has been added for automatic differentiation, certified
+reduced-order modeling, and goal-oriented adaptivity.
+
+Several largely independent application communities motivate and use these capabilities. The
+MOOSE multiphysics framework~\cite{harbour2025moose}, developed at Idaho National Laboratory
+(INL), relies on libMesh for its finite element capabilities and, through the discontinuous
+discretizations, polyhedral elements, and ghosting infrastructure described in Section 2, for its
+finite volume capabilities. MOOSE underpins INL's fission and fusion reactor multiphysics work; an additional
+MOOSE-based fusion-device effort is under way in the UK, where the Hartree Centre (STFC)
+collaborates closely with the UK Atomic Energy Authority. Independently of MOOSE, Akselos builds
+commercial reduced-order-modeling and digital-twin engineering-analysis products directly on
+libMesh's certified reduced-basis infrastructure, and the IBAMR immersed boundary
+framework~\cite{griffith2017ibfe} uses libMesh for its finite element representations of
+immersed structures, both volumetric elastic bodies and surfaces. This article surveys the library-level capabilities underlying these
+communities.
+
+\item Software description
+
+\begin{enumerate}
+
+\item Software architecture
+
+libMesh is organized around a small set of deliberately physics-independent core abstractions:
+the mesh (\texttt{MeshBase}, composed of \texttt{Node} and \texttt{Elem} objects),
+\texttt{DofMap}, \texttt{System}, and the finite element classes (\texttt{FEAbstract} and its
+derived class template \texttt{FEGenericBase}, instantiated as \texttt{FEBase} and
+\texttt{FEVectorBase} for scalar- and vector-valued families). An
+application supplies the equations; libMesh supplies mesh management, degree-of-freedom
+numbering, adaptivity, and parallel communication. The capabilities described below extend this
+architecture: new finite element families, element types, and mesh constructs plug into the
+existing \texttt{FEAbstract} and \texttt{Elem} hierarchies;
+new solver and preconditioning machinery plugs into the existing \texttt{System}/\texttt{DofMap}
+interfaces; and new parallel primitives are exposed through the bundled TIMPI submodule.
+
+\item New software functionalities
+
+\textbf{Hybridized discretizations and static condensation.} Users build hybridized schemes from
+compatible finite element families: discontinuous element-interior spaces (e.g.,
+\texttt{L2\_LAGRANGE}, \texttt{L2\_LAGRANGE\_VEC}, \texttt{L2\_RAVIART\_THOMAS}) for a primal field
+and, in mixed formulations, its gradient or flux, and the \texttt{SIDE\_HIERARCHIC} family, whose
+degrees of freedom live only on element sides, for the field's trace. Interior-penalty HDG
+schemes need only the primal field and its trace. These family combinations support hybridized
+Raviart--Thomas and hybridizable discontinuous Galerkin (HDG) discretizations for general transport
+problems, including the flow problems modeled by the MOOSE
+\texttt{navier\_stokes} module. The \texttt{StaticCondensation},
+\texttt{StaticCondensationDofMap}, and \texttt{StaticCondensationPreconditioner} classes then make
+such schemes efficient: they assemble the full elemental system and eliminate element-interior
+degrees of freedom through a local Schur complement before the global solve, using Eigen for the
+local dense factorizations. Applications may exempt selected variables from condensation, leaving
+them in the global system alongside the trace unknowns.
+
+\textbf{Polygonal and polyhedral elements.} General polygonal and polyhedral cells are supported
+natively through the \texttt{C0Polygon} and \texttt{C0Polyhedron} classes, whose topology (number
+of sides, edges, and nodes) is determined at run time; libMesh's traditional elements fix their
+topology at compile time. Polyhedral cells benefit finite volume discretizations over tetrahedral cells in two ways.
+First, on a cell with many faces, the vector joining adjacent cell centroids tends to align more
+closely with the normal of their shared face, reducing the non-orthogonality corrections that
+two-point flux approximations require, and tends to pass closer to the face centroid, reducing
+the skewness error of interpolating cell values to the face. Second, each cell has more face
+neighbors than a tetrahedron's four, giving a larger, better-conditioned stencil for gradient
+reconstruction. Polygonal and polyhedral cells participate in the rest of the mesh infrastructure
+like any other element: neighbor finding, element-quality metrics, conversion to triangles and
+tetrahedra, checkpoint/restart, ExodusII (\texttt{NSIDED}/\texttt{NFACED}) output, and VTU input
+all support them.
+
+\textbf{Ghosting.} The ghosting-functor framework (\texttt{GhostingFunctor}) lets applications
+declare exactly which off-processor elements each processor requires at three nested levels:
+coupling (matrix sparsity), algebraic (solution values), and geometric (mesh). Each level must be a
+superset of the one before it: elements coupled to a processor's elements must be evaluable there,
+and evaluable elements must be geometrically ghosted there. By default, each \texttt{DofMap}
+uses \texttt{DefaultCoupling} instances for both its coupling and algebraic ghosting; these reach
+side neighbors, including across periodic boundaries, out to a configurable number of layers.
+Together with libMesh's discontinuous finite element spaces, this provides the face-neighbor
+stencils of cell-centered finite volume discretizations, and additional layers provide the wider
+stencils of higher-order reconstructions.
+Specialized functors handle other coupling patterns: \texttt{PointNeighborCoupling} for elements
+sharing any point; \texttt{OverlapCoupling} for elements that overlap geometrically without
+topological connection, as in immersed methods; \texttt{NonManifoldGhostingFunctor} for meshes in
+which more than two elements share a side, as in truss and shell-stiffener models; and
+\texttt{SiblingCoupling} for coupling active elements to all descendants of their parent, as
+needed when projecting onto parent elements for error indication.
+
+\textbf{Isogeometric analysis.} The \texttt{RATIONAL\_BERNSTEIN} finite element family reweights
+Bernstein/B\'ezier shape functions with per-node NURBS weights, giving the rational basis used in
+isogeometric analysis (IGA)~\cite{hughes2005iga}. A corresponding element mapping type applies the
+same rational representation to the geometric map itself, so meshes derived from
+piecewise-rational-spline CAD geometry are represented exactly. Arbitrary B\'ezier extraction
+operators~\cite{borden2011extraction}, needed when a structured IGA mesh is impractical to generate
+automatically (as with trimmed geometry), reuse libMesh's generic linear-constraint infrastructure:
+extraction coefficients read from ExodusII or LS-DYNA files are stored as constraint rows relating
+spline-basis degrees of freedom to element-local nodes, so no IGA-specific parallel code path is
+required.
+
+\textbf{Meshing and I/O.} The \texttt{MeshTetInterface} abstract base class unifies libMesh's
+interfaces to the bundled TetGen and Netgen tetrahedralizers, giving applications a single API for
+generating volume meshes from boundary surfaces. Mesh I/O includes parallel ExodusII/Nemesis, VTK,
+Abaqus, Gmsh, STL, and NetCDF support. The element library has added high-order elements
+(\texttt{Tri7}, \texttt{Tet14}, \texttt{Prism20}/\texttt{Prism21}, \texttt{Pyramid18}), shell
+elements (\texttt{QUADSHELL4}, \texttt{TRISHELL3}, \texttt{QUADSHELL9}), mixed-dimensional meshes,
+and generic element-quality metrics (aspect ratio, minimum/maximum angle, and scaled Jacobian).
+The \texttt{VariationalMeshSmoother} improves mesh quality by minimizing the distortion--dilation
+metric of Branets and Carey~\cite{branets2005smoothing}. It is itself implemented as a libMesh
+\texttt{FEMSystem}, with the metric's gradient as the residual and its Hessian as the Jacobian,
+and so inherits libMesh's parallel nonlinear solvers. It smooths first- and second-order
+edges, triangles, quadrilaterals, tetrahedra, prisms, pyramids, and hexahedra, including
+mixed-element meshes, can untangle
+some inverted meshes, and can preserve boundaries between subdomains.
+
+\textbf{Parallel infrastructure.} Parallel communication is now implemented in TIMPI, a required
+dependency that began as libMesh-internal code and was split into its own independently versioned
+and tested repository in 2019. TIMPI offers interchangeable strategies for push/pull-style parallel
+data exchange, selected through the \texttt{SyncType} enumeration (\texttt{NBX},
+\texttt{ALLTOALL\_COUNTS}, \texttt{SENDRECEIVE}). The \texttt{NBX} strategy implements the
+nonblocking dynamic sparse data exchange algorithm of Hoefler et al.~\cite{hoefler2010nbx}, which
+avoids the all-to-all communication and a priori knowledge of message counts that earlier, simpler
+schemes required. Every parallel libMesh object can be constructed on an arbitrary MPI
+communicator, so independent simulations can share one process pool; partitioners accept
+per-element weights for load balancing; and variable groups store degree-of-freedom indices
+compactly for systems with many identically discretized variables.
+
+\textbf{Mesh data structures.} Every mesh is either a \texttt{ReplicatedMesh}, in which each
+processor stores the full mesh, or a \texttt{DistributedMesh}, in which each processor stores
+only its own elements plus the ghosted elements determined by the ghosting functors above. The two
+share the \texttt{MeshBase} interface, so application code, I/O, and adaptive refinement are
+written once for both, and both are exercised in continuous integration. Distributed meshes
+remove the per-processor memory bound on mesh size; replicated meshes avoid communication in
+mesh-wide operations on more modest meshes.
+
+\textbf{Discretization methods and adaptivity.} Vector-valued finite element families
+(\texttt{LAGRANGE\_VEC} for $H^1$, \texttt{NEDELEC\_ONE} for $H(\mathrm{curl})$, \texttt{RAVIART\_THOMAS} for
+$H(\mathrm{div})$, and their discontinuous counterparts) complement the scalar field families, and
+variables may be restricted to subsets of mesh subdomains. The $C^1$-continuous Clough--Tocher
+and Hermite families and Loop subdivision surface elements support fourth-order problems such as
+plate and shell bending, and infinite elements extend a bounded mesh to model wave propagation
+and other problems on unbounded domains. Periodic boundaries, Dirichlet
+boundaries, and general heterogeneous linear constraints share the constraint machinery that
+enforces continuity at hanging nodes in adaptively refined meshes. The certified reduced-basis model order reduction capability -- offline/online
+reduced-basis construction, the empirical interpolation method for nonaffine operators, and the
+successive constraint method for stability-factor lower bounds -- is the numerical core of
+Akselos's commercial reduced-order-modeling products. Adjoint-based, goal-oriented error
+estimation and $hp$-adaptive refinement strategies extend the flux-jump and patch-recovery
+indicators to quantity-of-interest-driven adaptivity. Projections onto finite element
+spaces -- of solutions between refined and coarsened meshes, of analytic or user-supplied
+functions such as initial conditions, and the construction of projection matrices -- share the
+\texttt{GenericProjector} class template. It interpolates values at vertices, then projects onto
+edges, sides, and interiors in turn, which preserves inter-element continuity for $C^0$ and $C^1$
+families. Its input and output functors are template
+parameters, so new data sources and destinations reuse the same algorithm, which supports distributed- and
+shared-memory parallelism.
+
+\textbf{System assembly.} libMesh's generic numeric types (\texttt{TypeVector},
+\texttt{TypeTensor}, \texttt{VectorValue}, \texttt{TensorValue}, \texttt{DenseVector}, and
+\texttt{DenseMatrix}) are templated to work transparently with the dual-number type from the
+bundled MetaPhysicL submodule. Downstream codes, notably MOOSE~\cite{lindsay2021metaphysicl}, can
+therefore build exact-derivative Jacobian assembly without any
+automatic-differentiation-specific code path in libMesh itself. The \texttt{FEMSystem} framework
+assembles residuals and Jacobians element by element, using distributed- and shared-memory parallelism, from
+user-supplied physics kernels, and couples them to first- and second-order time integrators
+(including Newmark); \texttt{OptimizationSystem} interfaces to the TAO and NLopt optimization
+libraries. \texttt{EigenSystem} and \texttt{CondensedEigenSystem} solve standard and generalized
+eigenproblems through SLEPc, with constrained degrees of freedom (e.g., Dirichlet boundaries)
+removed from the operators. On the solver side, libMesh exposes PETSc field-split and geometric
+multigrid preconditioning built from its mesh hierarchy, and it supplies the discrete gradient
+and curl operators and vertex coordinates required by hypre's auxiliary-space Maxwell (AMS) and
+divergence (ADS) solvers~\cite{kolev2009ams,kolev2012ads}, giving scalable preconditioners for the
+$H(\mathrm{curl})$ and $H(\mathrm{div})$ systems discretized with the N\'ed\'elec and
+Raviart--Thomas families. Finally, the generic numeric types are also usable inside Kokkos
+kernels, and a set of Kokkos vector and tensor operations lets downstream codes run
+element-level computations on GPUs using the same types as their CPU code.
+
+\textbf{Software quality.} Every pull request is tested by INL's CIVET continuous integration
+system, which builds libMesh with the minimum supported and current GCC and Clang compilers on
+x86-64 Linux and Apple Silicon macOS, treating compiler warnings as errors, and runs the 79
+examples and the CppUnit suite with code-coverage reporting. The tests run with both replicated and distributed meshes, on 1 to
+16 MPI processes and with mixed MPI and threaded parallelism, and in configurations with complex
+scalars, 32-bit PETSc indices, and deprecated code disabled. Changes merged to the development
+branch are further tested with adaptivity, exceptions, MPI, or other optional features disabled;
+in debug mode on up to 16 processes; with alternative TIMPI synchronization strategies; under
+Valgrind and Clang sanitizers. Every pull request also builds
+MOOSE against the proposed libMesh and runs the MOOSE framework and module test suites, in
+serial, in parallel, with distributed meshes, and with checkpoint recovery. Many unit tests repeat
+each check on randomly permuted, rotated, and skewed elements, catching errors that depend on node
+ordering or element orientation. Deprecated interfaces emit warnings before they are removed, and
+a \texttt{--disable-deprecated} build turns those warnings into errors so applications can find
+deprecated calls ahead of time. libMesh builds with Autoconf, Automake, and Libtool; a single
+\texttt{configure} invocation detects optional dependencies and can build optimized, debug, and
+other variants side by side, and the installed \texttt{libmesh-config} script and
+\texttt{pkg-config} files give downstream codes the matching compiler and linker flags.
+
+\item Sample code snippets analysis
+
+The following excerpt, adapted from libMesh's \texttt{introduction\_ex4} example, solves a
+Poisson problem on a distributed mesh of the square $[-1,1]^2$ with Dirichlet boundary conditions
+taken from an analytic function. It shows the core workflow shared by all libMesh applications: a
+mesh is built, an \texttt{EquationSystems} object holds a system and its variables, constraints are
+attached to the system's \texttt{DofMap}, and the system is initialized and solved:
+
+\begin{verbatim}
+Mesh mesh(init.comm());
+MeshTools::Generation::build_square(mesh, 15, 15,
+                                    -1., 1., -1., 1., QUAD9);
+
+EquationSystems equation_systems(mesh);
+auto & system =
+  equation_systems.add_system<LinearImplicitSystem>("Poisson");
+const auto u_var = system.add_variable("u", SECOND, LAGRANGE);
+system.attach_assemble_function(assemble_poisson);
+
+AnalyticFunction<> exact_solution_object(exact_solution_wrapper);
+DirichletBoundary dirichlet_bc({0, 1, 2, 3}, {u_var},
+                               exact_solution_object);
+system.get_dof_map().add_dirichlet_boundary(dirichlet_bc);
+
+equation_systems.init();
+system.solve();
+\end{verbatim}
+
+The same code runs serially or in parallel. The full example reads the variable's order and
+family from the command line, so one executable solves the problem with, for instance,
+\texttt{HIERARCHIC} or \texttt{BERNSTEIN} bases in place of \texttt{LAGRANGE}. The hybridized discretizations of Section 2.2 are declared with the same
+\texttt{add\_variable} calls using the discontinuous and \texttt{SIDE\_HIERARCHIC} families.
+
+\end{enumerate}
+
+\item Illustrative examples
+
+libMesh's \texttt{examples/} directory exercises the key capabilities outlined above, and its
+CppUnit-based \texttt{tests/} directory adds unit-level coverage. Table~\ref{tab:examples} lists a
+representative example or test for each capability surveyed in Section 2.
+
+\texttt{examples/vector\_fe/vector\_fe\_ex9} solves the incompressible Navier--Stokes equations
+with the HDG formulation of Section 2.2: element-interior velocities and velocity gradients are
+coupled through velocity traces on element sides, and \texttt{StaticCondensation} eliminates the
+interior unknowns before the global solve. Figure~\ref{fig:hdg} shows the resulting
+lid-driven-cavity velocity streamlines, colored by speed, with the expected primary recirculation
+vortex.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.55\textwidth]{figures/vector_fe_ex9_streamlines.png}
+\caption{Velocity streamlines, colored by speed, for the HDG cavity-flow problem solved by
+\texttt{examples/vector\_fe/vector\_fe\_ex9} with static condensation of the element-interior
+velocity and velocity-gradient unknowns.}
+\label{fig:hdg}
+\end{figure}
+
+A short program modeled on \texttt{examples/miscellaneous/miscellaneous\_ex6} illustrates the
+unified tetrahedralization interface: it attaches a cube-shaped hole to a cubic domain and
+passes both to \texttt{NetGenMeshInterface}, a \texttt{MeshTetInterface} subclass, to produce a
+quality-constrained volume mesh. Figure~\ref{fig:mesh} shows a clipped view of the result, with
+the interior hole and the surrounding fill both visible. The calling code works unchanged with
+\texttt{TetGenMeshInterface} in place of the Netgen backend, which is precisely the uniformity
+\texttt{MeshTetInterface} is meant to provide.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.55\textwidth]{figures/netgen_hole_demo.png}
+\caption{Clipped view of a tetrahedralized cubic domain with a cube-shaped interior hole, generated
+via \texttt{MeshTetInterface}'s Netgen backend.}
+\label{fig:mesh}
+\end{figure}
+
+\begin{table}[!h]
+\begin{tabular}{|p{4.3cm}|p{8.7cm}|}
+\hline
+\textbf{Capability} & \textbf{Runnable example or test} \\
+\hline
+Hybridization / static condensation & \texttt{examples/vector\_fe/vector\_fe\_ex7} (hybridized
+Raviart--Thomas diffusion), \texttt{vector\_fe\_ex8} (HDG diffusion), \texttt{vector\_fe\_ex9} (HDG
+Navier--Stokes with static condensation) \\
+\hline
+Native polyhedral elements & \texttt{tests/geom/volume\_test.C}
+(\texttt{testC0PolyhedronCube}, \texttt{testC0PolyhedronHexagonalPrism}) \\
+\hline
+Cell-centered finite volume on polygonal meshes & \texttt{examples/finite\_volume/finite\_volume\_ex1} \\
+\hline
+Isogeometric rational bases \& B\'ezier extraction & \texttt{tests/fe/fe\_rational\_map.C}
+(\texttt{testContainsPoint}), \texttt{tests/mesh/mesh\_input.C}
+(\texttt{testExodusFileMappingsTwoElemIGA}, \texttt{testDynaReadPatch}) \\
+\hline
+Unified tetrahedralization (TetGen/Netgen) & \texttt{examples/miscellaneous/miscellaneous\_ex6} \\
+\hline
+TIMPI synchronization strategies (\texttt{NBX}, \texttt{ALLTOALL\_COUNTS},
+\texttt{SENDRECEIVE}) & \texttt{contrib/timpi/test/parallel\_sync\_unit.C} \\
+\hline
+Certified reduced-basis model order reduction & \texttt{examples/reduced\_basis/reduced\_basis\_ex1} \\
+\hline
+Automatic differentiation (dual-number-compatible numerics) & \texttt{examples/fem\_system/fem\_system\_ex6} \\
+\hline
+Variational mesh smoothing & \texttt{tests/mesh/mesh\_smoother\_test.C} \\
+\hline
+Eigenproblems & \texttt{examples/eigenproblems/eigenproblems\_ex1}--\texttt{ex4} \\
+\hline
+Infinite elements & \texttt{examples/miscellaneous/miscellaneous\_ex1} \\
+\hline
+Subdivision surface shells & \texttt{examples/miscellaneous/miscellaneous\_ex11} \\
+\hline
+\end{tabular}
+\caption{Runnable examples and tests exercising the capabilities surveyed in Section 2.}
+\label{tab:examples}
+\end{table}
+
+\item Impact
+
+libMesh is used across academic, national-laboratory, and commercial settings. It is the long-time
+discretization and mesh backend of the MOOSE framework~\cite{harbour2025moose}, and through MOOSE
+underlies a large ecosystem of nuclear-engineering, materials, geoscience, and fusion applications
+developed by MOOSE's own user community. These include INL's BISON for nuclear fuel
+performance~\cite{williamson2021bison}, Griffin for reactor physics~\cite{wang2025griffin},
+Pronghorn for reactor thermal hydraulics~\cite{novak2021pronghorn}, and Sockeye for heat
+pipes~\cite{hansel2024sockeye}; Argonne National Laboratory's SAM for safety analysis of advanced
+non-light-water reactors~\cite{hu2025sam}; and Cardinal~\cite{novak2022cardinal}, which couples
+MOOSE to the NekRS computational fluid dynamics and OpenMC Monte Carlo transport codes. These applications rely on
+libMesh's mesh data structures, finite element and finite volume discretizations, adaptivity, and
+parallel infrastructure, from desktop runs to tens of thousands of processes. Commercially, Akselos builds its reduced-order-modeling
+and digital-twin products directly on libMesh. In academia, libMesh supports research codes such
+as IBAMR~\cite{griffith2017ibfe} and ongoing research into finite element discretizations:
+hybridizable discontinuous Galerkin methods and isogeometric
+analysis on trimmed geometry are both active areas of development within the library. Its
+parallel communication layer, TIMPI, is independently versioned and tested, so other parallel
+scientific codes can reuse it without depending on the rest of libMesh.
+
+\item Conclusions
+
+libMesh has been developed to be an effective foundation for downstream multiphysics simulation:
+it supplies discretization, adaptivity, and parallel infrastructure while leaving the physics to
+applications. Since its 2006 description, that foundation has grown to include finite volume
+support on general polyhedral meshes, isogeometric analysis on structured and trimmed geometry,
+hybridized DG discretizations, and supporting infrastructure for
+parallel communication, automatic differentiation, and model order reduction. These capabilities reflect two
+decades of contributions from a broad developer community. Several, including native polyhedral
+elements and refinements to the B\'ezier extraction machinery, were added or substantially revised
+within the past year, evidence that libMesh continues to evolve with the needs of its
+national-laboratory, academic, and commercial users.
+
+\end{enumerate}
+
+\section*{Acknowledgements}
+
+\begin{thebibliography}{00}
+
+\bibitem{kirk2006libmesh} B.~S. Kirk, J.~W. Peterson, R.~H. Stogner, G.~F. Carey, libMesh: a C++
+library for parallel adaptive mesh refinement/coarsening simulations, Engineering with Computers
+22 (2006) 237--254.
+
+\bibitem{harbour2025moose} L.~Harbour, G.~Giudicelli, A.~D. Lindsay, P.~German, J.~Hansel,
+C.~Icenhour, M.~Li, J.~M. Miller, R.~H. Stogner, P.~Behne, et al., 4.0 MOOSE: Enabling massively
+parallel multiphysics simulation, SoftwareX 31 (2025) 102264.
+
+\bibitem{griffith2017ibfe} B.~E. Griffith, X.~Luo, Hybrid finite difference/finite element
+immersed boundary method, International Journal for Numerical Methods in Biomedical Engineering
+33 (12) (2017) e2888.
+
+\bibitem{hoefler2010nbx} T.~Hoefler, C.~Siebert, A.~Lumsdaine, Scalable communication protocols for
+dynamic sparse data exchange, in: Proceedings of the 15th ACM SIGPLAN Symposium on Principles and
+Practice of Parallel Programming (PPoPP '10), ACM, 2010, pp. 159--168.
+
+\bibitem{hughes2005iga} T.~J.~R. Hughes, J.~A. Cottrell, Y.~Bazilevs, Isogeometric analysis: CAD,
+finite elements, NURBS, exact geometry and mesh refinement, Computer Methods in Applied Mechanics
+and Engineering 194 (39--41) (2005) 4135--4195.
+
+\bibitem{borden2011extraction} M.~J. Borden, M.~A. Scott, J.~A. Evans, T.~J.~R. Hughes, Isogeometric
+finite element data structures based on B\'ezier extraction of NURBS, International Journal for
+Numerical Methods in Engineering 87 (1--5) (2011) 15--47.
+
+\bibitem{lindsay2021metaphysicl} A.~D. Lindsay, R.~H. Stogner, D.~R. Gaston, D.~Schwen,
+C.~Matthews, W.~Jiang, L.~K. Aagesen, R.~Carlsen, F.~Kong, A.~E. Slaughter, et al., Automatic
+differentiation in MetaPhysicL and its applications in MOOSE, Nuclear Technology 207 (7) (2021)
+905--922.
+
+\bibitem{branets2005smoothing} L.~Branets, G.~F. Carey, A local cell quality metric and
+variational grid smoothing algorithm, Engineering with Computers 21 (2005) 19--28.
+
+\bibitem{kolev2009ams} Tz.~V. Kolev, P.~S. Vassilevski, Parallel auxiliary space AMG for
+$H(\mathrm{curl})$ problems, Journal of Computational Mathematics 27 (5) (2009) 604--623.
+
+\bibitem{kolev2012ads} Tz.~V. Kolev, P.~S. Vassilevski, Parallel auxiliary space AMG solver for
+$H(\mathrm{div})$ problems, SIAM Journal on Scientific Computing 34 (6) (2012) A3079--A3098.
+
+\bibitem{williamson2021bison} R.~L. Williamson, J.~D. Hales, S.~R. Novascone, G.~Pastore,
+K.~A. Gamble, B.~W. Spencer, W.~Jiang, S.~A. Pitts, A.~Casagranda, D.~Schwen, et al., BISON: A
+flexible code for advanced simulation of the performance of multiple nuclear fuel forms, Nuclear
+Technology 207 (7) (2021) 954--980.
+
+\bibitem{wang2025griffin} Y.~Wang, Z.~M. Prince, H.~Park, O.~W. Calvin, N.~Choi, Y.~S. Jung,
+S.~Schunert, S.~Kumar, J.~T. Hanophy, V.~M. Labour\'e, et al., Griffin: A MOOSE-based reactor
+physics application for multiphysics simulation of advanced nuclear reactors, Annals of Nuclear
+Energy 211 (2025) 110917.
+
+\bibitem{novak2021pronghorn} A.~J. Novak, R.~W. Carlsen, S.~Schunert, P.~Balestra, D.~Reger,
+R.~N. Slaybaugh, R.~C. Martineau, Pronghorn: A multidimensional coarse-mesh application for
+advanced reactor thermal hydraulics, Nuclear Technology 207 (7) (2021) 1015--1046.
+
+\bibitem{hansel2024sockeye} J.~E. Hansel, C.~da~Silva Bourdot Dutra, L.~Charlot, E.~Merzari, The
+liquid-conduction, vapor-flow heat pipe model in Sockeye, Nuclear Engineering and Design 426
+(2024) 113359.
+
+\bibitem{hu2025sam} R.~Hu, L.~Zou, D.~O'Grady, T.~Mui, Z.~J. Ooi, G.~Hu, E.~Cervi, G.~Yang,
+D.~Andrs, A.~Lindsay, et al., SAM: A modern system code for advanced non-LWR safety analysis,
+Nuclear Technology 211 (9) (2025) 1883--1902.
+
+\bibitem{novak2022cardinal} A.~J. Novak, D.~Andrs, P.~Shriwise, J.~Fang, H.~Yuan, D.~Shaver,
+E.~Merzari, P.~K. Romano, R.~C. Martineau, Coupled Monte Carlo and thermal-fluid modeling of high
+temperature gas reactors using Cardinal, Annals of Nuclear Energy 177 (2022) 109310.
+
+\end{thebibliography}
+
+\end{document}
+\endinput
+%%
+%% End of file `SoftwareX_article_template.tex'.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
